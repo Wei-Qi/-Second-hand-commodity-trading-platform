@@ -16,12 +16,21 @@ flask_migrate
 #### 数据库更改的方法
 
 ```python
-falsk db init
-falsk db migrate
-falsk db upgrade
+flask db init
+flask db migrate
+flask db upgrade
 ```
 
-
-
+初始化创建表时，执行
+```python
+flask db init
+falsk db migrate
+flask db upgrade
+```
+当表发生变化时，执行
+```python
+flask db migrate
+flask db upgrade
+```
 
 

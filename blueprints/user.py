@@ -16,7 +16,3 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 bp = Blueprint('user', __name__, url_prefix='/user')
 
-
-# @bp.route('/login')
-# def login():
-#     return render_template('login.html')
