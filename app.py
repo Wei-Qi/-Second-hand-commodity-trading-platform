@@ -4,6 +4,7 @@ from exts import db
 from blueprints import user_bp
 from exts import mail
 from flask_migrate import Migrate
+from models import *
 
 app = Flask(__name__)
 app.config.from_object(config)
