@@ -5,6 +5,7 @@ from blueprints import user_bp
 from exts import mail
 from flask_migrate import Migrate
 from models import *
+from Function import function
 
 app = Flask(__name__)
 app.config.from_object(config)
@@ -17,7 +18,8 @@ app.register_blueprint(user_bp)
 
 @app.route('/')
 def hello_world():  # put application's code here
-    return render_template('index.html')
+    s = function.send_email('3339383816@qq.com')
+    return s
 
 
 if __name__ == '__main__':
