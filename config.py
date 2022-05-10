@@ -19,7 +19,9 @@ PASSWORD = 'zwq287908'
 DB_URI = 'mysql+pymysql://{}:{}@{}:{}/{}?charset=utf8'.format(USERNAME, PASSWORD, HOSTNAME, PORT, DATABASE)
 SQLALCHEMY_DATABASE_URI = DB_URI
 SQLALCHEMY_TRACK_MODIFICATIONS = True
-
+#启动CSRF保护
+CSRF_ENABLED = True
+SECRET_KEY = '123ijlks_]dja2_su?s/s*62%%#456'
 # 邮箱配置
 # 项目中用的是QQ邮箱
 MAIL_SERVER = 'smtp.qq.com'
