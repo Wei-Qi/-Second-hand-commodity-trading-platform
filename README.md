@@ -9,6 +9,10 @@ flask_mail
 werkzeug
 flask_sqlalchemy
 flask_migrate
+flask_login
+flask_wtf
+email-validator
+pymysql
 ```
 
 ----

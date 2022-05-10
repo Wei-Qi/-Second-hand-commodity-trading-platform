@@ -72,3 +72,25 @@ class user:
             return '该用户名已经存在'
         else:
             return '该用户名不存在'
+
+    @staticmethod
+    def get_user(email):
+        """
+        通过邮箱获取用户
+        :param email: 邮箱
+        :return: 用户对象
+        """
+        user = UserModel.query.filter_by(UserEmail=email).first()
+        return user
+
+    @staticmethod
+    def validate_user(email,password):
+        return True
+
+#需要修改的地方
+#1.如果函数正常执行，返回值用True就好，不要用字符串。单种错误直接返回False，多种错误，错误信息用字符串。
+
+
+#需要增添的方法：
+#1.验证密码 validate_user(email,password) 验证email和password是否正确,正确返回True,错误返回信息(账户不存在、密码错误等)
+#2.

@@ -5,7 +5,7 @@ Date：2022/5/6
 """
 from exts import db
 from datetime import datetime
-
+from flask_login import UserMixin,LoginManager
 
 class AdminModel(db.Model):
     __tablename__ = 'admin'
@@ -18,7 +18,7 @@ class AdminModel(db.Model):
     AdminJoin_time = db.Column(db.DateTime, default=datetime.now)
 
 
-class UserModel(db.Model):
+class UserModel(db.Model,UserMixin):
     __tablename__ = 'user'
     UserId = db.Column(db.Integer, primary_key=True, autoincrement=True)
     UserEmail = db.Column(db.String(100), nullable=False, unique=True)
