@@ -31,6 +31,8 @@ class UserModel(db.Model,UserMixin):
     UserCredit = db.Column(db.Integer)
     UserJoin_time = db.Column(db.DateTime, default=datetime.now)
 
+    def get_id(self):#flask-login要求的函数
+        return self.UserId
 
 class EvaluationModel(db.Model):
     __tablename__ = 'evaluation'
