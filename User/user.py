@@ -4,9 +4,10 @@ Author：wiki
 Date：2022/5/8
 """
 
-from models import UserModel
+from models import UserModel, EmailCaptchaModel
 from exts import db
 from werkzeug.security import generate_password_hash, check_password_hash
+import json
 
 
 class user:
@@ -84,7 +85,7 @@ class user:
         return user
 
     @staticmethod
-    def validate_user(email,password):
+    def validate_user(email, password):
         """
         验证用户密码
         :param email: 邮箱
@@ -95,10 +96,54 @@ class user:
         if user is None:
             return "该邮箱未注册"
 
-        if check_password_hash(user.UserPassword,password):
+        if check_password_hash(user.UserPassword, password):
             return True
         else:
             return "密码错误"
+
+
+    @staticmethod
+    def validate_user(email, password):
+        """
+        验证邮箱尼玛是否匹配
+        :param email: 邮箱
+        :param password: 密码（原始）
+        :return: '邮箱不存在' or '密码错误' or true
+        """
+        user = UserModel.query.filter_by(UserEmail=email).first()
+        if user is None:
+            return '邮箱不存在'
+        hash_password = generate_password_hash(password)
+        if user.UserPassword == hash_password:
+            return True
+        else:
+            return '密码错误'
+
+    @staticmethod
+    def get_userinfo_by_email(email):
+        """
+        通过邮箱获取用户信息
+        :param email: 邮箱
+        :return: 用户信息（字典） or '邮箱不存在'
+        """
+        user = UserModel.query.filter_by(UserEmail=email).first()
+        if user is None:
+            return '邮箱不存在'
+        user_json = dict(user)
+        return user_json
+
+    @staticmethod
+    def get_userinfo_by_id(id):
+        """
+        通过id获取用户信息
+        :param id: 用户id
+        :return: 用户信息（json） or '用户id不存在'
+        """
+        user = UserModel.query.filter_by(UserId=id).first()
+        if user is None:
+            return '用户id不存在'
+        user_json = dict(user)
+        return user_json
 
 #需要修改的地方
 #1.如果函数正常执行，返回值用True就好，不要用字符串。错误信息用字符串。
@@ -108,3 +153,4 @@ class user:
 #1.验证密码 validate_user(email,password) 验证email和password是否正确,正确返回True,错误返回信息(账户不存在、密码错误等)
 #2.获取用户信息 按ID获取和按email获取  以json的形式返回所有信息
 #3.根据邮箱，获取用户的验证码，获取完将验证码字段清空
+
