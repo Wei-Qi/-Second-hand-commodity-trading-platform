@@ -26,10 +26,10 @@ def logIn():
         return redirect(url_for('user.info'))
     form = LoginForm()
     if form.validate_on_submit():
-        res=user.validate_user(form.email.data,form.password.data)
+        res = user.validate_user(form.email.data, form.password.data)
         if res is True:
-            now_user=user.get_user(form.email.data)
-            login_user(now_user,remember=True) #将用户记录在cookieID中，不用每次打开浏览器登陆一下
+            now_user = user.get_user(form.email.data)
+            login_user(now_user, remember=True)  # 将用户记录在cookieID中，不用每次打开浏览器登陆一下
             return redirect(url_for('user.info'))
         else:
             flash(res)
@@ -37,10 +37,18 @@ def logIn():
 
 @bp.route('/forget_password',methods=['GET','POST'])
 def forgetPassword():
+    form=ForgetPasswordForm()
     if current_user.is_authenticated:
         flash("请先退出登陆")
         return redirect(url_for('user.info'))
-    return render_template('forget-password.html')
+    if form.validate_on_submit():
+        res=user.change_password(form.email.data,form.password.data)
+        if res is True:
+            flash('密码修改成功,请登录')
+            return redirect(url_for('user.login'))
+        else:
+            flash(res)
+    return render_template('forget-password.html',form=form)
 
 @bp.route("/logout")
 @login_required
@@ -56,6 +64,7 @@ def info():
 @bp.route('/signin',methods=['GET','POST'])
 def signIn():
     if current_user.is_authenticated:
+        flash('请先退出登陆')
         return redirect(url_for('user.info'))
     form=RegistrationForm()
     if form.validate_on_submit():
@@ -68,7 +77,7 @@ def signIn():
 
 @bp.route("/change_password")
 @fresh_login_required   #必须是新登入的
-def change_password():
+def changePassword():
     return ''
 
 @bp.route("/dashboard")
@@ -78,7 +87,7 @@ def dashboard():
 
 
 @bp.route('/captcha', methods=['POST'])
-def get_captcha():
+def getCaptcha():
     # GET, POST
     email = request.form.get('email')
     if email:
