@@ -5,17 +5,8 @@ Date：2022/5/6
 """
 
 
-from flask import Blueprint, render_template, request, redirect, url_for, jsonify
-
-from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
-
-import Function.function
-
-
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify,flash
-
 import Function.function
-
 from exts import mail, db
 from flask_mail import Message
 from models import EmailCaptchaModel, UserModel
@@ -23,8 +14,6 @@ import string
 import random
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
-
-bp = Blueprint('user', __name__, url_prefix='/user')
 
 from flask_login import current_user,logout_user,login_user,login_required,fresh_login_required
 from forms import *
@@ -58,7 +47,7 @@ def forgetPassword():
         res=user.change_password(form.email.data,form.password.data)
         if res is True:
             flash('密码修改成功,请登录')
-            return redirect(url_for('user.login'))
+            return redirect(url_for('user.logIn'))
         else:
             flash(res)
     return render_template('forget-password.html',form=form)
@@ -74,7 +63,8 @@ def logout():
 @bp.route("/info")
 @login_required
 def info():
-    return render_template("profile-details.html")
+    user_info=user.get_userinfo_by_id(current_user.get_id())
+    return render_template("profile-details.html",user_info=user_info)
 
 
 @bp.route('/signin',methods=['GET','POST'])
@@ -84,9 +74,10 @@ def signIn():
         return redirect(url_for('user.info'))
     form=RegistrationForm()
     if form.validate_on_submit():
-        res=user.add_user(form.email,form.password,form.username)
+        res=user.add_user(form.email.data,form.password.data,form.username.data)
         if res is True:
-            return "sucess"
+            flash('账号创建成功，请登陆')
+            return redirect(url_for('user.logIn'))
         else:
             flash(res)
     return render_template('signin.html',form=form)

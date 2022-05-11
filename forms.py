@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField,PasswordField,SubmitField,BooleanField,SelectField,TextAreaField,FloatField,IntegerField
 from wtforms.validators import DataRequired,EqualTo,ValidationError,Length,Email,InputRequired
+from EmailCaptcha.emailcaptcha import emailcaptcha
 
 class LoginForm(FlaskForm):
     email = StringField('邮箱',validators=[DataRequired(u"邮箱不能为空"), Email(u"请按邮箱格式输入"),
@@ -18,12 +19,16 @@ class RegistrationForm(FlaskForm):
                                      validators=[DataRequired(), EqualTo('password',message=u"密码不一致")],render_kw={'placeholder':u'重复密码'})
     captcha = StringField('验证码', validators=[DataRequired(u"验证码不能为空")],render_kw={'placeholder':u'输入验证码'})
 
-    # def validate_captcha(self, field):
-    #     captcha = field.data
-    #     email = self.email.data
-    #     captcha_model = UserModel.query.filter_by(email=email).first()
-    #     if not captcha_model or captcha_model.captcha.lower() != captcha.lower():
-    #         raise ValidationError('邮箱验证码错误！')
+    def validate_captcha(self, field):
+        captcha = field.data
+        email = self.email.data
+        res=emailcaptcha.get_captcha_by_email(email)
+        if '请先获取验证码' == res:
+            raise ValidationError(res)
+        elif res.lower() != captcha.lower():
+            raise ValidationError('验证码错误')
+
+
 
 class ForgetPasswordForm(FlaskForm):
     email = StringField('邮箱',
@@ -34,3 +39,12 @@ class ForgetPasswordForm(FlaskForm):
                                      validators=[DataRequired(), EqualTo('password', message=u"密码不一致")],
                                      render_kw={'placeholder': u'重复密码'})
     captcha = StringField('验证码', validators=[DataRequired(u"验证码不能为空")], render_kw={'placeholder': u'输入验证码'})
+
+    def validate_captcha(self, field):
+        captcha = field.data
+        email = self.email.data
+        res=emailcaptcha.get_captcha_by_email(email)
+        if '请先获取验证码' == res:
+            raise ValidationError(res)
+        elif res != captcha:
+            raise ValidationError('验证码错误')
