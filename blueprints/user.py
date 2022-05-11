@@ -22,8 +22,7 @@ bp = Blueprint('user', __name__, url_prefix='/user')
 @bp.route('/login',methods=['GET','POST'])
 def logIn():
     if current_user.is_authenticated:
-        flash('您已登陆')
-        return redirect(url_for('home'))
+        return redirect(url_for('user.info'))
     form = LoginForm()
     if form.validate_on_submit():
         res=user.validate_user(form.email.data,form.password.data)
@@ -50,8 +49,9 @@ def logout():
 def info():
     return render_template("profile-details.html")
 
-@bp.route('/signin')
+@bp.route('/signin',methods=['GET','POST'])
 def signIn():
+
     return render_template('signin.html')
 
 @bp.route("/change_password")
