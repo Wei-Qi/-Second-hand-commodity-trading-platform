@@ -6,11 +6,7 @@ from exts import mail
 from flask_migrate import Migrate
 from models import *
 from Function import function
-<<<<<<< Updated upstream
-=======
-from flask_login import LoginManager
-from User import user
-from EmailCaptcha import emailcaptcha
+
 
 login_manager = LoginManager()
 
@@ -21,30 +17,27 @@ login_manager.login_message = '请先登陆'
 def load_user(user_id):
     return UserModel.query.get(int(user_id))
 
->>>>>>> Stashed changes
 
 app = Flask(__name__)
 app.config.from_object(config)
 db.init_app(app)
 mail.init_app(app)
 migrate = Migrate(app, db)
+login_manager.init_app(app)
 
 app.register_blueprint(user_bp)
 
 
 @app.route('/')
-<<<<<<< Updated upstream
-def hello_world():  # put application's code here
-    s = function.send_email('3339383816@qq.com')
-    return s
+@app.route('/home')
+def home():
+    return render_template('index.html')
 
-=======
 @app.route('/home')
 def home():
     # return render_template('index.html')
     captcha = emailcaptcha.emailcaptcha.get_captcha_by_email('3339383816@qq.com')
     return captcha
->>>>>>> Stashed changes
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

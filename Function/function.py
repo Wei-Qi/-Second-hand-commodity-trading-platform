@@ -36,3 +36,32 @@ def send_email(email):
             db.session.add(captcha_model)
             db.session.commit()
         return captcha
+
+
+def check_email_url(email_address):
+    # check '@'
+    at_count = 0
+    for element in email_address:
+        if element == '@':
+            at_count = at_count + 1
+
+    if at_count != 1:
+        return False
+
+    # check ' '
+    for element in email_address:
+        if element == ' ':
+            return False
+
+    # check '.com'
+    postfix = email_address[-4:]
+    if postfix != '.com':
+        return False
+
+    # check char
+    for element in email_address:
+        if element.isalpha() == False and element.isdigit() == False:
+            if element != '.' and element != '@' and element != '_':
+                return False
+
+    return True

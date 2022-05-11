@@ -5,10 +5,7 @@ Date：2022/5/6
 """
 from exts import db
 from datetime import datetime
-<<<<<<< Updated upstream
-=======
-from flask_login import UserMixin, LoginManager
->>>>>>> Stashed changes
+from flask_login import UserMixin,LoginManager
 
 
 class AdminModel(db.Model):
@@ -22,11 +19,8 @@ class AdminModel(db.Model):
     AdminJoin_time = db.Column(db.DateTime, default=datetime.now)
 
 
-<<<<<<< Updated upstream
-class UserModel(db.Model):
-=======
-class UserModel(db.Model, UserMixin):
->>>>>>> Stashed changes
+
+class UserModel(db.Model,UserMixin):
     __tablename__ = 'user'
     UserId = db.Column(db.Integer, primary_key=True, autoincrement=True)
     UserEmail = db.Column(db.String(100), nullable=False, unique=True)
@@ -39,8 +33,6 @@ class UserModel(db.Model, UserMixin):
     UserCredit = db.Column(db.Integer)
     UserJoin_time = db.Column(db.DateTime, default=datetime.now)
 
-<<<<<<< Updated upstream
-=======
     def keys(self):
         return ('UserId', 'UserEmail', 'UserName', 'UserIdcard', 'UserSex', 'UserAddress', 'UserPhone', 'UserPassword',
                 'UserCredit', 'UserJoin_time')
@@ -50,7 +42,6 @@ class UserModel(db.Model, UserMixin):
 
     def get_id(self):  # flask-login要求的函数
         return self.UserId
->>>>>>> Stashed changes
 
 
 class EvaluationModel(db.Model):
