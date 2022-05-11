@@ -8,3 +8,12 @@ class LoginForm(FlaskForm):
     password = PasswordField('password', validators=[DataRequired(u"密码不能为空"),
                                                      Length(10,20,message=u'长度位于10~20之间')],render_kw={'placeholder':u'输入密码'})
 
+class RegistrationForm(FlaskForm):
+    username = StringField('用户名',
+                           validators=[DataRequired(u"用户名不能为空"), Length(min=2, max=20,message=u'长度位于2~20之间')])
+    email = StringField('邮箱',
+                        validators=[DataRequired(u"邮箱不能为空"), Email()])
+    password = PasswordField('密码', validators=[DataRequired(),Length(min=6, max=20)])
+    confirm_password = PasswordField('确认密码',
+                                     validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('注册')
