@@ -5,6 +5,10 @@ Date：2022/5/6
 """
 from exts import db
 from datetime import datetime
+<<<<<<< Updated upstream
+=======
+from flask_login import UserMixin, LoginManager
+>>>>>>> Stashed changes
 
 
 class AdminModel(db.Model):
@@ -18,7 +22,11 @@ class AdminModel(db.Model):
     AdminJoin_time = db.Column(db.DateTime, default=datetime.now)
 
 
+<<<<<<< Updated upstream
 class UserModel(db.Model):
+=======
+class UserModel(db.Model, UserMixin):
+>>>>>>> Stashed changes
     __tablename__ = 'user'
     UserId = db.Column(db.Integer, primary_key=True, autoincrement=True)
     UserEmail = db.Column(db.String(100), nullable=False, unique=True)
@@ -30,6 +38,19 @@ class UserModel(db.Model):
     UserPassword = db.Column(db.String(200), nullable=False)
     UserCredit = db.Column(db.Integer)
     UserJoin_time = db.Column(db.DateTime, default=datetime.now)
+
+<<<<<<< Updated upstream
+=======
+    def keys(self):
+        return ('UserId', 'UserEmail', 'UserName', 'UserIdcard', 'UserSex', 'UserAddress', 'UserPhone', 'UserPassword',
+                'UserCredit', 'UserJoin_time')
+
+    def __getitem__(self, item):
+        return getattr(self, item)
+
+    def get_id(self):  # flask-login要求的函数
+        return self.UserId
+>>>>>>> Stashed changes
 
 
 class EvaluationModel(db.Model):
@@ -86,6 +107,7 @@ class ReturnModel(db.Model):
     ReturnIsfinished = db.Column(db.Boolean)
     UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='RESTRICT'))
     OrderId = db.Column(db.Integer, db.ForeignKey('order.OrderId', ondelete='RESTRICT'))
+
 
 class EmailCaptchaModel(db.Model):
     __tablename__ = 'email_captcha'
