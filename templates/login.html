@@ -1,18 +1,3 @@
-<!-- 
-THEME: Aviato | E-commerce template
-VERSION: 1.0.0
-AUTHOR: Themefisher
-
-HOMEPAGE: https://themefisher.com/products/aviato-e-commerce-template/
-DEMO: https://demo.themefisher.com/aviato/
-GITHUB: https://github.com/themefisher/Aviato-E-Commerce-Template/
-
-WEBSITE: https://themefisher.com
-TWITTER: https://twitter.com/themefisher
-FACEBOOK: https://www.facebook.com/themefisher
--->
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,7 +16,7 @@ FACEBOOK: https://www.facebook.com/themefisher
   <meta name="generator" content="Themefisher Constra HTML Template v1.0">
   
   <!-- Favicon -->
-  <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png" />
+  <link rel="shortcut icon" type="image/x-icon" href="..static/images/logo.png" />
   
   <!-- Themefisher Icon font -->
   <link rel="stylesheet" href="../static/plugins/themefisher-font/style.css">
@@ -59,43 +44,12 @@ FACEBOOK: https://www.facebook.com/themefisher
             <!-- <img src="images/logo.png" alt=""> -->
           </a>
           <h2 class="text-center">欢迎回来</h2>
-          <form class="text-left clearfix" action="/user/login" method="post" >
-          {{ form.hidden_tag() }}
-          <div>
-              {%for message in get_flashed_messages()%}
-                <div class="alert alert-warning">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                    {{message}}
-                </div>
-              {%endfor%}
+          <form class="text-left clearfix" action="index.html" >
+            <div class="form-group">
+              <input type="email" class="form-control"  placeholder="邮箱">
             </div>
             <div class="form-group">
-{#              <input type="email" class="form-control"  placeholder="邮箱">#}
-                {{ form.email.label(class="form-control-label") }}
-                    {% if form.email.errors %}
-                        {{ form.email(class="form-control") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.email.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.email(class="form-control") }}
-                    {% endif %}
-            </div>
-            <div class="form-group">
-{#              <input type="password" class="form-control" placeholder="密码">#}
-                {{ form.password.label(class="form-control-label") }}
-                    {% if form.password.errors %}
-                        {{ form.password(class="form-control") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.password.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.password(class="form-control") }}
-                    {% endif %}
+              <input type="password" class="form-control" placeholder="密码">
             </div>
             <div class="text-center">
               <button type="submit" class="btn btn-main text-center" >登录</button>
@@ -103,8 +57,8 @@ FACEBOOK: https://www.facebook.com/themefisher
           </form>
           
           <p class="mt-20">
-            <a href="/user/signin"> 创建一个新的账户
-              <p><a href="/user/forget_password"> 忘记密码?</a></p>
+            <a href="signin.html"> 创建一个新的账户
+              <p><a href="forget-password.html"> 忘记密码?</a></p>
             </a></p>
         </div>
       </div>
