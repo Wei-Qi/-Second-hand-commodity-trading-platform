@@ -11,7 +11,7 @@ from flask_login import LoginManager
 login_manager = LoginManager()
 
 login_manager.login_view = '/user/login'    #未登录将自动跳转到该路径
-login_manager.login_message = 'Please login first!'
+login_manager.login_message = '请先登陆'
 
 @login_manager.user_loader
 def load_user(user_id):
