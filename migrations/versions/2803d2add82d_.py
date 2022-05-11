@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: fc93d1d49c7d
+Revision ID: 2803d2add82d
 Revises: 
-Create Date: 2022-05-07 11:08:44.817101
+Create Date: 2022-05-10 23:35:05.230740
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'fc93d1d49c7d'
+revision = '2803d2add82d'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -28,6 +28,14 @@ def upgrade():
     sa.PrimaryKeyConstraint('AdminId'),
     sa.UniqueConstraint('AdminEmail'),
     sa.UniqueConstraint('AdminName')
+    )
+    op.create_table('email_captcha',
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('email', sa.String(length=100), nullable=False),
+    sa.Column('captcha', sa.String(length=10), nullable=False),
+    sa.Column('create_time', sa.DateTime(), nullable=True),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('email')
     )
     op.create_table('user',
     sa.Column('UserId', sa.Integer(), autoincrement=True, nullable=False),
@@ -117,5 +125,6 @@ def downgrade():
     op.drop_table('comment')
     op.drop_table('goods')
     op.drop_table('user')
+    op.drop_table('email_captcha')
     op.drop_table('admin')
     # ### end Alembic commands ###

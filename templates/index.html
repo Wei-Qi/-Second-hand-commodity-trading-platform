@@ -133,6 +133,14 @@
 	</div>
 </section><!-- End Top Header Bar -->
 
+<div>
+  {%for message in get_flashed_messages()%}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{message}}
+    </div>
+  {%endfor%}
+</div>
 
 <!-- Main Menu Section -->
 <section class="menu">
@@ -236,9 +244,9 @@
 									<ul>
 										<li class="dropdown-header">Utility</li>
 										<li role="separator" class="divider"></li>
-										<li><a href="login.html">Login Page</a></li>
-										<li><a href="signin.html">Signin Page</a></li>
-										<li><a href="forget-password.html">Forget Password</a></li>
+										<li><a href="/user/login">Login Page</a></li>
+										<li><a href="/user/signin">Signin Page</a></li>
+										<li><a href="/user/forget_password">Forget Password</a></li>
 									</ul>
 								</div>
 
@@ -762,8 +770,6 @@ Start Call To Action
 
     <!-- Main Js File -->
     <script src="../static/js/script.js"></script>
-    
-
 
   </body>
   </html>
