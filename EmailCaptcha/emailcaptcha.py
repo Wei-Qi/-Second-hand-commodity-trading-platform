@@ -15,12 +15,12 @@ class emailcaptcha():
         """
         通过邮箱获取验证码，并将数据删除
         :param email: 邮箱
-        :return: 验证码 or '邮箱不存在'
+        :return: 验证码 or '请先获取验证码'
         """
         emailcaptcha = EmailCaptchaModel.query.filter_by(email=email).first()
         if emailcaptcha is None:
-            return '邮箱不存在'
+            return '请先获取验证码'
         captcha = emailcaptcha.captcha
         EmailCaptchaModel.query.filter_by(email=email).delete()
         db.session.commit()
-        return catpcha
+        return captcha
