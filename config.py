@@ -9,7 +9,9 @@ HOSTNAME = '127.0.0.1'
 PORT = '3306'
 DATABASE = 'ditanhuo'
 USERNAME = 'root'
+
 PASSWORD = '123456'
+
 # 服务器暂时没有实现
 # HOSTNAME = '43.138.58.223'
 # PORT = '3306'

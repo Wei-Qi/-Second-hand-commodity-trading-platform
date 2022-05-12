@@ -6,12 +6,12 @@ from exts import mail
 from flask_migrate import Migrate
 from models import *
 from Function import function
-from flask_login import LoginManager
+
 
 login_manager = LoginManager()
 
 login_manager.login_view = '/user/login'    #未登录将自动跳转到该路径
-login_manager.login_message = 'Please login first!'
+login_manager.login_message = '请先登陆'
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -32,7 +32,6 @@ app.register_blueprint(user_bp)
 @app.route('/home')
 def home():
     return render_template('index.html')
-
 
 if __name__ == '__main__':
     app.run(debug=True)

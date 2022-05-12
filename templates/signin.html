@@ -42,31 +42,68 @@
     <div class="row">
       <div class="col-md-6 col-md-offset-3">
         <div class="block text-center">
-          <a class="logo" href="index.html">
+          <a class="logo" href="/home">
             <img src="../static/images/logo.png" alt="">
           </a>
           <h2 class="text-center">创建账号</h2>
-          <form class="text-left clearfix" action="index.html">
+          <form class="text-left clearfix" action="/user/signin" method="post">
+               {{ form.hidden_tag() }}
+          <div>
+              {%for message in get_flashed_messages()%}
+                <div class="alert alert-warning">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{message}}
+                </div>
+              {%endfor%}
             <div class="form-group">
-              <input type="text" class="form-control"  placeholder="用户名">
+{#              <input type="text" class="form-control"  placeholder="用户名">#}
+                {{ form.username(class="form-control") }}
+                {% if form.username.errors %}
+                    <div class="invalid-feedback">
+                        {% for error in form.username.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
             </div>
             <div class="form-group">
-              <input type="email" class="form-control"  placeholder="邮箱">
+{#              <input type="email" class="form-control"  placeholder="邮箱">#}
+                {{ form.email(class="form-control") }}
+                {% if form.email.errors %}
+                    <div class="invalid-feedback">
+                        {% for error in form.email.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
             </div>
             <div class="form-group">
-              <input type="password" class="form-control"  placeholder="密码">
+{#              <input type="password" class="form-control"  placeholder="密码">#}
+                {{ form.password(class="form-control") }}
+                {% if form.password.errors %}
+                    <div class="invalid-feedback">
+                        {% for error in form.password.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
             </div>
             <div class="form-group">
-              <input type="password" class="form-control"  placeholder="确认密码">
+{#              <input type="password" class="form-control"  placeholder="确认密码">#}
+                {{ form.confirm_password(class="form-control") }}
+                {% if form.confirm_password.errors %}
+                    <div class="invalid-feedback">
+                        {% for error in form.confirm_password.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
             </div>
             <div class="form-group">
-<<<<<<< Updated upstream
-              <input type="text" class="form-control" style="width: 74%;display: inline;"  placeholder="请输入验证码">
-              <button type="button" class="btn btn-lg btn-main"">获取验证码</button>
-=======
 {#              <input type="text" class="form-control" style="width: 74%;display: inline;"  placeholder="请输入验证码">#}
                 {{ form.captcha(class="form-control",style="width: 71%;display: inline;") }}
               <button type="button" class="btn btn-lg btn-main btn-round" id="captcha-btn">获取验证码</button>
+
                 {% if form.captcha.errors %}
                     <div class="invalid-feedback">
                         {% for error in form.captcha.errors %}
@@ -74,14 +111,14 @@
                         {% endfor %}
                     </div>
                 {% endif %}
->>>>>>> Stashed changes
             </div>
             <div class="text-center">
               <button type="submit" class="btn btn-main text-center">注册</button>
             </div>
           </form>
-          <p class="mt-20">已有账号 ?<a href="login.html"> 登录</a></p>
-          
+        <div class="text-center">
+          <p class="mt-20">已有账号 ?<a href="/user/login"> 登录</a></p>
+        </div>
         </div>
       </div>
     </div>

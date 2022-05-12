@@ -7,6 +7,7 @@ from exts import db
 from datetime import datetime
 from flask_login import UserMixin,LoginManager
 
+
 class AdminModel(db.Model):
     __tablename__ = 'admin'
     AdminId = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -16,6 +17,7 @@ class AdminModel(db.Model):
     AdminPassword = db.Column(db.String(200), nullable=False)
     AdminSex = db.Column(db.Boolean)
     AdminJoin_time = db.Column(db.DateTime, default=datetime.now)
+
 
 
 class UserModel(db.Model,UserMixin):
@@ -31,8 +33,16 @@ class UserModel(db.Model,UserMixin):
     UserCredit = db.Column(db.Integer)
     UserJoin_time = db.Column(db.DateTime, default=datetime.now)
 
-    def get_id(self):#flask-login要求的函数
+    def keys(self):
+        return ('UserId', 'UserEmail', 'UserName', 'UserIdcard', 'UserSex', 'UserAddress', 'UserPhone', 'UserPassword',
+                'UserCredit', 'UserJoin_time')
+
+    def __getitem__(self, item):
+        return getattr(self, item)
+
+    def get_id(self):  # flask-login要求的函数
         return self.UserId
+
 
 class EvaluationModel(db.Model):
     __tablename__ = 'evaluation'
@@ -88,6 +98,7 @@ class ReturnModel(db.Model):
     ReturnIsfinished = db.Column(db.Boolean)
     UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='RESTRICT'))
     OrderId = db.Column(db.Integer, db.ForeignKey('order.OrderId', ondelete='RESTRICT'))
+
 
 class EmailCaptchaModel(db.Model):
     __tablename__ = 'email_captcha'
