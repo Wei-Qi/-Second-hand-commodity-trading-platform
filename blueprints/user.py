@@ -93,6 +93,27 @@ def dashboard():
     return render_template("dashboard.html")
 
 
+@bp.route("/order")
+@login_required
+def order():
+    return render_template("order.html")
+
+@bp.route("/address")
+@login_required
+def address():
+    return render_template("address.html")
+
+@bp.route("/return_goods")
+@login_required
+def returnGoods():
+    return render_template("return_goods.html")
+
+@bp.route("/return_order")
+@login_required
+def returnOrder():
+    return render_template("return_order.html")
+
+
 @bp.route('/captcha', methods=['POST'])
 def getCaptcha():
     # GET, POST
