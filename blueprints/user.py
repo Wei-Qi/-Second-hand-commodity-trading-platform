@@ -56,5 +56,52 @@ def signIn():
 
 @bp.route("/change_password")
 @fresh_login_required   #必须是新登入的
+<<<<<<< Updated upstream
 def change_password():
     return ''
+=======
+def changePassword():
+    return ''
+
+@bp.route("/dashboard")
+@login_required
+def dashboard():
+    return render_template("dashboard.html")
+
+@bp.route("/order")
+@login_required
+def order():
+    return render_template("order.html")
+
+@bp.route("/address")
+@login_required
+def address():
+    return render_template("address.html")
+
+@bp.route("/return_goods")
+@login_required
+def return_goods():
+    return render_template("return_goods.html")
+
+@bp.route("/return_order")
+@login_required
+def return_order():
+    return render_template("return_order.html")
+
+
+@bp.route('/captcha', methods=['POST'])
+def getCaptcha():
+    # GET, POST
+    email = request.form.get('email')
+    if email:
+        if Function.function.check_email_url(email) is False:
+            return jsonify({'code':400,'message':'邮箱格式不正确'})
+
+        Function.function.send_email(email)
+        # 200 正常成功的请求
+        return jsonify({'code': 200})
+    else:
+        # 400 客户端错误
+        return jsonify({'code': 400, 'message': '请先输入邮箱'})
+
+>>>>>>> Stashed changes
