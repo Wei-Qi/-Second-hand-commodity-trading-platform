@@ -9,13 +9,19 @@ HOSTNAME = '127.0.0.1'
 PORT = '3306'
 DATABASE = 'ditanhuo'
 USERNAME = 'root'
+<<<<<<< Updated upstream
 PASSWORD = 'zwq287908'
+=======
+
+PASSWORD = 'zwq287908'
+
+>>>>>>> Stashed changes
 # 服务器暂时没有实现
 # HOSTNAME = '43.138.58.223'
 # PORT = '3306'
 # DATABASE = 'ditanhuo'
 # USERNAME = 'ditanhuo'
-# PASSWORD = 'byeWxAmAH8DHp5Fb'
+# PASSWORD = 'zwq287908'
 DB_URI = 'mysql+pymysql://{}:{}@{}:{}/{}?charset=utf8'.format(USERNAME, PASSWORD, HOSTNAME, PORT, DATABASE)
 SQLALCHEMY_DATABASE_URI = DB_URI
 SQLALCHEMY_TRACK_MODIFICATIONS = True
