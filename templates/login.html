@@ -15,7 +15,7 @@
   <meta name="author" content="Themefisher">
   <meta name="generator" content="Themefisher Constra HTML Template v1.0">
   <!-- Favicon -->
-   <link rel="shortcut icon" type="image/x-icon" href="..static/images/logo.png" />
+  <link rel="shortcut icon" type="image/x-icon" href="..static/images/logo.png"/>
 
   <!-- Themefisher Icon font -->
   <link rel="stylesheet" href="../static/plugins/themefisher-font/style.css">
@@ -43,88 +43,87 @@
             <img src="../static/images/logo.png" alt="">
           </a>
           <h2 class="text-center">欢迎回来</h2>
-          <form class="text-left clearfix" action="/user/login" method="post" >
-          {{ form.hidden_tag() }}
-          <div>
-              {%for message in get_flashed_messages()%}
+          <form class="text-left clearfix" action="/user/login" method="post">
+            {{ form.hidden_tag() }}
+            <div>
+              {% for message in get_flashed_messages() %}
                 <div class="alert alert-warning">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                    {{message}}
+                  <button type="button" class="close" data-dismiss="alert">&times;</button>
+                  {{ message }}
                 </div>
-              {%endfor%}
+              {% endfor %}
             </div>
             <div class="form-group">
-{#              <input type="email" class="form-control"  placeholder="邮箱">#}
-                {{ form.email.label(class="form-control-label") }}
-                    {% if form.email.errors %}
-                        {{ form.email(class="form-control") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.email.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.email(class="form-control") }}
-                    {% endif %}
+              {#              <input type="email" class="form-control"  placeholder="邮箱">#}
+              {{ form.email.label(class="form-control-label") }}
+              {% if form.email.errors %}
+                {{ form.email(class="form-control") }}
+                <div class="invalid-feedback">
+                  {% for error in form.email.errors %}
+                    <span>{{ error }}</span>
+                  {% endfor %}
+                </div>
+              {% else %}
+                {{ form.email(class="form-control") }}
+              {% endif %}
             </div>
             <div class="form-group">
-{#              <input type="password" class="form-control" placeholder="密码">#}
-                {{ form.password.label(class="form-control-label") }}
-                    {% if form.password.errors %}
-                        {{ form.password(class="form-control") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.password.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.password(class="form-control") }}
-                    {% endif %}
+              {#              <input type="password" class="form-control" placeholder="密码">#}
+              {{ form.password.label(class="form-control-label") }}
+              {% if form.password.errors %}
+                {{ form.password(class="form-control") }}
+                <div class="invalid-feedback">
+                  {% for error in form.password.errors %}
+                    <span>{{ error }}</span>
+                  {% endfor %}
+                </div>
+              {% else %}
+                {{ form.password(class="form-control") }}
+              {% endif %}
             </div>
             <div class="text-center">
-              <button type="submit" class="btn btn-main text-center" >登录</button>
+              <button type="submit" class="btn btn-main text-center">登录</button>
             </div>
           </form>
 
           <p class="mt-20">
-            <p><a href="/user/signin"> 创建一个新的账户</a></p>
-              <p><a href="/user/forget_password"> 忘记密码?</a></p>
-            </p>
+          <p><a href="/user/signin"> 创建一个新的账户</a></p>
+          <p><a href="/user/forget_password"> 忘记密码?</a></p>
+          </p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-    <!-- 
-    Essential Scripts
-    =====================================-->
-    
-    <!-- Main jQuery -->
-    <script src="../static/plugins/jquery/dist/jquery.min.js"></script>
-    <!-- Bootstrap 3.1 -->
-    <script src="../static/plugins/bootstrap/js/bootstrap.min.js"></script>
-    <!-- Bootstrap Touchpin -->
-    <script src="../static/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script>
-    <!-- Instagram Feed Js -->
-    <script src="../static/plugins/instafeed/instafeed.min.js"></script>
-    <!-- Video Lightbox Plugin -->
-    <script src="../static/plugins/ekko-lightbox/dist/ekko-lightbox.min.js"></script>
-    <!-- Count Down Js -->
-    <script src="../static/plugins/syo-timer/build/jquery.syotimer.min.js"></script>
+<!--
+Essential Scripts
+=====================================-->
 
-    <!-- slick Carousel -->
-    <script src="../static/plugins/slick/slick.min.js"></script>
-    <script src="../static/plugins/slick/slick-animation.min.js"></script>
+<!-- Main jQuery -->
+<script src="../static/plugins/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.1 -->
+<script src="../static/plugins/bootstrap/js/bootstrap.min.js"></script>
+<!-- Bootstrap Touchpin -->
+<script src="../static/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script>
+<!-- Instagram Feed Js -->
+<script src="../static/plugins/instafeed/instafeed.min.js"></script>
+<!-- Video Lightbox Plugin -->
+<script src="../static/plugins/ekko-lightbox/dist/ekko-lightbox.min.js"></script>
+<!-- Count Down Js -->
+<script src="../static/plugins/syo-timer/build/jquery.syotimer.min.js"></script>
 
-    <!-- Google Mapl -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC72vZw-6tGqFyRhhg5CkF2fqfILn2Tsw"></script>
-    <script type="javascript" src="../static/plugins/google-map/gmap.js"></script>
+<!-- slick Carousel -->
+<script src="../static/plugins/slick/slick.min.js"></script>
+<script src="../static/plugins/slick/slick-animation.min.js"></script>
 
-    <!-- Main Js File -->
-    <script src="../static/js/script.js"></script>
-    
+<!-- Google Mapl -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC72vZw-6tGqFyRhhg5CkF2fqfILn2Tsw"></script>
+<script type="javascript" src="../static/plugins/google-map/gmap.js"></script>
+
+<!-- Main Js File -->
+<script src="../static/js/script.js"></script>
 
 
-  </body>
-  </html>
+</body>
+</html>
