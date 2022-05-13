@@ -4,6 +4,7 @@ Author：wiki
 Date：2022/5/6
 """
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 # 数据库的配置信息
 # 用本地的需要先进行更改
 HOSTNAME = '127.0.0.1'
@@ -20,16 +21,26 @@ from config_local import *  # 在config_local中执行本地数据库的配置,g
 PASSWORD = 'zwq287908'
 
 >>>>>>> Stashed changes
+=======
+from config_local import * #在config_local中执行本地数据库的配置,git时忽略config_local文件
+
+# HOSTNAME = '127.0.0.1'
+# PORT = '3306'
+# DATABASE = 'ditanhuo'
+# USERNAME = 'dragon'#'root'
+# PASSWORD = '0123456789'
+
+>>>>>>> Stashed changes
 # 服务器暂时没有实现
 # HOSTNAME = '43.138.58.223'
 # PORT = '3306'
 # DATABASE = 'ditanhuo'
 # USERNAME = 'ditanhuo'
-# PASSWORD = 'zwq287908'
+# PASSWORD = 'byeWxAmAH8DHp5Fb'
 DB_URI = 'mysql+pymysql://{}:{}@{}:{}/{}?charset=utf8'.format(USERNAME, PASSWORD, HOSTNAME, PORT, DATABASE)
 SQLALCHEMY_DATABASE_URI = DB_URI
 SQLALCHEMY_TRACK_MODIFICATIONS = True
-# 启动CSRF保护
+#启动CSRF保护
 CSRF_ENABLED = True
 SECRET_KEY = '123ijlks_]dja2_su?s/s*62%%#456'
 # 邮箱配置

@@ -13,14 +13,16 @@ from flask import Blueprint, render_template, request, redirect, url_for, jsonif
 
 import Function.function
 
-
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify,flash
+<<<<<<< Updated upstream
 
 =======
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
 >>>>>>> Stashed changes
 =======
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 import Function.function
 
@@ -34,6 +36,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 bp = Blueprint('user', __name__, url_prefix='/user')
 
 from flask_login import current_user,logout_user,login_user,login_required,fresh_login_required
@@ -43,13 +46,15 @@ from flask_login import current_user, logout_user, login_user, login_required, f
 =======
 from flask_login import current_user, logout_user, login_user, login_required, fresh_login_required
 >>>>>>> Stashed changes
+=======
+from flask_login import current_user,logout_user,login_user,login_required,fresh_login_required
+>>>>>>> Stashed changes
 from forms import *
 from User.user import user
 
 bp = Blueprint('user', __name__, url_prefix='/user')
 
-
-@bp.route('/login', methods=['GET', 'POST'])
+@bp.route('/login',methods=['GET','POST'])
 def logIn():
     if current_user.is_authenticated:
         return redirect(url_for('user.info'))
@@ -64,6 +69,7 @@ def logIn():
             flash(res)
     return render_template("login.html", form=form)
 
+<<<<<<< Updated upstream
 
 @bp.route('/forget_password', methods=['GET', 'POST'])
 def forgetPassword():
@@ -77,11 +83,16 @@ def forgetPassword():
 =======
 >>>>>>> Stashed changes
     form = ForgetPasswordForm()
+=======
+@bp.route('/forget_password',methods=['GET','POST'])
+def forgetPassword():
+    form=ForgetPasswordForm()
+>>>>>>> Stashed changes
     if current_user.is_authenticated:
         flash("请先退出登陆")
         return redirect(url_for('user.info'))
     if form.validate_on_submit():
-        res = user.change_password(form.email.data, form.password.data)
+        res=user.change_password(form.email.data,form.password.data)
         if res is True:
             flash('密码修改成功,请登录')
             return redirect(url_for('user.logIn'))
@@ -106,6 +117,7 @@ def logout():
 def info():
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     return render_template("profile-details.html")
 =======
     user_info = user.get_userinfo_by_id(current_user.get_id())
@@ -120,11 +132,18 @@ def info():
 
 >>>>>>> Stashed changes
 @bp.route('/signin', methods=['GET', 'POST'])
+=======
+    user_info=user.get_userinfo_by_id(current_user.get_id())
+    return render_template("profile-details.html",user_info=user_info)
+
+@bp.route('/signin',methods=['GET','POST'])
+>>>>>>> Stashed changes
 def signIn():
     if current_user.is_authenticated:
         return redirect(url_for('user.info'))
-    form = RegistrationForm()
+    form=RegistrationForm()
     if form.validate_on_submit():
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
         res=user.add_user(form.email,form.password,form.username)
@@ -134,10 +153,14 @@ def signIn():
 =======
         res = user.add_user(form.email.data, form.password.data, form.username.data)
 >>>>>>> Stashed changes
+=======
+        res=user.add_user(form.email.data,form.password.data,form.username.data)
+>>>>>>> Stashed changes
         if res is True:
             return "sucess"
         else:
             flash(res)
+<<<<<<< Updated upstream
     return render_template('signin.html', form=form)
 
 <<<<<<< Updated upstream
@@ -154,6 +177,9 @@ def changePassword():
 
 =======
 >>>>>>> Stashed changes
+=======
+    return render_template('signin.html',form=form)
+>>>>>>> Stashed changes
 
 @bp.route("/dashboard")
 @login_required
@@ -161,6 +187,7 @@ def dashboard():
     return render_template("dashboard.html")
 
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 =======
 @bp.route("/order")
@@ -188,13 +215,15 @@ def returnOrder():
 
 
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 @bp.route('/captcha', methods=['POST'])
 def get_captcha():
     # GET, POST
     email = request.form.get('email')
     if email:
         if Function.function.check_email_url(email) is False:
-            return jsonify({'code': 400, 'message': '邮箱格式不正确'})
+            return jsonify({'code':400,'message':'邮箱格式不正确'})
 
         Function.function.send_email(email)
         # 200 正常成功的请求

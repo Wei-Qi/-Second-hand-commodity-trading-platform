@@ -78,6 +78,11 @@ class ForgetPasswordForm(FlaskForm):
         elif res != captcha:
             raise ValidationError('验证码错误')
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 >>>>>>> Stashed changes
 =======
+>>>>>>> Stashed changes
+=======
+
+# class ChangeUserInfoForm(FlaskForm):
 >>>>>>> Stashed changes
