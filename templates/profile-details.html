@@ -44,7 +44,6 @@
                 <li><span>性别:</span>{{user_info.UserSex}}</li>
                 <li><span>信用积分:</span>{{user_info.UserCredit}}</li>
                 <li><span>联系电话:</span>{{user_info.UserPhone}}</li>
-                <li><span>收货地址:</span>{{user_info.UserAddress}}</li>
                 <li><span>注册时间:</span>{{user_info.UserJoin_time}}</li>
               </ul>
             </div>
@@ -65,7 +64,7 @@
                                                   </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <form class="text-left clearfix" action="/user/address" >
+                                                    <form class="text-left clearfix" action="/user/info" method="post">
                                                         <div class="form-group">
                                                           <input type="text" class="form-control"  placeholder="昵称">
                                                         </div>
