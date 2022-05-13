@@ -27,7 +27,6 @@ class UserModel(db.Model,UserMixin):
     UserName = db.Column(db.String(200), nullable=False, unique=True)
     UserIdcard = db.Column(db.String(18), unique=True)
     UserSex = db.Column(db.Boolean)
-    UserAddress = db.Column(db.String(200))
     UserPhone = db.Column(db.String(20))
     UserPassword = db.Column(db.String(200), nullable=False)
     UserCredit = db.Column(db.Integer)
@@ -106,3 +105,14 @@ class EmailCaptchaModel(db.Model):
     email = db.Column(db.String(100), nullable=False, unique=True)
     captcha = db.Column(db.String(10), nullable=False)
     create_time = db.Column(db.DateTime, default=datetime.now)
+
+
+class UserAddressModel(db.Model):
+    __tablename__ = 'useraddress'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    person_name  = db.Column(db.String(200), nullable=False)
+    address = db.Column(db.String(200), nullable=False)
+    phone = db.Column(db.String(200), nullable=False)
+    UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='RESTRICT'))
+
+    user = db.relationship('UserModel', backref='address')

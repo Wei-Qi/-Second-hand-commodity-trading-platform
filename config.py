@@ -3,14 +3,9 @@ config -
 Author：wiki
 Date：2022/5/6
 """
-# 数据库的配置信息
-# 用本地的需要先进行更改
-HOSTNAME = '127.0.0.1'
-PORT = '3306'
-DATABASE = 'ditanhuo'
-USERNAME = 'root'
 
-PASSWORD = '123456'
+
+from config_local import *  # 在config_local中执行本地数据库的配置,git时忽略config_local文件
 
 # 服务器暂时没有实现
 # HOSTNAME = '43.138.58.223'

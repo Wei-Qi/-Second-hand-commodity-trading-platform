@@ -1,1 +1,5 @@
 *.pyc
+*.log
+.idea
+config_local.py
+migrations
