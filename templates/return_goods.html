@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}退货订单{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="content">
+					<h1 class="page-name">个人中心</h1>
+					<ol class="breadcrumb">
+						<li><a href="index.html">首页</a></li>
+						<li class="active">我的账户</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="user-dashboard page-wrapper">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<ul class="list-inline dashboard-menu text-center">
+					<li><a href="\user\dashboard">历史订单</a></li>
+                    <li><a href="\user\order">订单</a></li>
+                    <li><a href="\user\return_order">退货申请</a></li>
+                    <li><a class="active" href="\user\return_goods">退货订单</a></li>
+                    <li><a href="\user\address">地址</a></li>
+                    <li><a href="\user\info">个人信息</a></li>
+				</ul>
+				<div class="dashboard-wrapper user-dashboard">
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>订单编号</th>
+									<th>退货时间</th>
+									<th>数量</th>
+									<th>总计</th>
+									<th>订单状态</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>#451231</td>
+									<td>2022-5-25</td>
+									<td>2</td>
+									<td>99.00</td>
+									<td><span class="label label-primary">退货中</span></td>
+									<td><a href="/user/order" class="btn btn-default">查看</a></td>
+									<td><a  class="btn btn-default">同意</a></td>
+								</tr>
+								<tr>
+									<td>#451231</td>
+									<td>2022-5-25</td>
+									<td>3</td>
+									<td>150.00</td>
+									<td><span class="label label-success">完成退货</span></td>
+									<td><a href="/user/order" class="btn btn-default">查看</a></td>
+									<td><a  class="btn btn-default">同意</a></td>
+								</tr>
+								<tr>
+									<td>#451231</td>
+									<td>2022-5-25</td>
+									<td>3</td>
+									<td>150.00</td>
+									<td><span class="label label-danger">取消退货</span></td>
+									<td><a href="/user/order" class="btn btn-default">查看</a></td>
+									<td><a class="btn btn-default">同意</a></td>
+								</tr>
+								
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}

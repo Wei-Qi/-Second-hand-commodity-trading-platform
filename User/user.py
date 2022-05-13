@@ -101,24 +101,6 @@ class user:
         else:
             return "密码错误"
 
-
-    @staticmethod
-    def validate_user(email, password):
-        """
-        验证邮箱尼玛是否匹配
-        :param email: 邮箱
-        :param password: 密码（原始）
-        :return: '邮箱不存在' or '密码错误' or true
-        """
-        user = UserModel.query.filter_by(UserEmail=email).first()
-        if user is None:
-            return '邮箱不存在'
-        hash_password = generate_password_hash(password)
-        if user.UserPassword == hash_password:
-            return True
-        else:
-            return '密码错误'
-
     @staticmethod
     def get_userinfo_by_email(email):
         """

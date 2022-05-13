@@ -4,28 +4,9 @@ Author：wiki
 Date：2022/5/6
 """
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-
-from flask import Blueprint, render_template, request, redirect, url_for, jsonify
-
-from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
-
-import Function.function
 
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify,flash
-<<<<<<< Updated upstream
-
-=======
-from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
->>>>>>> Stashed changes
-=======
-from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 import Function.function
-
 from exts import mail, db
 from flask_mail import Message
 from models import EmailCaptchaModel, UserModel
@@ -34,21 +15,12 @@ import random
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
+
 bp = Blueprint('user', __name__, url_prefix='/user')
 
-from flask_login import current_user,logout_user,login_user,login_required,fresh_login_required
-=======
+
 from flask_login import current_user, logout_user, login_user, login_required, fresh_login_required
->>>>>>> Stashed changes
-=======
-from flask_login import current_user, logout_user, login_user, login_required, fresh_login_required
->>>>>>> Stashed changes
-=======
-from flask_login import current_user,logout_user,login_user,login_required,fresh_login_required
->>>>>>> Stashed changes
+
 from forms import *
 from User.user import user
 
@@ -60,34 +32,19 @@ def logIn():
         return redirect(url_for('user.info'))
     form = LoginForm()
     if form.validate_on_submit():
-        res=user.validate_user(form.email.data,form.password.data)
+        res = user.validate_user(form.email.data, form.password.data)
         if res is True:
-            now_user=user.get_user(form.email.data)
-            login_user(now_user,remember=True) #将用户记录在cookieID中，不用每次打开浏览器登陆一下
+            now_user = user.get_user(form.email.data)
+            login_user(now_user, remember=True)  # 将用户记录在cookieID中，不用每次打开浏览器登陆一下
             return redirect(url_for('user.info'))
         else:
             flash(res)
     return render_template("login.html", form=form)
 
-<<<<<<< Updated upstream
 
 @bp.route('/forget_password', methods=['GET', 'POST'])
 def forgetPassword():
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    if current_user.is_authenticated:
-        flash("请先退出登陆")
-        return redirect(url_for('user.info'))
-    return render_template('forget-password.html')
-=======
-=======
->>>>>>> Stashed changes
     form = ForgetPasswordForm()
-=======
-@bp.route('/forget_password',methods=['GET','POST'])
-def forgetPassword():
-    form=ForgetPasswordForm()
->>>>>>> Stashed changes
     if current_user.is_authenticated:
         flash("请先退出登陆")
         return redirect(url_for('user.info'))
@@ -98,12 +55,7 @@ def forgetPassword():
             return redirect(url_for('user.logIn'))
         else:
             flash(res)
-    return render_template('forget-password.html', form=form)
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-
+    return render_template('forget-password.html',form=form)
 
 @bp.route("/logout")
 @login_required
@@ -111,85 +63,62 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
-
 @bp.route("/info")
 @login_required
 def info():
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    return render_template("profile-details.html")
-=======
-    user_info = user.get_userinfo_by_id(current_user.get_id())
-    return render_template("profile-details.html", user_info=user_info)
->>>>>>> Stashed changes
-
-
-=======
-    user_info = user.get_userinfo_by_id(current_user.get_id())
-    return render_template("profile-details.html", user_info=user_info)
-
-
->>>>>>> Stashed changes
-@bp.route('/signin', methods=['GET', 'POST'])
-=======
     user_info=user.get_userinfo_by_id(current_user.get_id())
-    return render_template("profile-details.html",user_info=user_info)
+    return render_template("profile-details.html", user_info=user_info)
+
+
+
 
 @bp.route('/signin',methods=['GET','POST'])
->>>>>>> Stashed changes
 def signIn():
     if current_user.is_authenticated:
+        flash('请先退出登陆')
         return redirect(url_for('user.info'))
     form=RegistrationForm()
     if form.validate_on_submit():
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-        res=user.add_user(form.email,form.password,form.username)
-=======
         res = user.add_user(form.email.data, form.password.data, form.username.data)
->>>>>>> Stashed changes
-=======
-        res = user.add_user(form.email.data, form.password.data, form.username.data)
->>>>>>> Stashed changes
-=======
-        res=user.add_user(form.email.data,form.password.data,form.username.data)
->>>>>>> Stashed changes
         if res is True:
-            return "sucess"
+            flash('账号创建成功，请登陆')
+            return redirect(url_for('user.logIn'))
         else:
             flash(res)
-<<<<<<< Updated upstream
     return render_template('signin.html', form=form)
 
-<<<<<<< Updated upstream
 
 @bp.route("/change_password")
-<<<<<<< Updated upstream
 @fresh_login_required   #必须是新登入的
 def change_password():
-=======
-@fresh_login_required  # 必须是新登入的
-def changePassword():
->>>>>>> Stashed changes
     return ''
 
-=======
->>>>>>> Stashed changes
-=======
-    return render_template('signin.html',form=form)
->>>>>>> Stashed changes
 
 @bp.route("/dashboard")
 @login_required
 def dashboard():
     return render_template("dashboard.html")
 
+@bp.route("/order")
+@login_required
+def order():
+    return render_template("order.html")
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
+@bp.route("/address")
+@login_required
+def address():
+    return render_template("address.html")
+
+@bp.route("/return_goods")
+@login_required
+def returnGoods():
+    return render_template("return_goods.html")
+
+@bp.route("/return_order")
+@login_required
+def returnOrder():
+    return render_template("return_order.html")
+
 @bp.route("/order")
 @login_required
 def order():
@@ -214,11 +143,8 @@ def returnOrder():
     return render_template("return_order.html")
 
 
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 @bp.route('/captcha', methods=['POST'])
-def get_captcha():
+def getCaptcha():
     # GET, POST
     email = request.form.get('email')
     if email:
