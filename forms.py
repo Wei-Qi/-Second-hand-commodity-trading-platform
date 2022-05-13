@@ -49,4 +49,6 @@ class ForgetPasswordForm(FlaskForm):
         elif res != captcha:
             raise ValidationError('验证码错误')
 
+
 # class ChangeUserInfoForm(FlaskForm):
+
