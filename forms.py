@@ -1,13 +1,17 @@
 from flask_wtf import FlaskForm
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 from wtforms import StringField,PasswordField,SubmitField,BooleanField,SelectField,TextAreaField,FloatField,IntegerField
 from wtforms.validators import DataRequired,EqualTo,ValidationError,Length,Email,InputRequired
 =======
+=======
+>>>>>>> Stashed changes
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField, TextAreaField, FloatField, \
     IntegerField
 from wtforms.validators import DataRequired, EqualTo, ValidationError, Length, Email, InputRequired
 from EmailCaptcha.emailcaptcha import emailcaptcha
 >>>>>>> Stashed changes
+
 
 
 class LoginForm(FlaskForm):
@@ -28,6 +32,7 @@ class RegistrationForm(FlaskForm):
                              render_kw={'placeholder': u'密码'})
     confirm_password = PasswordField('确认密码',
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                                      validators=[DataRequired(), EqualTo('password',message=u"密码不一致")],render_kw={'placeholder':u'重复密码'})
     captcha = StringField('验证码', validators=[DataRequired(u"验证码不能为空"),],render_kw={'placeholder':u'输入验证码'})
 
@@ -38,6 +43,8 @@ class RegistrationForm(FlaskForm):
     #     if not captcha_model or captcha_model.captcha.lower() != captcha.lower():
     #         raise ValidationError('邮箱验证码错误！')
 =======
+=======
+>>>>>>> Stashed changes
                                      validators=[DataRequired(), EqualTo('password', message=u"密码不一致")],
                                      render_kw={'placeholder': u'重复密码'})
     captcha = StringField('验证码', validators=[DataRequired(u"验证码不能为空")], render_kw={'placeholder': u'输入验证码'})
@@ -70,4 +77,7 @@ class ForgetPasswordForm(FlaskForm):
             raise ValidationError(res)
         elif res != captcha:
             raise ValidationError('验证码错误')
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes

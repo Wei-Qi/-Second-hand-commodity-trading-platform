@@ -5,6 +5,7 @@ Date：2022/5/6
 """
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify
 
@@ -15,6 +16,9 @@ import Function.function
 
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify,flash
 
+=======
+from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
+>>>>>>> Stashed changes
 =======
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
 >>>>>>> Stashed changes
@@ -29,9 +33,13 @@ from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 bp = Blueprint('user', __name__, url_prefix='/user')
 
 from flask_login import current_user,logout_user,login_user,login_required,fresh_login_required
+=======
+from flask_login import current_user, logout_user, login_user, login_required, fresh_login_required
+>>>>>>> Stashed changes
 =======
 from flask_login import current_user, logout_user, login_user, login_required, fresh_login_required
 >>>>>>> Stashed changes
@@ -60,11 +68,14 @@ def logIn():
 @bp.route('/forget_password', methods=['GET', 'POST'])
 def forgetPassword():
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     if current_user.is_authenticated:
         flash("请先退出登陆")
         return redirect(url_for('user.info'))
     return render_template('forget-password.html')
 =======
+=======
+>>>>>>> Stashed changes
     form = ForgetPasswordForm()
     if current_user.is_authenticated:
         flash("请先退出登陆")
@@ -77,6 +88,9 @@ def forgetPassword():
         else:
             flash(res)
     return render_template('forget-password.html', form=form)
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
 
@@ -91,6 +105,7 @@ def logout():
 @login_required
 def info():
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     return render_template("profile-details.html")
 =======
     user_info = user.get_userinfo_by_id(current_user.get_id())
@@ -98,6 +113,12 @@ def info():
 >>>>>>> Stashed changes
 
 
+=======
+    user_info = user.get_userinfo_by_id(current_user.get_id())
+    return render_template("profile-details.html", user_info=user_info)
+
+
+>>>>>>> Stashed changes
 @bp.route('/signin', methods=['GET', 'POST'])
 def signIn():
     if current_user.is_authenticated:
@@ -105,7 +126,11 @@ def signIn():
     form = RegistrationForm()
     if form.validate_on_submit():
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         res=user.add_user(form.email,form.password,form.username)
+=======
+        res = user.add_user(form.email.data, form.password.data, form.username.data)
+>>>>>>> Stashed changes
 =======
         res = user.add_user(form.email.data, form.password.data, form.username.data)
 >>>>>>> Stashed changes
@@ -115,6 +140,7 @@ def signIn():
             flash(res)
     return render_template('signin.html', form=form)
 
+<<<<<<< Updated upstream
 
 @bp.route("/change_password")
 <<<<<<< Updated upstream
@@ -126,6 +152,8 @@ def changePassword():
 >>>>>>> Stashed changes
     return ''
 
+=======
+>>>>>>> Stashed changes
 
 @bp.route("/dashboard")
 @login_required
