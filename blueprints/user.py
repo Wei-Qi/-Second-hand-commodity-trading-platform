@@ -83,7 +83,6 @@ def signIn():
 def dashboard():
     return render_template("dashboard.html")
 
-
 @bp.route("/order")
 @login_required
 def order():
