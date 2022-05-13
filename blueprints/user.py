@@ -36,7 +36,6 @@ def logIn():
             flash(res)
     return render_template("login.html", form=form)
 
-
 @bp.route('/forget_password',methods=['GET','POST'])
 def forgetPassword():
     form=ForgetPasswordForm()
@@ -52,20 +51,17 @@ def forgetPassword():
             flash(res)
     return render_template('forget-password.html',form=form)
 
-
 @bp.route("/logout")
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('home'))
 
-
 @bp.route("/info")
 @login_required
 def info():
     user_info=user.get_userinfo_by_id(current_user.get_id())
     return render_template("profile-details.html",user_info=user_info)
-
 
 @bp.route('/signin',methods=['GET','POST'])
 def signIn():
@@ -81,11 +77,6 @@ def signIn():
         else:
             flash(res)
     return render_template('signin.html',form=form)
-
-@bp.route("/change_password")
-@fresh_login_required   #必须是新登入的
-def changePassword():
-    return ''
 
 @bp.route("/dashboard")
 @login_required
@@ -128,4 +119,3 @@ def getCaptcha():
     else:
         # 400 客户端错误
         return jsonify({'code': 400, 'message': '请先输入邮箱'})
-
