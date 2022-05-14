@@ -29,13 +29,13 @@ class UserModel(db.Model,UserMixin):
     UserSex = db.Column(db.Boolean)
     UserPhone = db.Column(db.String(20))
     UserPassword = db.Column(db.String(200), nullable=False)
-    UserCredit = db.Column(db.Integer)
+    UserCredit = db.Column(db.Integer, default=100)
     UserJoin_time = db.Column(db.DateTime, default=datetime.now)
     # 一对多关系通常放在一的那一方
     UserAddresses = db.relationship('UserAddressModel', backref='user', lazy='dynamic')
 
     def keys(self):
-        return ('UserId', 'UserEmail', 'UserName', 'UserIdcard', 'UserSex', 'UserAddress', 'UserPhone', 'UserPassword',
+        return ('UserId', 'UserEmail', 'UserName', 'UserIdcard', 'UserSex', 'UserAddresses', 'UserPhone', 'UserPassword',
                 'UserCredit', 'UserJoin_time')
 
     def __getitem__(self, item):

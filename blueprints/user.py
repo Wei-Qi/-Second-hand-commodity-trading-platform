@@ -59,11 +59,21 @@ def logout():
     return redirect(url_for('home'))
 
 
-@bp.route("/info")
+@bp.route("/info", methods=['post', 'get'])
 @login_required
 def info():
+    form = ChangeUserInfoForm()
+    if form.validate_on_submit():
+        username = form.username.data
+        usersex = form.Usersex.data
+        if usersex == '0':
+            usersex = 0
+        else:
+            usersex = 1
+        userphone = form.Userphone.data
+        user.change_user_info(current_user.get_id(), username, usersex, userphone)
     user_info = user.get_userinfo_by_id(current_user.get_id())
-    return render_template("profile-details.html", user_info=user_info)
+    return render_template("profile-details.html", user_info=user_info, form=form)
 
 
 @bp.route('/signin', methods=['GET', 'POST'])
