@@ -5,19 +5,19 @@
 {% block content %}
 
 <section class="page-header">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-				<div class="content">
-					<h1 class="page-name">个人中心</h1>
-					<ol class="breadcrumb">
-						<li><a href="index.html">首页</a></li>
-						<li class="active">我的账户</li>
-					</ol>
-				</div>
-			</div>
-		</div>
-	</div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="content">
+          <h1 class="page-name">个人中心</h1>
+          <ol class="breadcrumb">
+            <li><a href="index.html">首页</a></li>
+            <li class="active">我的账户</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 <section class="user-dashboard page-wrapper">
   <div class="container">
@@ -30,7 +30,7 @@
           <li><a href="\user\return_goods">退货订单</a></li>
           <li><a href="\user\address">地址</a></li>
           <li><a class="active" href="\user\info">个人信息</a></li>
-		</ul>
+        </ul>
         <div class="dashboard-wrapper dashboard-user-profile">
           <div class="media">
             <div class="pull-left text-center" href="#!">
@@ -48,6 +48,7 @@
               </ul>
             </div>
             <div class="media-bottom">
+<<<<<<< Updated upstream
                 <tfoot>
                   <tr>
                     <tf class="pull-right">
@@ -87,11 +88,74 @@
                                             </div>
                                         </div>
                                     </div>
+=======
+              <tfoot>
+              <tr>
+                <tf class="pull-right">
+                  <div class="btn-group text-left" role="group">
+                    <button type="button" class="btn btn-main btn-round" data-toggle="modal"
+                            data-target="#exampleModalCenter">修改信息
+                    </button>
+                    {# 弹出填写修改信息的模态框 #}
+                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalCenterTitle">修改信息</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <form class="text-left clearfix" action="/user/info" method="post">
+                              {{ form.hidden_tag() }}
+                              <div class="form-group">
+                                {{ form.username.label(class="form-control-label") }}
+                                {% if form.username.errors %}
+                                {{ form.username(class="form-control") }}
+                                <div class="invalid-feedback">
+                                  {% for error in form.username.errors %}
+                                  <span>{{ error }}</span>
+                                  {% endfor %}
                                 </div>
+                                {% else %}
+                                {{ form.username(class="form-control") }}
+                                {% endif %}
+                              </div>
+                              <div class="form-group">
+                                {{ form.Usersex.label(class="form-control-label") }}
+                                {{ form.Usersex(class="form-group") }}
+                              </div>
+                              <div class="form-group">
+                                {{ form.Userphone.label(class="form-control-label") }}
+                                {% if form.Userphone.errors %}
+                                {{ form.Userphone(class="form-control") }}
+                                <div class="invalid-feedback">
+                                  {% for error in form.Userphone.errors %}
+                                  <span>{{ error }}</span>
+                                  {% endfor %}
+>>>>>>> Stashed changes
+                                </div>
+                                {% else %}
+                                {{ form.Userphone(class="form-control") }}
+                                {% endif %}
+                              </div>
+                              <div class="text-center">
+                                <button type="submit" class="btn btn-main text-center">修改</button>
+                              </div>
+                            </form>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                          </div>
                         </div>
-                    </tf>
-                  </tr>
-                </tfoot>
+                      </div>
+                    </div>
+                  </div>
+                </tf>
+              </tr>
+              </tfoot>
             </div>
           </div>
         </div>

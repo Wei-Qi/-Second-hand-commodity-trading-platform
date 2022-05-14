@@ -125,7 +125,23 @@ class user:
         if user is None:
             return '用户id不存在'
         user_json = dict(user)
+        if user_json['UserSex'] == 0:
+            user_json['UserSex'] = '男'
+        else:
+            user_json['UserSex'] = '女'
         return user_json
+
+    @staticmethod
+    def change_user_info(id, name, sex, phone):
+
+        user = UserModel.query.filter_by(UserId=id).first()
+        if user is None:
+            return '用户id不存在'
+        user.UserName = name
+        user.UserSex = sex
+        user.UserPhone = phone
+        db.session.commit()
+        return True
 
 #需要修改的地方
 #1.如果函数正常执行，返回值用True就好，不要用字符串。错误信息用字符串。
