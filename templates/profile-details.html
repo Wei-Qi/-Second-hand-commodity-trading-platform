@@ -55,7 +55,8 @@
                     <button type="button" class="btn btn-main btn-round" data-toggle="modal"
                             data-target="#exampleModalCenter">修改信息
                     </button>
-                    {# 弹出填写修改信息的模态框 #}
+                    {# 弹出填写修改信息的模态框 默认不弹#}
+                    {% if ispop == False %}
                     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
                          aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                       <div class="modal-dialog modal-dialog-centered" role="document">
@@ -118,6 +119,10 @@
                         </div>
                       </div>
                     </div>
+                    {% else %}
+                    {# 弹出填写修改信息的模态框 默认弹出#}
+
+                    {% endif %}
                   </div>
                 </tf>
               </tr>
