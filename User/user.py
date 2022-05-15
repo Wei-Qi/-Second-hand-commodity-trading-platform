@@ -111,6 +111,10 @@ class user:
         user = UserModel.query.filter_by(UserEmail=email).first()
         if user is None:
             return '邮箱不存在'
+        if user_json['UserSex'] == 0:
+            user_json['UserSex'] = '男'
+        else:
+            user_json['UserSex'] = '女'
         user_json = dict(user)
         return user_json
 
@@ -133,7 +137,9 @@ class user:
 
     @staticmethod
     def change_user_info(id, name, sex, phone):
-
+        user = UserModel.query.filter_by(UserName=name).first()
+        if user is not None:
+            return '该昵称已经被注册'
         user = UserModel.query.filter_by(UserId=id).first()
         if user is None:
             return '用户id不存在'
