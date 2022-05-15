@@ -30,7 +30,7 @@ def logIn():
         if res is True:
             now_user = user.get_user(form.email.data)
             login_user(now_user, remember=True)  # 将用户记录在cookieID中，不用每次打开浏览器登陆一下
-            return redirect(url_for('user.info'))
+            return redirect(url_for('user.info', ispop=False))
         else:
             flash(res)
     return render_template("login.html", form=form)
@@ -41,7 +41,7 @@ def forgetPassword():
     form = ForgetPasswordForm()
     if current_user.is_authenticated:
         flash("请先退出登陆")
-        return redirect(url_for('user.info'))
+        return redirect(url_for('user.info', ispop=False))
     if form.validate_on_submit():
         res = user.change_password(form.email.data, form.password.data)
         if res is True:
@@ -74,15 +74,17 @@ def info():
         res = user.change_user_info(current_user.get_id(), username, usersex, userphone)
         if res == '该昵称已经被注册':
             flash('改昵称被注册')
+        user_info = user.get_userinfo_by_id(current_user.get_id())
+        return render_template('profile-details.html', user_info=user_info, form=form, ispop=True)
     user_info = user.get_userinfo_by_id(current_user.get_id())
-    return render_template("profile-details.html", user_info=user_info, form=form)
+    return render_template("profile-details.html", user_info=user_info, form=form, ispop=False)
 
 
 @bp.route('/signin', methods=['GET', 'POST'])
 def signIn():
     if current_user.is_authenticated:
         flash('请先退出登陆')
-        return redirect(url_for('user.info'))
+        return redirect(url_for('user.info', ispop=False))
     form = RegistrationForm()
     if form.validate_on_submit():
         res = user.add_user(form.email.data, form.password.data, form.username.data)
