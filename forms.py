@@ -64,3 +64,8 @@ class ChangeUserInfoForm(FlaskForm):
     Userphone = StringField('联系电话',
                             validators=[DataRequired(u'联系电话不能为空'), Length(min=11, max=11, message=u'请输入11位得联系电话')],
                             render_kw={'placeholder': u'联系电话'})
+
+    def validate_Userphone(self, field):
+        Userphone = field.data
+        if not Userphone.isdigit():
+            raise ValidationError('联系方式中只能有数字')

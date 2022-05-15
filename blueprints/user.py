@@ -71,7 +71,9 @@ def info():
         else:
             usersex = 1
         userphone = form.Userphone.data
-        user.change_user_info(current_user.get_id(), username, usersex, userphone)
+        res = user.change_user_info(current_user.get_id(), username, usersex, userphone)
+        if res == '该昵称已经被注册':
+            flash('改昵称被注册')
     user_info = user.get_userinfo_by_id(current_user.get_id())
     return render_template("profile-details.html", user_info=user_info, form=form)
 
