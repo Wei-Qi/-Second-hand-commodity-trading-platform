@@ -3,3 +3,4 @@
 .idea
 config_local.py
 migrations
+venv
