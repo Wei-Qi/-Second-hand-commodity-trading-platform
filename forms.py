@@ -62,7 +62,7 @@ class ChangeUserInfoForm(FlaskForm):
                            render_kw={'placeholder': u'用户名'})
     Usersex = RadioField('性别', choices=[('0', '男'), ('1', '女')], default='1')
     Userphone = StringField('联系电话',
-                            validators=[DataRequired(u'联系电话不能为空'), Length(min=11, max=11, message=u'请输入11位得联系电话')],
+                            validators=[DataRequired(u'联系电话不能为空'), Length(min=11, max=11, message=u'请输入11位的联系电话')],
                             render_kw={'placeholder': u'联系电话'})
 
     def validate_Userphone(self, field):
