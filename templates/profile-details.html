@@ -92,20 +92,20 @@
                                 {%endfor%}
                               </div>
                               <div class="form-group">
-                                {{ form.Usersex.label(class="form-control-label") }}
-                                {{ form.Usersex(class="form-group") }}
+                                {{ form.usersex.label(class="form-control-label") }}
+                                {{ form.usersex(class="form-group") }}
                               </div>
                               <div class="form-group">
-                                {{ form.Userphone.label(class="form-control-label") }}
-                                {% if form.Userphone.errors %}
-                                {{ form.Userphone(class="form-control") }}
+                                {{ form.userphone.label(class="form-control-label") }}
+                                {% if form.userphone.errors %}
+                                {{ form.userphone(class="form-control") }}
                                 <div class="invalid-feedback">
-                                  {% for error in form.Userphone.errors %}
+                                  {% for error in form.userphone.errors %}
                                   <span>{{ error }}</span>
                                   {% endfor %}
                                 </div>
                                 {% else %}
-                                {{ form.Userphone(class="form-control") }}
+                                {{ form.userphone(class="form-control") }}
                                 {% endif %}
                               </div>
                               <div class="text-center">

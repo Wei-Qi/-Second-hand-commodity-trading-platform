@@ -65,17 +65,17 @@ def info():
     form = ChangeUserInfoForm()
     if form.validate_on_submit():
         username = form.username.data
-        usersex = form.Usersex.data
+        usersex = form.usersex.data
         if usersex == '0':
             usersex = 0
         else:
             usersex = 1
-        userphone = form.Userphone.data
+        userphone = form.userphone.data
         res = user.change_user_info(current_user.get_id(), username, usersex, userphone)
         if res == '该昵称已经被注册':
             flash('改昵称被注册')
         user_info = user.get_userinfo_by_id(current_user.get_id())
-        return render_template('profile-details.html', user_info=user_info, form=form, ispop=True)
+        return render_template('profile-details.html', user_info=user_info, form=form, ispop=False)
     user_info = user.get_userinfo_by_id(current_user.get_id())
     return render_template("profile-details.html", user_info=user_info, form=form, ispop=False)
 
