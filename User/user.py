@@ -147,7 +147,7 @@ class user:
         :return: '该昵称已经被注册' or '用户id不存在' or True
         """
         user = UserModel.query.filter_by(UserName=name).first()
-        if user is not None:
+        if user is not None and user.UserId != id:
             return '该昵称已经被注册'
         user = UserModel.query.filter_by(UserId=id).first()
         if user is None:
