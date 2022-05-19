@@ -85,3 +85,20 @@ class AddAddressForm(FlaskForm):
         phone = field.data
         if not phone.isdigit():
             raise ValidationError('联系电话中只能有数字')
+
+class ChangeAddressForm(FlaskForm):
+    address_id = StringField(render_kw={'style': u'display:none'}) #不展示在页面上，只是用于携带id信息
+    person_name = StringField('收货人',
+                              validators=[DataRequired(u"收货人不能为空"), Length(min=2, max=20, message=u'长度位于2~20之间')],
+                              render_kw={'placeholder': u'收货人'})
+    address = StringField('收货地址',
+                          validators=[DataRequired(u"收货地址不能为空"), Length(min=10, max=40, message=u'长度位于10~40之间')],
+                          render_kw={'placeholder': u'收货地址'})
+    phone = StringField('联系电话',
+                        validators=[DataRequired(u'联系电话不能为空'), Length(min=11, max=11, message=u'请输入11位的联系电话')],
+                        render_kw={'placeholder': u'联系电话'})
+
+    def validate_phone(self, field):
+        phone = field.data
+        if not phone.isdigit():
+            raise ValidationError('联系电话中只能有数字')
