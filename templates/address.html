@@ -75,7 +75,9 @@
                   <td>{{ add['电话号码'] }}</td>
                   <td>
                     <div class="btn-group" role="group">
-                      <button type="button" class="btn btn-default"><i class="tf-pencil2" aria-hidden="true"></i></button>
+                      <button type="button" class="btn btn-default">
+                          <i class="tf-pencil2" aria-hidden="true"></i>
+                      </button>
                       <button type="button" class="btn btn-default"><i class="tf-ion-close" aria-hidden="true"></i></button>
                         <div style="display: none">{{ add['地址id'] }}</div>
                     </div>
@@ -149,7 +151,73 @@
                                                         {% endif %}
                                                     </div>
                                                     <div class="text-center">
-                                                      <button type="submit" class="btn btn-main text-center" >添加</button>
+                                                      <button type="submit" class="btn btn-main text-center">添加</button>
+                                                    </div>
+                                                </form>
+											</div>
+                                        <div class="modal-footer">
+											  <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {#修改地址框                            #}
+                            <div class="modal fade" id="updataAddress" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="addressTitle">修改地址</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+											  </button>
+											</div>
+											<div class="modal-body">
+                                                <form class="text-left clearfix" action="/user/address_add" method="post">
+                                                    {{ form1.hidden_tag() }}
+                                                    <div class="form-group" id="firstGroup" >
+{#                                                      <input type="text" class="form-control"  placeholder="收货人">#}
+                                                        {{ form1.person_name.label(class="form-control-label") }}
+                                                        {% if form1.person_name.errors %}
+                                                          {{ form1.person_name(class="form-control") }}
+                                                          <div class="invalid-feedback">
+                                                            {% for error in form1.person_name.errors %}
+                                                              <span>{{ error }}</span>
+                                                            {% endfor %}
+                                                          </div>
+                                                        {% else %}
+                                                          {{ form1.person_name(class="form-control") }}
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="form-group">
+{#                                                      <input type="text" class="form-control" placeholder="收货地址">#}
+                                                        {{ form1.address.label(class="form-control-label") }}
+                                                        {% if form1.address.errors %}
+                                                          {{ form1.address(class="form-control") }}
+                                                          <div class="invalid-feedback">
+                                                            {% for error in form1.address.errors %}
+                                                              <span>{{ error }}</span>
+                                                            {% endfor %}
+                                                          </div>
+                                                        {% else %}
+                                                          {{ form1.address(class="form-control") }}
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="form-group">
+{#                                                      <input type="text" class="form-control" placeholder="电话号码">#}
+                                                        {{ form1.phone.label(class="form-control-label") }}
+                                                        {% if form1.phone.errors %}
+                                                          {{ form1.phone(class="form-control") }}
+                                                          <div class="invalid-feedback">
+                                                            {% for error in form1.phone.errors %}
+                                                              <span>{{ error }}</span>
+                                                            {% endfor %}
+                                                          </div>
+                                                        {% else %}
+                                                          {{ form1.phone(class="form-control") }}
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="text-center">
+                                                      <button type="submit" class="btn btn-main text-center">修改</button>
                                                     </div>
                                                 </form>
 											</div>
@@ -169,4 +237,5 @@
     </div>
   </div>
 </section>
+
 {% endblock %}
