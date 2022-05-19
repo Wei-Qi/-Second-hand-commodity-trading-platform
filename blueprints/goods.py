@@ -9,3 +9,6 @@ from forms import *
 
 bp=Blueprint('goods',__name__,url_prefix="/goods")
 
+@bp.route('/upload',methods=['POST','GET'])
+def upload():
+    return render_template('subsimtgoods.html')
