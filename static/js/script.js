@@ -147,17 +147,55 @@ ajax发送时url先不填写
     ‘price’：返回商品价格
 }
 */
+//点击地址删除按钮
 function addressBtnClick(){
     $(".tf-ion-close").on("click",function (event) {
          var $this=$(this);
-         var addressId=$this.parent().next().text();
-         //alert("点击了按钮");
-         console.log(addressId);
+         //获取点击删除的地址的id
+         var addressId=parseInt($this.parent().next().text());
+         if(!addressId){
+             return;
+         }
+
+         $.ajax({
+             url:"/user/address/delete",
+             method:"POST",
+             data:{
+                'addressId': addressId
+             },
+             success: function (res) {
+                var code=res['code'];
+                if(code==200){
+                    // 取消点击事件
+                    $this.off("click");
+                    //移除指定行
+                    $this.parents('tr').rowIndex;
+                }else{
+                    alert(res['message']);
+                }
+             }
+        })
     })
 }
+
+function addAddressBtnClick(){
+    $(".tf-pencil2").on("click",function () {
+         var $this=$(this);
+         //获取点击删除的地址的id
+         var addressId=parseInt($this.parent().next().next().text());
+         if(!addressId){
+             return;
+         }
+         console.log(addressId);
+         $("#firstGroup").before("<div class=\"form-group\"><div style=\"display: none\">addressId</div></div>");
+         $("#updataAddress").modal();
+    })
+}
+
 // 等网页文档所有元素加载完毕后执行
 $(function () {
     //写完的按钮需要在这里进行绑定
     bindCaptchaBtnClick();
     addressBtnClick();
+    addAddressBtnClick();
 });
