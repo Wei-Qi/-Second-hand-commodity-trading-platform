@@ -6,6 +6,7 @@ from exts import mail
 from flask_migrate import Migrate
 from models import *
 from Function import function
+from User.user import user
 
 login_manager = LoginManager()
 
