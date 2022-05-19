@@ -134,6 +134,10 @@ function bindCaptchaBtnClick() {
         })
     });
 }
+//点击地址删除按钮
+function addressBtnClick(){
+    
+}
 
 /*
 ajax发送时url先不填写
@@ -148,5 +152,5 @@ ajax发送时url先不填写
 $(function () {
     //写完的按钮需要在这里进行绑定
     bindCaptchaBtnClick();
-
+    addressBtnClick();
 });
