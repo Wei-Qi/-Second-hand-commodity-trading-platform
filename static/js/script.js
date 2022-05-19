@@ -134,9 +134,13 @@ function bindCaptchaBtnClick() {
         })
     });
 }
+//点击地址删除按钮
+function addressBtnClick(){
+    
+}
 
 // 等网页文档所有元素加载完毕后执行
 $(function () {
     bindCaptchaBtnClick();
-
+    addressBtnClick();
 });
