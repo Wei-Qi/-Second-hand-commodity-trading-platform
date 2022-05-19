@@ -135,6 +135,13 @@ function bindCaptchaBtnClick() {
     });
 }
 
+/*接收数据格式：
+{
+    ‘code’：[400(什么情况),200]，
+    ‘price’：返回商品价格
+}
+*/
+
 // 等网页文档所有元素加载完毕后执行
 $(function () {
     bindCaptchaBtnClick();

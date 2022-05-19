@@ -148,13 +148,3 @@ class user:
         user.UserPhone = phone
         db.session.commit()
         return True
-
-#需要修改的地方
-#1.如果函数正常执行，返回值用True就好，不要用字符串。错误信息用字符串。
-
-
-#需要增添的方法：
-#1.验证密码 validate_user(email,password) 验证email和password是否正确,正确返回True,错误返回信息(账户不存在、密码错误等)
-#2.获取用户信息 按ID获取和按email获取  以json的形式返回所有信息
-#3.根据邮箱，获取用户的验证码，获取完将验证码字段清空
-
