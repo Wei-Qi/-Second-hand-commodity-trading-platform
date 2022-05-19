@@ -134,10 +134,10 @@ function bindCaptchaBtnClick() {
         })
     });
 }
-//点击地址删除按钮
-function addressBtnClick(){
-    
-}
+// //点击地址删除按钮
+// function addressBtnClick(){
+//
+// }
 
 /*
 ajax发送时url先不填写
@@ -147,7 +147,14 @@ ajax发送时url先不填写
     ‘price’：返回商品价格
 }
 */
-
+function addressBtnClick(){
+    $(".tf-ion-close").on("click",function (event) {
+         var $this=$(this);
+         var addressId=$this.parent().next().text();
+         //alert("点击了按钮");
+         console.log(addressId);
+    })
+}
 // 等网页文档所有元素加载完毕后执行
 $(function () {
     //写完的按钮需要在这里进行绑定

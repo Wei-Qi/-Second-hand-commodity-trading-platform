@@ -96,33 +96,54 @@ def signIn():
     return render_template('signin.html', form=form)
 
 
-@bp.route("/change_password")
-@fresh_login_required  # 必须是新登入的
-def change_password():
-    return ''
-
-
 @bp.route("/dashboard")
 @login_required
 def dashboard():
     return render_template("dashboard.html")
 
 
-@bp.route("/address",methods=['POST','GET'])
+@bp.route("/address")
 @login_required
 def address():
-    form=AddAddressForm()
-    if form.validate_on_submit():
-        res=user.add_user_adddress(current_user.get_id(),form.person_name.data,form.address.data,form.phone.data)
-        if res:
+    form1=AddAddressForm()
+    form2=ChangeAddressForm()
+    address_list=user.get_user_address(current_user.get_id())
+    return render_template("address.html",form1=form1,form2=form2,address_list=address_list)
+
+
+#两个函数用于处理address对应的页面中的两个表单
+@bp.route('/address_add',methods=['POST'])
+@login_required
+def addAddress():
+    form1 = AddAddressForm()
+    form2 = ChangeAddressForm()
+    if form1.validate_on_submit():
+        res=user.add_user_adddress(current_user.get_id(),form1.person_name.data,form1.address.data,form1.phone.data)
+        if  res is True:
             flash("添加成功")
         else:
-            flash("添加失败")
-            error_message=res
+            flash("添加失败"+res)
             address_list = user.get_user_address(current_user.get_id())
-            return render_template("address.html", form=form,error_message=error_message,address_list=address_list)
+            return render_template("address.html", form1=form1,form2=form2,address_list=address_list)
     address_list=user.get_user_address(current_user.get_id())
-    return render_template("address.html",form=form,address_list=address_list)
+    return render_template("address.html",form1=form1,form2=form2,address_list=address_list)
+
+
+@bp.route('/address_change',methods=['POST'])
+@login_required
+def changeAddress():
+    form1 = AddAddressForm()
+    form2 = ChangeAddressForm()
+    if form2.validate_on_submit():
+        res=user.change_user_address(current_user.get_id(),int(form2.address_id.data),form2.person_name.data,form2.address.data,form2.phone.data)
+        if res is True:
+            flash("修改成功")
+        else:
+            flash("修改失败"+res)
+            address_list = user.get_user_address(current_user.get_id())
+            return render_template("address.html", form1=form1,form2=form2,address_list=address_list)
+    address_list=user.get_user_address(current_user.get_id())
+    return render_template("address.html",form1=form1,form2=form2,address_list=address_list)
 
 
 @bp.route("/return_goods")
@@ -158,7 +179,7 @@ def getCaptcha():
         # 400 客户端错误
         return jsonify({'code': 400, 'message': '请先输入邮箱'})
 
-# @bp.route('/address/delete',method=['post'])
+# @bp.route('/address_delete',method=['post'])
 # @login_required
 # def deleteAddress():
 #     addressId=request.form.get('addressId')
