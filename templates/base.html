@@ -111,18 +111,26 @@
 								class="tf-ion-ios-search-strong"></i> 搜索</a>
 						<ul class="dropdown-menu search-dropdown">
 							<li>
-								<form action="post"><input type="search" class="form-control" placeholder="Search..."></form>
+								<form action="post"><input type="search" class="form-control" placeholder="请输入关键词"></form>
 							</li>
 						</ul>
 					</li><!-- / Search -->
                    {% if current_user.is_authenticated %}
-                    <li>
+                    <li class="dropdown cart-nav dropdown-slide">
                         <a class="pull-left" href="/user/info">
-                            <img class="media-object comment-avatar img-rounded" style="position: relative;left: 20px;top: 10px"
+                            <img class="media-object comment-avatar img-rounded" style="position: relative;left: 20px;top: 10px" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
                                  src="../static/images/defaultavatar/userman.png" alt="" width="40" height="40" />
                         </a>
+                        <ul class="dropdown-menu search-dropdown">
+							<li><a class="btn btn-default" href="\user\dashboard">历史订单</a></li>
+                            <li><a class="btn btn-default" href="\user\order">订单</a></li>
+                            <li><a class="btn btn-default" href="\user\return_order">退货申请</a></li>
+                            <li><a class="btn btn-default" href="\user\return_goods">退货订单</a></li>
+                            <li><a class="btn btn-default" href="\user\address">地址</a></li>
+                            <li><a class="btn btn-default" href="\user\info">个人信息</a></li>
+						</ul>
                     </li>
-                    <li><a class="pull-left btn btn-default" href="/user/logout">退出登录</a></li>
+                    <li><a class="pull-left btn btn-default btn-group-lg" href="/user/logout">退出登录</a></li>
 
                     {% else %}
                     <li>

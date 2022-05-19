@@ -235,3 +235,4 @@ class user:
         address.phone = phone
         db.session.commit()
         return True
+
