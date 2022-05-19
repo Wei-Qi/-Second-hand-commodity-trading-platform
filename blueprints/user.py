@@ -147,11 +147,11 @@ def getCaptcha():
         # 400 客户端错误
         return jsonify({'code': 400, 'message': '请先输入邮箱'})
 
-@bp.route('/delete_address',method=['post'])
-@login_required
-def deleteAddress():
-    addressId=request.form.get('addressId')
-    if 删除地址接口(current_user.get_id(),addressId):
-        return jsonify({'code':200})
-    else:
-        return jsonify({'code':400,'message':'删除失败'})
+# @bp.route('/delete_address',method=['post'])
+# @login_required
+# def deleteAddress():
+#     addressId=request.form.get('addressId')
+#     if 删除地址接口(current_user.get_id(),addressId):
+#         return jsonify({'code':200})
+#     else:
+#         return jsonify({'code':400,'message':'删除失败'})
