@@ -144,7 +144,7 @@ class user:
         :param name:姓名
         :param sex:性别
         :param phone:手机号码
-        :return: '改昵称已经被注册' or '用户id不存在' or True
+        :return: '该昵称已经被注册' or '用户id不存在' or True
         """
         user = UserModel.query.filter_by(UserName=name).first()
         if user is not None:
@@ -183,7 +183,7 @@ class user:
         """
         增加用户的地址信息
         :param userid: 用户id
-        :param person_name: 用户姓名
+        :param person_name: 收件人姓名
         :param address_name: 地址
         :param phone: 电话
         :return: '用户id不存在' or True

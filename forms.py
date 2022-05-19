@@ -62,10 +62,26 @@ class ChangeUserInfoForm(FlaskForm):
                            render_kw={'placeholder': u'用户名'})
     usersex = RadioField('性别', choices=[('0', '男'), ('1', '女')], default='1')
     userphone = StringField('联系电话',
-                            validators=[DataRequired(u'联系电话不能为空'), Length(min=11, max=11, message=u'请输入11位得联系电话')],
+                            validators=[DataRequired(u'联系电话不能为空'), Length(min=11, max=11, message=u'请输入11位的联系电话')],
                             render_kw={'placeholder': u'联系电话'})
 
-    def validate_Userphone(self, field):
+    def validate_userphone(self, field):
         userphone = field.data
         if not userphone.isdigit():
             raise ValidationError('联系方式中只能有数字')
+
+class AddAddressForm(FlaskForm):
+    person_name=StringField('收货人',
+                           validators=[DataRequired(u"收货人不能为空"), Length(min=2, max=20, message=u'长度位于2~20之间')],
+                           render_kw={'placeholder': u'收货人'})
+    address=StringField('收货地址',
+                           validators=[DataRequired(u"收货地址不能为空"), Length(min=10, max=40, message=u'长度位于10~40之间')],
+                           render_kw={'placeholder': u'收货地址'})
+    phone=StringField('联系电话',
+                            validators=[DataRequired(u'联系电话不能为空'), Length(min=11, max=11, message=u'请输入11位的联系电话')],
+                            render_kw={'placeholder': u'联系电话'})
+
+    def validate_phone(self, field):
+        phone = field.data
+        if not phone.isdigit():
+            raise ValidationError('联系电话中只能有数字')

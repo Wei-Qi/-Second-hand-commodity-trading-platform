@@ -108,10 +108,21 @@ def dashboard():
     return render_template("dashboard.html")
 
 
-@bp.route("/address")
+@bp.route("/address",methods=['POST','GET'])
 @login_required
 def address():
-    return render_template("address.html")
+    form=AddAddressForm()
+    if form.validate_on_submit():
+        res=user.add_user_adddress(current_user.get_id(),form.person_name.data,form.address.data,form.phone.data)
+        if res:
+            flash("添加成功")
+        else:
+            flash("添加失败")
+            error_message=res
+            address_list = user.get_user_address(current_user.get_id())
+            return render_template("address.html", form=form,error_message=error_message,address_list=address_list)
+    address_list=user.get_user_address(current_user.get_id())
+    return render_template("address.html",form=form,address_list=address_list)
 
 
 @bp.route("/return_goods")
@@ -147,7 +158,7 @@ def getCaptcha():
         # 400 客户端错误
         return jsonify({'code': 400, 'message': '请先输入邮箱'})
 
-# @bp.route('/delete_address',method=['post'])
+# @bp.route('/address/delete',method=['post'])
 # @login_required
 # def deleteAddress():
 #     addressId=request.form.get('addressId')
