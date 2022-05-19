@@ -5,7 +5,7 @@ Date：2022/5/6
 """
 from exts import db
 from datetime import datetime
-from flask_login import UserMixin,LoginManager
+from flask_login import UserMixin, LoginManager
 
 
 class AdminModel(db.Model):
@@ -19,8 +19,7 @@ class AdminModel(db.Model):
     AdminJoin_time = db.Column(db.DateTime, default=datetime.now)
 
 
-
-class UserModel(db.Model,UserMixin):
+class UserModel(db.Model, UserMixin):
     __tablename__ = 'user'
     UserId = db.Column(db.Integer, primary_key=True, autoincrement=True)
     UserEmail = db.Column(db.String(100), nullable=False, unique=True)
@@ -33,10 +32,12 @@ class UserModel(db.Model,UserMixin):
     UserJoin_time = db.Column(db.DateTime, default=datetime.now)
     # 一对多关系通常放在一的那一方
     UserAddresses = db.relationship('UserAddressModel', backref='user', lazy='dynamic')
+    UserGoods = db.relationship('GoodsModel', backref='user', lazy='dynamic')
 
     def keys(self):
-        return ('UserId', 'UserEmail', 'UserName', 'UserIdcard', 'UserSex', 'UserAddresses', 'UserPhone', 'UserPassword',
-                'UserCredit', 'UserJoin_time')
+        return (
+            'UserId', 'UserEmail', 'UserName', 'UserIdcard', 'UserSex', 'UserAddresses', 'UserPhone', 'UserPassword',
+            'UserCredit', 'UserJoin_time')
 
     def __getitem__(self, item):
         return getattr(self, item)
@@ -52,18 +53,21 @@ class EvaluationModel(db.Model):
     EvaluationPicture = db.Column(db.BLOB)
     EvaluationScore = db.Column(db.Integer)
     EvaluationTime = db.Column(db.DateTime, default=datetime.now)
-    UserId = db.Column(db.Integer), db.ForeignKey('user.UserId', ondelete='RESTRICT')
-    OrderId = db.Column(db.Integer, db.ForeignKey('order.OrderId', ondelete='RESTRICT'))
+    UserId = db.Column(db.Integer), db.ForeignKey('user.UserId', ondelete='CASCADE')
+    OrderId = db.Column(db.Integer, db.ForeignKey('order.OrderId', ondelete='CASCADE'))
 
 
 class GoodsModel(db.Model):
     __tablename__ = 'goods'
     GoodsId = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    GoodsName = db.Column(db.String(1024), nullable=False)
     GoodsPrice = db.Column(db.Float, nullable=False)
     GoodsStock = db.Column(db.Integer, nullable=False)
     GoodsDescribe = db.Column(db.String(1024), nullable=False)
     GoodsTime = db.Column(db.DateTime, default=datetime.now)
-    UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='RESTRICT'))
+    UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
+    # 一对多关系通常放在一的那一方
+    GoodsPicture = db.relationship('GoodsPictureModel', backref='goods', lazy='dynamic')
 
 
 class OrderModel(db.Model):
@@ -75,8 +79,8 @@ class OrderModel(db.Model):
     OrderPhone = db.Column(db.String(11), nullable=False)
     OrderTime = db.Column(db.DateTime, default=datetime.now)
     OrderIsfinished = db.Column(db.Boolean)
-    UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='RESTRICT'))
-    GoodsId = db.Column(db.Integer, db.ForeignKey('goods.GoodsId', ondelete='RESTRICT'))
+    UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
+    GoodsId = db.Column(db.Integer, db.ForeignKey('goods.GoodsId', ondelete='CASCADE'))
 
 
 class CommentModel(db.Model):
@@ -84,9 +88,9 @@ class CommentModel(db.Model):
     CommentId = db.Column(db.Integer, primary_key=True, autoincrement=True)
     CommentDescribe = db.Column(db.String(1024), nullable=False)
     CommentTime = db.Column(db.DateTime, default=datetime.now)
-    UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='RESTRICT'))
-    GoodsId = db.Column(db.Integer, db.ForeignKey('goods.GoodsId', ondelete='RESTRICT'))
-    CommentReply = db.Column(db.Integer, db.ForeignKey('comment.CommentId', ondelete='RESTRICT'))
+    UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
+    GoodsId = db.Column(db.Integer, db.ForeignKey('goods.GoodsId', ondelete='CASCADE'))
+    CommentReply = db.Column(db.Integer, db.ForeignKey('comment.CommentId', ondelete='CASCADE'))
 
 
 class ReturnModel(db.Model):
@@ -97,8 +101,8 @@ class ReturnModel(db.Model):
     ReturnTime = db.Column(db.DateTime, default=datetime.now)
     ReturnExpress = db.Column(db.String(200), unique=True)
     ReturnIsfinished = db.Column(db.Boolean)
-    UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='RESTRICT'))
-    OrderId = db.Column(db.Integer, db.ForeignKey('order.OrderId', ondelete='RESTRICT'))
+    UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
+    OrderId = db.Column(db.Integer, db.ForeignKey('order.OrderId', ondelete='CASCADE'))
 
 
 class EmailCaptchaModel(db.Model):
@@ -112,7 +116,14 @@ class EmailCaptchaModel(db.Model):
 class UserAddressModel(db.Model):
     __tablename__ = 'useraddress'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    person_name  = db.Column(db.String(200), nullable=False)
+    person_name = db.Column(db.String(200), nullable=False)
     address = db.Column(db.String(200), nullable=False)
     phone = db.Column(db.String(200), nullable=False)
-    UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='RESTRICT'))
+    UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
+
+
+class GoodsPictureModel(db.Model):
+    __tabelname__ = 'goodspicture'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    picturepath = db.Column(db.String(1024), nullable=False)
+    GoodsId = db.Column(db.Integer, db.ForeignKey('goods.GoodsId', ondelete='CASCADE'))
