@@ -135,15 +135,18 @@ function bindCaptchaBtnClick() {
     });
 }
 
-/*接收数据格式：
+/*
+ajax发送时url先不填写
+接收数据格式：
 {
-    ‘code’：[400(什么情况),200]，
+    ‘code’：[400(什么情况),200],
     ‘price’：返回商品价格
 }
 */
 
 // 等网页文档所有元素加载完毕后执行
 $(function () {
+    //写完的按钮需要在这里进行绑定
     bindCaptchaBtnClick();
 
 });
