@@ -4,7 +4,7 @@ Author：wiki
 Date：2022/5/8
 """
 
-from models import UserModel, EmailCaptchaModel
+from models import *
 from exts import db
 from werkzeug.security import generate_password_hash, check_password_hash
 import json
@@ -111,6 +111,7 @@ class user:
         user = UserModel.query.filter_by(UserEmail=email).first()
         if user is None:
             return '邮箱不存在'
+        user_json = dict(user)
         if user_json['UserSex'] == 0:
             user_json['UserSex'] = '男'
         else:
@@ -137,6 +138,14 @@ class user:
 
     @staticmethod
     def change_user_info(id, name, sex, phone):
+        """
+        通过id修改用户信息
+        :param id: 用户id
+        :param name:姓名
+        :param sex:性别
+        :param phone:手机号码
+        :return: '改昵称已经被注册' or '用户id不存在' or True
+        """
         user = UserModel.query.filter_by(UserName=name).first()
         if user is not None:
             return '该昵称已经被注册'
@@ -148,3 +157,82 @@ class user:
         user.UserPhone = phone
         db.session.commit()
         return True
+
+    def get_user_address(id):
+        """
+        通过id获取用户的全地址信息
+        :param id: 用户id
+        :return: '改昵称已经被注册' or user_address_json
+        """
+        user = UserModel.query.filter_by(UserId=id).first()
+        if user is None:
+            return '用户id不存在'
+        useraddress = user.UserAddresses.all()
+        user_address_json = []
+        for address in useraddress:
+            tmp_dict = {}
+            tmp_dict['地址id'] = address.id
+            tmp_dict['收货人'] = address.person_name
+            tmp_dict['收货地址'] = address.address
+            tmp_dict['电话号码'] = address.phone
+            user_address_json.append(tmp_dict)
+        return user_address_json
+
+    @staticmethod
+    def add_user_adddress(userid, person_name, address_name, phone):
+        """
+        增加用户的地址信息
+        :param userid: 用户id
+        :param person_name: 用户姓名
+        :param address_name: 地址
+        :param phone: 电话
+        :return: '用户id不存在' or True
+        """
+        user = UserModel.query.filter_by(UserId=userid).first()
+        if user is None:
+            return '用户id不存在'
+        address = UserAddressModel(person_name=person_name, address=address_name, phone=phone, UserId=userid)
+        db.session.add(address)
+        db.session.commit()
+        return True
+
+    @staticmethod
+    def del_user_address(userid, addressid):
+        """
+        删除用户的地址信息
+        :param userid: 用户id
+        :param addressid: 地址id
+        :return: '地址id不存在' or '不是该用户的地址' or True
+        """
+        address = UserAddressModel.query.filter_by(id=addressid).first()
+        if address is None:
+            return '地址id不存在'
+        if address.UserId != userid:
+            return '不是该用户的地址'
+        address = UserAddressModel.query.filter_by(id=addressid).delete()
+        db.session.commit()
+        return True
+
+
+    @staticmethod
+    def change_user_address(userid, addressid, person_name, address_name, phone):
+        """
+        修改用户的地址信息
+        :param userid: 用户id
+        :param addressid: 地址id
+        :param person_name: 收件人
+        :param address_name: 地址
+        :param phone: 电话
+        :return: '地址id不存在' or '不是该用户的地址' or True
+        """
+        address = UserAddressModel.query.filter_by(id=addressid).first()
+        if address is None:
+            return '地址id不存在'
+        if address.UserId != userid:
+            return '不是该用户的地址'
+        address.person_name = person_name
+        address.address = address_name
+        address.phone = phone
+        db.session.commit()
+        return True
+
