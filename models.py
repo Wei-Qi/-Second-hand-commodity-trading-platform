@@ -33,6 +33,7 @@ class UserModel(db.Model, UserMixin):
     # 一对多关系通常放在一的那一方
     UserAddresses = db.relationship('UserAddressModel', backref='user', lazy='dynamic')
     UserGoods = db.relationship('GoodsModel', backref='user', lazy='dynamic')
+    UserComments = db.relationship('CommentModel', backref='user', lazy='dynamic')
 
     def keys(self):
         return (
@@ -90,8 +91,21 @@ class CommentModel(db.Model):
     CommentTime = db.Column(db.DateTime, default=datetime.now)
     UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
     GoodsId = db.Column(db.Integer, db.ForeignKey('goods.GoodsId', ondelete='CASCADE'))
-    CommentReply = db.Column(db.Integer, db.ForeignKey('comment.CommentId', ondelete='CASCADE'))
+    # 一对多关系通常放在一的那一方
+    recomments = db.relationship('ReCommentModel', backref='comment', lazy='dynamic')
 
+
+class ReCommentModel(db.Model):
+    __tablename__ = 'recomment'
+    RecommentId = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
+    ReUserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
+    CommentId = db.Column(db.Integer, db.ForeignKey('comment.CommentId', ondelete='CASCADE'))
+    ReCommentDescribe = db.Column(db.String(1024), nullable=False)
+    ReCommentTime = db.Column(db.DateTime, default=datetime.now)
+
+    user = db.relationship('UserModel', backref='recomments', lazy='dynamic', foreign_keys=[UserId])
+    reuser = db.relationship('UserModel', backref='rerecommments', lazy='dynamic', foreign_keys=[ReUserId])
 
 class ReturnModel(db.Model):
     __tablename__ = 'return'
@@ -104,14 +118,12 @@ class ReturnModel(db.Model):
     UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
     OrderId = db.Column(db.Integer, db.ForeignKey('order.OrderId', ondelete='CASCADE'))
 
-
 class EmailCaptchaModel(db.Model):
     __tablename__ = 'email_captcha'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.String(100), nullable=False, unique=True)
     captcha = db.Column(db.String(10), nullable=False)
     create_time = db.Column(db.DateTime, default=datetime.now)
-
 
 class UserAddressModel(db.Model):
     __tablename__ = 'useraddress'
@@ -120,7 +132,6 @@ class UserAddressModel(db.Model):
     address = db.Column(db.String(200), nullable=False)
     phone = db.Column(db.String(200), nullable=False)
     UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
-
 
 class GoodsPictureModel(db.Model):
     __tabelname__ = 'goodspicture'
