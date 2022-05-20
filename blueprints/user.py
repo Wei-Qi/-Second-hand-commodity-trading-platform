@@ -163,6 +163,11 @@ def order():
 def returnOrder():
     return render_template("return_order.html")
 
+@bp.route("/myGoods")
+@login_required
+def myGoods():
+    return render_template("myGoods.html")
+
 
 @bp.route('/captcha', methods=['POST'])
 def getCaptcha():
