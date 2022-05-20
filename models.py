@@ -104,8 +104,8 @@ class ReCommentModel(db.Model):
     ReCommentDescribe = db.Column(db.String(1024), nullable=False)
     ReCommentTime = db.Column(db.DateTime, default=datetime.now)
 
-    user = db.relationship('UserModel', backref='recomments', lazy='dynamic', foreign_keys=[UserId])
-    reuser = db.relationship('UserModel', backref='rerecommments', lazy='dynamic', foreign_keys=[ReUserId])
+    user = db.relationship('UserModel', backref='recomments', foreign_keys=[UserId])
+    reuser = db.relationship('UserModel', backref='rerecommments', foreign_keys=[ReUserId])
 
 class ReturnModel(db.Model):
     __tablename__ = 'return'
