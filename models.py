@@ -91,8 +91,8 @@ class CommentModel(db.Model):
     CommentTime = db.Column(db.DateTime, default=datetime.now)
     UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
     GoodsId = db.Column(db.Integer, db.ForeignKey('goods.GoodsId', ondelete='CASCADE'))
-    # 一对多关系通常放在一的那一方
-    recomments = db.relationship('ReCommentModel', backref='comment', lazy='dynamic')
+
+    goods = db.relationship('GoodsModel', backref=db.backref('comments', order_by=CommentTime.desc()))
 
 
 class ReCommentModel(db.Model):
@@ -104,6 +104,7 @@ class ReCommentModel(db.Model):
     ReCommentDescribe = db.Column(db.String(1024), nullable=False)
     ReCommentTime = db.Column(db.DateTime, default=datetime.now)
 
+    comments = db.relationship('CommentModel', backref=db.backref('recomments', order_by=ReCommentTime.desc()))
     user = db.relationship('UserModel', backref='recomments', foreign_keys=[UserId])
     reuser = db.relationship('UserModel', backref='rerecommments', foreign_keys=[ReUserId])
 
