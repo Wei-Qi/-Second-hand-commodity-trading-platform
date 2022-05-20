@@ -69,7 +69,7 @@ class goods():
         if goods.UserId != userid:
             return '不是该用户的商品'
         goods = GoodsModel.query.filter_by(GoodsId=goodsid).delete()
-        db.commit()
+        db.session.commit()
         return True
 
     @staticmethod
@@ -90,9 +90,9 @@ class goods():
         if goods.UserId != userid:
             return '不是该用户的商品'
         goods = GoodsModel.query.filter_by(GoodsId=goodsid).first()
-        goods['GoodsName'] = goodsname
-        goods['GoodsPrice'] = goodsprice
-        goods['GoodsStock'] = goodsstock
-        goods['GoodsDescribe'] = goodsdescribe
+        goods.GoodsName = goodsname
+        goods.GoodsPrice = goodsprice
+        goods.GoodsStock = goodsstock
+        goods.GoodsDescribe = goodsdescribe
         db.session.commit()
         return True

@@ -7,6 +7,7 @@ from flask_migrate import Migrate
 from models import *
 from Function import function
 from User.user import user
+from Goods.goods import goods
 
 login_manager = LoginManager()
 
