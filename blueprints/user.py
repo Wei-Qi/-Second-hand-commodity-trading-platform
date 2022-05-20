@@ -117,14 +117,20 @@ def address():
 def addAddress():
     form1 = AddAddressForm()
     form2 = ChangeAddressForm()
-    if form1.validate_on_submit():
-        res=user.add_user_adddress(current_user.get_id(),form1.person_name.data,form1.address.data,form1.phone.data)
-        if  res is True:
-            flash("添加成功")
+    if form1.is_submitted():
+        if form1.validate():
+            res=user.add_user_adddress(current_user.get_id(),form1.person_name.data,form1.address.data,form1.phone.data)
+            if  res is True:
+                flash("添加成功")
+            else:
+                flash("添加失败"+res)
+                address_list = user.get_user_address(current_user.get_id())
+                return render_template("address.html", form1=form1,form2=form2,address_list=address_list)
         else:
-            flash("添加失败"+res)
+            flash("添加失败")
             address_list = user.get_user_address(current_user.get_id())
-            return render_template("address.html", form1=form1,form2=form2,address_list=address_list)
+            return render_template("address.html", form1=form1, form2=form2, address_list=address_list)
+
     address_list=user.get_user_address(current_user.get_id())
     return render_template("address.html",form1=form1,form2=form2,address_list=address_list)
 
@@ -134,14 +140,19 @@ def addAddress():
 def changeAddress():
     form1 = AddAddressForm()
     form2 = ChangeAddressForm()
-    if form2.validate_on_submit():
-        res=user.change_user_address(current_user.get_id(),int(form2.address_id.data),form2.person_name.data,form2.address.data,form2.phone.data)
-        if res is True:
-            flash("修改成功")
+    if form2.is_submitted():
+        if form2.validate():
+            res=user.change_user_address(current_user.get_id(),int(form2.address_id.data),form2.person_name.data,form2.address.data,form2.phone.data)
+            if res is True:
+                flash("修改成功")
+            else:
+                flash("修改失败"+res)
+                address_list = user.get_user_address(current_user.get_id())
+                return render_template("address.html", form1=form1,form2=form2,address_list=address_list)
         else:
-            flash("修改失败"+res)
+            flash("修改失败")
             address_list = user.get_user_address(current_user.get_id())
-            return render_template("address.html", form1=form1,form2=form2,address_list=address_list)
+            return render_template("address.html", form1=form1, form2=form2, address_list=address_list)
     address_list=user.get_user_address(current_user.get_id())
     return render_template("address.html",form1=form1,form2=form2,address_list=address_list)
 
@@ -179,11 +190,12 @@ def getCaptcha():
         # 400 客户端错误
         return jsonify({'code': 400, 'message': '请先输入邮箱'})
 
-# @bp.route('/address_delete',method=['post'])
-# @login_required
-# def deleteAddress():
-#     addressId=request.form.get('addressId')
-#     if 删除地址接口(current_user.get_id(),addressId):
-#         return jsonify({'code':200})
-#     else:
-#         return jsonify({'code':400,'message':'删除失败'})
+@bp.route('/address_delete',methods=['POST'])
+@login_required
+def deleteAddress():
+    addressId=request.form.get('addressId')
+    res=user.del_user_address(current_user.get_id(),addressId)
+    if res is True:
+        return jsonify({'code':200})
+    else:
+        return jsonify({'code':400,'message':res})

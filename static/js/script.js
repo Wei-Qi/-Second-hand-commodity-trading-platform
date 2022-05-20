@@ -158,7 +158,7 @@ function addressBtnClick(){
          }
 
          $.ajax({
-             url:"/user/address/delete",
+             url:"/user/address_delete",
              method:"POST",
              data:{
                 'addressId': addressId
@@ -169,7 +169,7 @@ function addressBtnClick(){
                     // 取消点击事件
                     $this.off("click");
                     //移除指定行
-                    $this.parents('tr').rowIndex;
+                    $this.parents('tr').remove();
                 }else{
                     alert(res['message']);
                 }
@@ -187,7 +187,8 @@ function addAddressBtnClick(){
              return;
          }
          console.log(addressId);
-         $("#firstGroup").before("<div class=\"form-group\"><div style=\"display: none\">addressId</div></div>");
+         //$("#firstGroup").before("<div class=\"form-group\"><div style=\"display: none\">addressId</div></div>");
+        $("#address_id").attr('value',addressId)
          $("#updataAddress").modal();
     })
 }

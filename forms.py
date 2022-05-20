@@ -87,7 +87,7 @@ class AddAddressForm(FlaskForm):
             raise ValidationError('联系电话中只能有数字')
 
 class ChangeAddressForm(FlaskForm):
-    address_id = StringField(validators=[DataRequired(u"修改地址编号（id）不能为空")],render_kw={'style': u'display:none'}) #不展示在页面上，只是用于携带id信息
+    address_id = StringField(render_kw={'style': u'display:none'}) #不展示在页面上，只是用于携带id信息
     person_name = StringField('收货人',
                               validators=[DataRequired(u"收货人不能为空"), Length(min=2, max=20, message=u'长度位于2~20之间')],
                               render_kw={'placeholder': u'收货人'})
