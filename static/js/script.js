@@ -149,7 +149,7 @@ ajax发送时url先不填写
 */
 //点击地址删除按钮
 function addressBtnClick(){
-    $(".tf-ion-close").on("click",function (event) {
+    $(document).on("click",".tf-ion-close",function (event) {
          var $this=$(this);
          //获取点击删除的地址的id
          var addressId=parseInt($this.parent().next().text());
@@ -179,18 +179,32 @@ function addressBtnClick(){
 }
 
 function addAddressBtnClick(){
-    $(".tf-pencil2").on("click",function () {
+    $(document).on("click",".tf-pencil2",function () {
          var $this=$(this);
-         //获取点击删除的地址的id
+         //获取点击修改的地址的id
          var addressId=parseInt($this.parent().next().next().text());
-         if(!addressId){
-             return;
-         }
-         console.log(addressId);
+
+         var name=$this.parents('tr').children().eq(0).text();
+         var updateAddress=$this.parents('tr').children().eq(1).text();
+         var telephoneNumber=$this.parents('tr').children().eq(2).text();
+         console.log(name);
+         console.log(updateAddress);
+         console.log(telephoneNumber);
+
          //$("#firstGroup").before("<div class=\"form-group\"><div style=\"display: none\">addressId</div></div>");
         $("#address_id").attr('value',addressId)
-         $("#updataAddress").modal();
+        $("#updataAddress").modal();
     })
+}
+
+function subsimtGoods(){
+    $("#inputImage").fileinput({
+             language: 'zh',
+             uploadUrl: "#",
+             allowedFileTypes: ['jpg','jepg']
+    })
+
+    console.log($("#inputImage").fileinput());
 }
 
 // 等网页文档所有元素加载完毕后执行
@@ -199,4 +213,5 @@ $(function () {
     bindCaptchaBtnClick();
     addressBtnClick();
     addAddressBtnClick();
+    subsimtGoods();
 });
