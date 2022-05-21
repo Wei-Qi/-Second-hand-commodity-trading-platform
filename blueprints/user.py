@@ -16,6 +16,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, logout_user, login_user, login_required, fresh_login_required
 from forms import *
 from User.user import user
+from Goods.goods import goods
+
 
 bp = Blueprint('user', __name__, url_prefix='/user')
 
@@ -174,10 +176,11 @@ def order():
 def returnOrder():
     return render_template("return_order.html")
 
-@bp.route("/myGoods")
+@bp.route("/my_goods")
 @login_required
 def myGoods():
-    return render_template("myGoods.html")
+    goods_list=goods.get_goods_info_byuser(current_user.get_id())
+    return render_template("myGoods.html",goods_list=goods_list)
 
 
 @bp.route('/captcha', methods=['POST'])

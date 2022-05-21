@@ -6,9 +6,18 @@ from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, logout_user, login_user, login_required, fresh_login_required
 from forms import *
-
+from Goods.goods import goods
 bp=Blueprint('goods',__name__,url_prefix="/goods")
 
 @bp.route('/upload',methods=['POST','GET'])
+@login_required
 def upload():
-    return render_template('subsimtgoods.html')
+    form=UploadGoodsForm()
+    if form.validate_on_submit():
+        res=goods.add_goods(current_user.get_id(),form.goods_name.data,form.goods_price.data,form.goods_stock.data,form.goods_describe.data)
+        if res is True:
+            flash("上架成功")
+            return redirect(url_for("user.myGoods"))
+        else:
+            flash(res)
+    return render_template('subsimtgoods.html',form=form)
