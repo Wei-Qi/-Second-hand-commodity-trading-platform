@@ -36,6 +36,8 @@ app.register_blueprint(goods_bp)
 @app.route('/')
 @app.route('/home')
 def home():
+    res = goods.get_goods_info_byuser(1)
+    print(res)
     return render_template('index.html')
 
 

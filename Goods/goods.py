@@ -64,13 +64,13 @@ class goods():
         goods_list = []
         for good in goods:
             tmp_dict = {}
-            tmp_dict['商品ID'] = goods.GoodsId
-            tmp_dict['商品名称'] = goods.GoodsName
-            tmp_dict['商品价格'] = goods.GoodsPrice
-            tmp_dict['商品库存'] = goods.GoodsStock
-            tmp_dict['商品描述'] = goods.GoodsDescribe
-            tmp_dict['商品创建的时间'] = goods.GoodsTime
-            tmp_dict['用户id'] = goods.UserId
+            tmp_dict['商品ID'] = good.GoodsId
+            tmp_dict['商品名称'] = good.GoodsName
+            tmp_dict['商品价格'] = good.GoodsPrice
+            tmp_dict['商品库存'] = good.GoodsStock
+            tmp_dict['商品描述'] = good.GoodsDescribe
+            tmp_dict['商品创建的时间'] = good.GoodsTime
+            tmp_dict['用户id'] = good.UserId
             tmp_dict['商品图片'] = []
             goods_list.append(tmp_dict)
         return goods_list
