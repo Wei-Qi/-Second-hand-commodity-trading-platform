@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField, TextAreaField, FloatField, \
     IntegerField, RadioField
-from wtforms.validators import DataRequired, EqualTo, ValidationError, Length, Email, InputRequired
+from wtforms.validators import DataRequired, EqualTo, ValidationError, Length, Email, InputRequired,NumberRange
 from EmailCaptcha.emailcaptcha import emailcaptcha
 
 
@@ -102,3 +102,9 @@ class ChangeAddressForm(FlaskForm):
         phone = field.data
         if not phone.isdigit():
             raise ValidationError('联系电话中只能有数字')
+
+class UploadGoodsForm(FlaskForm):
+    goods_name=StringField('商品名称', validators=[DataRequired(u"商品名称不能为空"), Length(min=3, max=100, message=u'长度位于3~100之间')])
+    goods_describe = TextAreaField("商品描述",validators=[DataRequired(u"商品描述不能为空"),Length(max=1024,message=u'描述不超过1024个字符')])
+    goods_stock = IntegerField('库存',validators=[DataRequired(u"库存不能为空"),NumberRange(min=1,max=1000,message=u'库存个数需在1~1000之间')])
+    goods_price = FloatField('单价',validators=[DataRequired(u"单价不能为空")])

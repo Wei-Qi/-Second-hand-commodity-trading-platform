@@ -35,15 +35,26 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td>#451231</td>
-									<td>杨龙</td>
-									<td>2.0</td>
-									<td>99</td>
+{#								<tr>#}
+{#									<td>#451231</td>#}
+{#									<td>杨龙</td>#}
+{#									<td>2.0</td>#}
+{#									<td>99</td>#}
+{#									<td><a href="#" class="btn btn-default">查看</a></td>#}
+{#									<td><button class="btn btn-default">修改</button></td>#}
+{#                                    <td><button class="btn btn-default">下架</button></td>#}
+{#								</tr>#}
+                                {% for goods in goods_list %}
+                                <tr>
+									<td>#{{ goods['商品ID'] }}</td>
+									<td>{{goods['商品名称']}}</td>
+									<td>{{ goods['商品价格']}}</td>
+									<td>{{ goods['商品库存'] }}</td>
 									<td><a href="#" class="btn btn-default">查看</a></td>
 									<td><button class="btn btn-default">修改</button></td>
                                     <td><button class="btn btn-default">下架</button></td>
 								</tr>
+                                {% endfor %}
 
 							</tbody>
 						</table>

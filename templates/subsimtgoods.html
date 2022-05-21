@@ -198,6 +198,14 @@
 		</div>
 	</div>
 </section>
+
+{%for message in get_flashed_messages()%}
+<div class="alert alert-warning">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    {{message}}
+</div>
+{%endfor%}
+
 <div class="page-wrapper" style="margin-top: -5em">
    <div class="checkout shopping">
       <div class="container">
@@ -205,33 +213,70 @@
             <div class="col-md-8">
                <div class="block billing-details">
                   <h4 class="widget-title">商品信息填写</h4>
-                  <form class="checkout-form">
+                  <form class="checkout-form" action="/goods/upload" method="post">
+                     {{ form.hidden_tag() }}
                      <div class="form-group">
-                        <label for="full_name">商品名称</label>
-                        <input type="text" class="form-control" id="full_name" placeholder="">
+{#                        <label for="full_name">商品名称</label>#}
+{#                        <input type="text" class="form-control" id="full_name" placeholder="">#}
+                            {{ form.goods_name.label() }}
+                            {{ form.goods_name(class="form-control") }}
+                            {% if form.goods_name.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.goods_name.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                      </div>
-                     <div class="form-group">
-                        <label for="user_address">商品类型</label>
-                        <input type="text" class="form-control" id="user_address" placeholder="">
-                     </div>
+{#                     <div class="form-group">#}
+{#                        <label for="user_address">商品类型</label>#}
+{#                        <input type="text" class="form-control" id="user_address" placeholder="">#}
+{#                     </div>#}
                      <div class="checkout-country-code clearfix">
                         <div class="form-group">
-                           <label for="user_post_code">定价</label>
-                           <input type="text" class="form-control" id="user_post_code" name="zipcode" value="">
+{#                           <label for="user_post_code">定价</label>#}
+{#                           <input type="text" class="form-control" id="user_post_code" name="zipcode" value="">#}
+                             {{ form.goods_price.label() }}
+                                {{ form.goods_price(class="form-control") }}
+                                {% if form.goods_price.errors %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.goods_price.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
                         </div>
                         <div class="form-group" >
-                           <label for="goods_num">数量</label>
-                           <input type="text" class="form-control" id="goods_num" name="num" value="">
+{#                           <label for="goods_num">数量</label>#}
+{#                           <input type="text" class="form-control" id="goods_num" name="num" value="">#}
+                            {{ form.goods_stock.label() }}
+                                {{ form.goods_stock(class="form-control") }}
+                                {% if form.goods_stock.errors %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.goods_stock.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
                         </div>
                      </div>
                      <div class="form-group">
-                        <label for="Commodity_description">商品描述</label>
-                        <input type="text" class="form-control" id="Commodity_description" placeholder="">
+{#                        <label for="Commodity_description">商品描述</label>#}
+{#                        <input type="text" class="form-control" id="Commodity_description" placeholder="">#}
+                              {{ form.goods_describe.label() }}
+                                    {{ form.goods_describe(class="form-control") }}
+                                    {% if form.goods_describe.errors %}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.goods_describe.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                              {% endif %}
                      </div>
 					 <label for="file">图片描述</label>
 					 <input id="inputImage" type="file" class="file" multiple data-preview-file-type="text" >
 
-					 <a href="confirmation.html" class="btn btn-main mt-20">提交</a >
+					 <button type="submit" class="btn btn-main text-center" >提交</button>
                   </form>
                </div>
             </div>
