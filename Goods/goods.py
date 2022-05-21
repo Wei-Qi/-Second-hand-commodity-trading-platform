@@ -56,6 +56,26 @@ class goods():
         return goods_json
 
     @staticmethod
+    def get_goods_info_byuser(userid):
+        user = UserModel.query.filter_by(UserId=userid).first()
+        if user is None:
+            return '用户Id不存在'
+        goods = user.UserGoods.all()
+        goods_list = []
+        for good in goods:
+            tmp_dict = {}
+            tmp_dict['商品ID'] = goods.GoodsId
+            tmp_dict['商品名称'] = goods.GoodsName
+            tmp_dict['商品价格'] = goods.GoodsPrice
+            tmp_dict['商品库存'] = goods.GoodsStock
+            tmp_dict['商品描述'] = goods.GoodsDescribe
+            tmp_dict['商品创建的时间'] = goods.GoodsTime
+            tmp_dict['用户id'] = goods.UserId
+            tmp_dict['商品图片'] = []
+            goods_list.append(tmp_dict)
+        return goods_list
+
+    @staticmethod
     def del_goods(userid, goodsid):
         """
         根据商品id删除商品
