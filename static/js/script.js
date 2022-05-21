@@ -190,22 +190,15 @@ function addAddressBtnClick(){
          console.log(name);
          console.log(updateAddress);
          console.log(telephoneNumber);
-
+         $("#firstGroup").text(name);
+         $("#secondGroup").text(updateAddress);
+         $("#thirdGroup").text(telephoneNumber);
          //$("#firstGroup").before("<div class=\"form-group\"><div style=\"display: none\">addressId</div></div>");
         $("#address_id").attr('value',addressId)
         $("#updataAddress").modal();
     })
 }
 
-function subsimtGoods(){
-    $("#inputImage").fileinput({
-             language: 'zh',
-             uploadUrl: "#",
-             allowedFileTypes: ['jpg','jepg']
-    })
-
-    console.log($("#inputImage").fileinput());
-}
 
 // 等网页文档所有元素加载完毕后执行
 $(function () {
@@ -213,5 +206,4 @@ $(function () {
     bindCaptchaBtnClick();
     addressBtnClick();
     addAddressBtnClick();
-    subsimtGoods();
 });

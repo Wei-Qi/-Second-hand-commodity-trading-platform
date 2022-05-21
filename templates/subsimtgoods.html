@@ -190,7 +190,7 @@
 				<div class="content">
 					<h1 class="page-name">上架商品</h1>
 					<ol class="breadcrumb">
-						<li><a href="index.html">首页</a></li>
+						<li><a href="/home">首页</a></li>
 						<li class="active">上架商品</li>
 					</ol>
 				</div>
@@ -228,10 +228,9 @@
                         <label for="Commodity_description">商品描述</label>
                         <input type="text" class="form-control" id="Commodity_description" placeholder="">
                      </div>
-					 <label for="file">图片描述</label>
-					 <input id="inputImage" type="file" class="file" multiple data-preview-file-type="text" >
-
-					 <a href="confirmation.html" class="btn btn-main mt-20">提交</a >
+                     <label for="file">图片描述</label>
+                     <input id="inputImage" type="file" class="file" multiple data-preview-file-type="text" >
+					 <button type="submit" class="btn btn-main text-center">提交</button>
                   </form>
                </div>
             </div>
@@ -253,7 +252,8 @@
     window.onload=(function() {
          $("#inputImage").fileinput({
              language: 'zh',
-             uploadUrl: "#"
+             uploadUrl: "#",
+             allowedFileTypes: ['image']
          });
      });
     </script>

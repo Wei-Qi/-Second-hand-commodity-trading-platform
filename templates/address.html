@@ -174,12 +174,12 @@
 											<div class="modal-body">
                                                 <form class="text-left clearfix" action="/user/address_change" method="post">
                                                     {{ form2.hidden_tag() }}
-                                                    <div class="form-group" id="firstGroup" >
+                                                    <div class="form-group">
                                                         {{ form2.address_id() }}
 {#                                                      <input type="text" class="form-control"  placeholder="收货人">#}
                                                         {{ form2.person_name.label(class="form-control-label") }}
                                                         {% if form2.person_name.errors %}
-                                                          {{ form2.person_name(class="form-control") }}
+                                                          {{ form2.person_name(class="form-control", id="firstGroup") }}
                                                           <div class="invalid-feedback">
                                                             {% for error in form2.person_name.errors %}
                                                               <span>{{ error }}</span>
@@ -193,7 +193,7 @@
 {#                                                      <input type="text" class="form-control" placeholder="收货地址">#}
                                                         {{ form2.address.label(class="form-control-label") }}
                                                         {% if form2.address.errors %}
-                                                          {{ form2.address(class="form-control") }}
+                                                          {{ form2.address(class="form-control",id="secondGroup") }}
                                                           <div class="invalid-feedback">
                                                             {% for error in form2.address.errors %}
                                                               <span>{{ error }}</span>
@@ -207,7 +207,7 @@
 {#                                                      <input type="text" class="form-control" placeholder="电话号码">#}
                                                         {{ form2.phone.label(class="form-control-label") }}
                                                         {% if form2.phone.errors %}
-                                                          {{ form2.phone(class="form-control") }}
+                                                          {{ form2.phone(class="form-control",id="thirdGroup") }}
                                                           <div class="invalid-feedback">
                                                             {% for error in form2.phone.errors %}
                                                               <span>{{ error }}</span>
