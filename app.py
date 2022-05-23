@@ -1,9 +1,7 @@
 from flask import Flask, render_template
 import config
 from exts import db
-from blueprints import user_bp
-
-from blueprints import goods_bp
+from blueprints import user_bp,goods_bp,image_bp
 
 from exts import mail
 from flask_migrate import Migrate
@@ -32,6 +30,7 @@ login_manager.init_app(app)
 
 app.register_blueprint(user_bp)
 app.register_blueprint(goods_bp)
+app.register_blueprint(image_bp)
 
 @app.route('/')
 @app.route('/home')

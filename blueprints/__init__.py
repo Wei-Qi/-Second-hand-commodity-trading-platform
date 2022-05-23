@@ -5,3 +5,4 @@ Date：2022/5/6
 """
 from .user import bp as user_bp
 from .goods import bp as goods_bp
+from .image import bp as image_bp
