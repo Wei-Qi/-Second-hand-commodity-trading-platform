@@ -238,5 +238,52 @@
     </div>
   </div>
 </section>
+<script>
+    window.onload=function () {
+        $(document).on("click",".tf-pencil2",function () {
+             var $this=$(this);
+             //获取点击修改的地址的id
+             var addressId=parseInt($this.parent().next().next().text());
 
+             var name=$this.parents('tr').children().eq(0).text();
+             var updateAddress=$this.parents('tr').children().eq(1).text();
+             var telephoneNumber=$this.parents('tr').children().eq(2).text();
+             console.log(name);
+             console.log(updateAddress);
+             console.log(telephoneNumber);
+
+             //$("#firstGroup").before("<div class=\"form-group\"><div style=\"display: none\">addressId</div></div>");
+            $("#address_id").attr('value',addressId)
+            $("#updataAddress").modal();
+        }),
+
+        $(document).on("click",".tf-ion-close",function (event) {
+         var $this=$(this);
+         //获取点击删除的地址的id
+         var addressId=parseInt($this.parent().next().text());
+         if(!addressId){
+             return;
+         }
+
+         $.ajax({
+             url:"/user/address_delete",
+             method:"POST",
+             data:{
+                'addressId': addressId
+             },
+             success: function (res) {
+                var code=res['code'];
+                if(code==200){
+                    // 取消点击事件
+                    $this.off("click");
+                    //移除指定行
+                    $this.parents('tr').remove();
+                }else{
+                    alert(res['message']);
+                }
+             }
+        })
+    })
+    }
+</script>
 {% endblock %}

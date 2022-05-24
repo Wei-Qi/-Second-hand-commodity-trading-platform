@@ -197,21 +197,21 @@ function addAddressBtnClick(){
     })
 }
 
-function subsimtGoods(){
-    $("#inputImage").fileinput({
-             language: 'zh',
-             uploadUrl: "#",
-             allowedFileTypes: ['jpg','jepg']
-    })
-
-    console.log($("#inputImage").fileinput());
-}
+// function subsimtGoods(){
+//     $("#inputImage").fileinput({
+//              language: 'zh',
+//              uploadUrl: "#",
+//              allowedFileTypes: ['jpg','jepg']
+//     })
+//
+//     console.log($("#inputImage").fileinput());
+// }
 
 // 等网页文档所有元素加载完毕后执行
 $(function () {
     //写完的按钮需要在这里进行绑定
     bindCaptchaBtnClick();
-    addressBtnClick();
-    addAddressBtnClick();
-    subsimtGoods();
+    // addressBtnClick();
+    // addAddressBtnClick();
+    // subsimtGoods();
 });

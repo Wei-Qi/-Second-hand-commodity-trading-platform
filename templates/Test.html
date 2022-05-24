@@ -1,264 +1,209 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-     <!-- Basic Page Needs
-  ================================================== -->
-  <meta charset="utf-8">
-  <title>Aviato | E-commerce template</title>
+<meta charset="UTF-8">
+<title>showImages</title>
+<style type="text/css">
+    .float{
+        float:left;
+        width : 200px;
+        height: 200px;
+        overflow: hidden;
+        border: 1px solid #CCCCCC;
+        border-radius: 10px;
+        padding: 5px;
+        margin: 5px;
+    }
+    img{
+        position: relative;
+    }
+    .result{
+        width: 200px;
+        height: 200px;
+        text-align: center;
+        box-sizing: border-box;
+    }
 
-  <!-- Mobile Specific Metas
-  ================================================== -->
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="description" content="Construction Html5 Template">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <meta name="author" content="Themefisher">
-  <meta name="generator" content="Themefisher Constra HTML Template v1.0">
-<!-- Favicon -->
-  <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png" />
 
-  <!-- Themefisher Icon font -->
-  <link rel="stylesheet" href="../static/plugins/themefisher-font/style.css">
-  <!-- bootstrap.min css -->
-  <link rel="stylesheet" href="../static/plugins/bootstrap/css/bootstrap.min.css">
+    #file_input{
+        display: none;
+    }
 
-  <!-- Animate css -->
-  <link rel="stylesheet" href="../static/plugins/animate/animate.css">
-  <!-- Slick Carousel -->
-  <link rel="stylesheet" href="../static/plugins/slick/slick.css">
-  <link rel="stylesheet" href="../static/plugins/slick/slick-theme.css">
 
-  <link href="../static/bootstrap-fileinput/css/fileinput.css" rel="stylesheet">
-  <link href="../static/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    .delete{
+        width: 200px;
+        height:200px;
+        position: absolute;
+        text-align: center;
+        line-height: 200px;
+        z-index: 10;
+        font-size: 30px;
+        background-color: rgba(255,255,255,0.8);
+        color: #777;
+        opacity: 0;
+        transition-duration: 0.7s;
+        -webkit-transition-duration: 0.7s;
+    }
 
-  <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="../static/css/style.css">
-  <!--
-    Essential Scripts
-    =====================================-->
 
-    <!-- Main jQuery -->
-    <script src="../static/plugins/jquery/dist/jquery.min.js"></script>
-    <!-- Bootstrap 3.1 -->
-    <script src="../static/plugins/bootstrap/js/bootstrap.min.js"></script>
-    <!-- Bootstrap Touchpin -->
-    <script src="../static/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script>
-    <!-- Instagram Feed Js -->
-    <script src="../static/plugins/instafeed/instafeed.min.js"></script>
-    <!-- Video Lightbox Plugin -->
-    <script src="../static/plugins/ekko-lightbox/dist/ekko-lightbox.min.js"></script>
-    <!-- Count Down Js -->
-    <script src="../static/plugins/syo-timer/build/jquery.syotimer.min.js"></script>
+    .delete:hover{
+        cursor: pointer;
+        opacity: 1;
+    }
 
-    <!-- slick Carousel -->
-    <script src="../static/plugins/slick/slick.min.js"></script>
-    <script src="../static/plugins/slick/slick-animation.min.js"></script>
 
-    <!-- Google Mapl -->
-{#    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC72vZw-6tGqFyRhhg5CkF2fqfILn2Tsw"></script>#}
-    <script type="javascript" src="../static/plugins/google-map/gmap.js"></script>
 
-    <script src="../static/bootstrap-fileinput/js/fileinput.js" type="text/javascript"></script>
-	<script src="../static/bootstrap-fileinput/js/locales/zh.js" type="text/javascript"></script><!--汉化中文语言包-->
+</style>
 
-    <!-- Main Js File -->
-    <script src="../static/js/script.js"></script>
+
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script type="text/javascript">
+
+
+window.onload = function(){
+    var input = document.getElementById("file_input");
+    var result;
+    var dataArr = []; // 储存所选图片的结果(文件名和base64数据)
+    var fd;  //FormData方式发送请求
+    var Select = document.getElementById("select");
+    var Add = document.getElementById("add");
+    var Submit = document.getElementById("submit");
+    var Input = document.getElementById("file_input");
+
+    if(typeof FileReader==='undefined'){
+        alert("抱歉，你的浏览器不支持 FileReader");
+        input.setAttribute('disabled','disabled');
+    }else{
+        input.addEventListener('change',readFile,false);
+    }　　　　　//handler
+
+
+    function readFile(){
+        fd = new FormData();
+        var iLen = this.files.length;
+        for(var i=0;i<iLen;i++){
+            if (!input['value'].match(/.jpg|.gif|.png|.jpeg|.bmp/i)){　　//判断上传文件格式
+                return alert("上传的图片格式不正确，请重新选择");
+            }
+            var reader = new FileReader();
+            fd.append(i,this.files[i]);
+            reader.readAsDataURL(this.files[i]);  //转成base64
+            reader.fileName = this.files[i].name;
+
+            reader.onload = function(e){
+                var imgMsg = {
+                    name : this.fileName,//获取文件名
+                    base64 : this.result   //reader.readAsDataURL方法执行完后，base64数据储存在reader.result里
+				}
+                dataArr.push(imgMsg);
+                result = '<div class="delete">delete</div><div class="result"><img class="subPic" src="'+this.result+'" alt="'+this.fileName+'"/></div>';
+                var div = document.createElement('div');
+                div.innerHTML = result;
+                div['className'] = 'float';
+                document.getElementsByTagName('body')[0].appendChild(div);  　　//插入dom树
+                var img = div.getElementsByTagName('img')[0];
+                console.log(img);
+                img.onload = function(){
+                    var nowHeight = ReSizePic(this); //设置图片大小
+                    this.parentNode.style.display = 'block';
+                    var oParent = this.parentNode;
+                    if(nowHeight){
+                        oParent.style.paddingTop = (oParent.offsetHeight - nowHeight)/2 + 'px';
+                    }
+                }
+                div.onclick = function(){
+                    $(this).remove();                  // 在页面中删除该图片元素
+                }
+            }
+        }
+    }
+
+
+    function send(){
+        var submitArr = [];
+        $('.subPic').each(function () {
+                submitArr.push({
+                    name: $(this).attr('alt'),
+                    base64: $(this).attr('src')
+                });
+            }
+        );
+        $.ajax({
+            url : 'http://123.206.89.242:9999',
+            type : 'post',
+            data : JSON.stringify(submitArr),
+            dataType: 'json',
+            //processData: false,   用FormData传fd时需有这两项
+            //contentType: false,
+            success : function(data){
+                console.log('返回的数据：'+JSON.stringify(data))
+          　}
+        })
+    }
+
+
+
+
+    Select.onclick=function(){
+        Input.value = "";   // 先将oInput值清空，否则选择图片与上次相同时change事件不会触发
+        //清空已选图片
+        $('.float').remove();
+        Input.click();
+    }
+
+
+    Add.onclick=function(){
+        Input.value = "";   // 先将oInput值清空，否则选择图片与上次相同时change事件不会触发
+        Input.click();
+    }
+
+
+    Submit.onclick=function(){
+        if(!dataArr.length){
+            return alert('请先选择文件');
+		}
+        send();
+    }
+}
+/*
+ 用ajax发送fd参数时要告诉jQuery不要去处理发送的数据，
+ 不要去设置Content-Type请求头才可以发送成功，否则会报“Illegal invocation”的错误，
+ 也就是非法调用，所以要加上“processData: false,contentType: false,”
+ * */
+
+
+function ReSizePic(ThisPic) {
+    var RePicWidth = 200; //这里修改为您想显示的宽度值
+
+    var TrueWidth = ThisPic.width; //图片实际宽度
+    var TrueHeight = ThisPic.height; //图片实际高度
+
+    if(TrueWidth>TrueHeight){
+        //宽大于高
+        var reWidth = RePicWidth;
+        ThisPic.width = reWidth;
+        //垂直居中
+        var nowHeight = TrueHeight * (reWidth/TrueWidth);
+        return nowHeight;  //将图片修改后的高度返回，供垂直居中用
+    }else{
+        //宽小于高
+        var reHeight = RePicWidth;
+        ThisPic.height = reHeight;
+    }
+}
+
+
+
+</script>
 </head>
-<body>
-<section class="top-header">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-4 col-xs-12 col-sm-4">
-				<div class="contact-number">
-					<i class="tf-ion-ios-telephone"></i>
-					<span>0129- 12323-123123</span>
-				</div>
-			</div>
-			<div class="col-md-4 col-xs-12 col-sm-4">
-				<!-- Site Logo -->
-				<div class="logo text-center">
-					<a class="logo" href="/home">
-                        <img src="../static/images/logo.png" alt="" style="width: 80%">
-					</a>
-				</div>
-			</div>
-			<div class="col-md-4 col-xs-12 col-sm-4">
-				<!-- Cart -->
-				<ul class="top-menu text-right list-inline">
-					<li class="dropdown cart-nav dropdown-slide">
-						<a class="pull-left" href="#!" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><i
-								class="tf-ion-android-cart"></i>购物车</a>
-						<div class="dropdown-menu cart-dropdown">
-							<!-- Cart Item -->
-							<div class="media">
-								<a class="pull-left" href="#!">
-									<img class="media-object" src="../static/images/shop/cart/cart-1.jpg" alt="image" />
-								</a>
-								<div class="media-body">
-									<h4 class="media-heading"><a href="#!">女士包</a></h4>
-									<div class="cart-price">
-										<span>1 x</span>
-										<span>1250.00</span>
-									</div>
-									<h5><strong>1200</strong></h5>
-								</div>
-								<a href="#!" class="remove"><i class="tf-ion-close"></i></a>
-							</div><!-- / Cart Item -->
-							<!-- Cart Item -->
-							<div class="media">
-								<a class="pull-left" href="#!">
-									<img class="media-object" src="../static/images/shop/cart/cart-2.jpg" alt="image" />
-								</a>
-								<div class="media-body">
-									<h4 class="media-heading"><a href="#!">女士包</a></h4>
-									<div class="cart-price">
-										<span>1 x</span>
-										<span>1250.00</span>
-									</div>
-									<h5><strong>1200</strong></h5>
-								</div>
-								<a href="#!" class="remove"><i class="tf-ion-close"></i></a>
-							</div><!-- / Cart Item -->
-
-							<div class="cart-summary">
-								<span>总计</span>
-								<span class="total-price">1799.00</span>
-							</div>
-							<ul class="text-center cart-buttons">
-								<li><a href="cart.html" class="btn btn-small">前往购物车</a></li>
-								<li><a href="checkout.html" class="btn btn-small btn-solid-border">结算</a></li>
-							</ul>
-						</div>
-
-					</li><!-- / Cart -->
-
-					<!-- Search -->
-					<li class="dropdown search dropdown-slide">
-						<a class="pull-left" href="#!" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><i
-								class="tf-ion-ios-search-strong"></i> 搜索</a>
-						<ul class="dropdown-menu search-dropdown">
-							<li>
-								<form action="post"><input type="search" class="form-control" placeholder="请输入关键词"></form>
-							</li>
-						</ul>
-					</li><!-- / Search -->
-                   {% if current_user.is_authenticated %}
-                    <li class="dropdown cart-nav dropdown-slide">
-                        <a class="pull-left" href="/user/info">
-                            <img class="media-object comment-avatar img-rounded" style="position: relative;left: 20px;top: 10px" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
-                                 src="../static/images/defaultavatar/userman.png" alt="" width="40" height="40" />
-                        </a>
-                        <ul class="dropdown-menu search-dropdown">
-							<li><a class="btn btn-default" href="\user\dashboard">历史订单</a></li>
-                            <li><a class="btn btn-default" href="\user\order">订单</a></li>
-                            <li><a class="btn btn-default" href="\user\return_order">退货申请</a></li>
-                            <li><a class="btn btn-default" href="\user\return_goods">退货订单</a></li>
-                            <li><a class="btn btn-default" href="\user\address">地址</a></li>
-                            <li><a class="btn btn-default" href="\user\info">个人信息</a></li>
-                            <li><a class="btn btn-default" href="\user\myGoods">我的商品</a></li>
-						</ul>
-                    </li>
-                    <li><a class="pull-left btn btn-default btn-group-lg" href="/user/logout">退出登录</a></li>
-
-                    {% else %}
-                    <li>
-						<a class="pull-left" href="/user/login">登录</a>
-					</li>
-
-					<li>
-						<a class="pull-left" href="/user/signin">注册</a>
-					</li>
-                    {% endif %}
-				</ul><!-- / .nav .navbar-nav .navbar-right -->
-			</div>
-		</div>
-	</div>
-</section><!-- End Top Header Bar -->
-
-<div>
-  {%for message in get_flashed_messages()%}
-    <div class="alert alert-warning">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        {{message}}
-    </div>
-  {%endfor%}
-</div>
-
-<section class="page-header" style="margin-top: -2em">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-				<div class="content">
-					<h1 class="page-name">上架商品</h1>
-					<ol class="breadcrumb">
-						<li><a href="index.html">首页</a></li>
-						<li class="active">上架商品</li>
-					</ol>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-<div class="page-wrapper" style="margin-top: -5em">
-   <div class="checkout shopping">
-      <div class="container">
-         <div class="row">
-            <div class="col-md-8">
-               <div class="block billing-details">
-                  <h4 class="widget-title">商品信息填写</h4>
-                  <form class="checkout-form">
-                     <div class="form-group">
-                        <label for="full_name">商品名称</label>
-                        <input type="text" class="form-control" id="full_name" placeholder="">
-                     </div>
-                     <div class="form-group">
-                        <label for="user_address">商品类型</label>
-                        <input type="text" class="form-control" id="user_address" placeholder="">
-                     </div>
-                     <div class="checkout-country-code clearfix">
-                        <div class="form-group">
-                           <label for="user_post_code">定价</label>
-                           <input type="text" class="form-control" id="user_post_code" name="zipcode" value="">
-                        </div>
-                        <div class="form-group" >
-                           <label for="goods_num">数量</label>
-                           <input type="text" class="form-control" id="goods_num" name="num" value="">
-                        </div>
-                     </div>
-                     <div class="form-group">
-                        <label for="Commodity_description">商品描述</label>
-                        <input type="text" class="form-control" id="Commodity_description" placeholder="">
-                     </div>
-					 <label for="file">图片描述</label>
-					 <input id="inputImage" type="file" class="file" multiple data-preview-file-type="text" >
-
-					 <a href="confirmation.html" class="btn btn-main mt-20">提交</a >
-                  </form>
-               </div>
+    <body>
+            <div class="container">
+                <label>请选择一个图像文件：</label>
+                <button id="select">(重新)选择图片</button>
+                <button id="add">(追加)图片</button>
+                <input type="file" id="file_input" multiple/> <!--用input标签并选择type=file，记得带上multiple，不然就只能单选图片了-->
+                <button id="submit">提交</button>
             </div>
-         </div>
-      </div>
-   </div>
-</div>
-
-<footer class="footer section text-center">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-				<p class="copyright-text">Copyright &copy;2021, Designed &amp; Developed by <a href="#">yl msb zwq</a></p>
-			</div>
-		</div>
-	</div>
-</footer>
-<script>
-    window.onload=(function() {
-         $("#inputImage").fileinput({
-             language: 'zh',
-             uploadUrl: "#"
-         });
-         console.log($("#inputImage").next());
-         $("#inputImage").next().text("ahfkaf");
-     });
-    </script>
-</body>
-
+    </body>
 </html>
