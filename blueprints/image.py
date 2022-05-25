@@ -38,20 +38,19 @@ def get_frame(imageId):
 @bp.route("/upload", methods=['POST', "GET"])
 def uploads():
     if request.method == 'POST':
-        # 获取文件
-        file = request.files['file']
-        # 检测文件格式
-        if file and allowed_file(file.filename):
-            # secure_filename方法会去掉文件名中的中文，获取文件的后缀名
-            file_name_hz = secure_filename(file.filename).split('.')[-1]
-            # 使用uuid生成唯一图片名
-            first_name = str(uuid.uuid4())
-            # 将 uuid和后缀拼接为 完整的文件名
-            file_name = first_name + '.' + file_name_hz
-            # 保存原图
-            file.save("./static/images/"+file_name)
-            # 返回原本和缩略图的 完整浏览链接
-            return {"code": '200', "image_url": image_url + file_name,"message": "上传成功"}
-        else:
-            return "格式错误，仅支持jpg、png、jpeg格式文件"
+        for file in request.files.getlist('image'):
+            # 检测文件格式
+            if file and allowed_file(file.filename):
+                # secure_filename方法会去掉文件名中的中文，获取文件的后缀名
+                file_name_hz = secure_filename(file.filename).split('.')[-1]
+                # 使用uuid生成唯一图片名
+                first_name = str(uuid.uuid4())
+                # 将 uuid和后缀拼接为 完整的文件名
+                file_name = first_name + '.' + file_name_hz
+                # 保存原图
+                file.save("./static/images/"+file_name)
+                # 返回原本和缩略图的 完整浏览链接
+                return {"code": '200', "image_url": image_url + file_name,"message": "上传成功"}
+            else:
+                return "格式错误，仅支持jpg、png、jpeg格式文件"
     return {"code": '503', "data": "", "message": "仅支持post方法"}
