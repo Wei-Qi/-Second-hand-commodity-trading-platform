@@ -1,6 +1,6 @@
 ## 地摊货二手商品交易平台
 
-----
+---
 
 #### 依赖的包
 
@@ -15,7 +15,7 @@ email-validator
 pymysql
 ```
 
-----
+---
 
 #### 数据库更改的方法
 
@@ -26,20 +26,22 @@ flask db upgrade
 ```
 
 初始化创建表时，先删除`migrations`文件夹，执行
+
 ```text
 flask db init
 flask db migrate
 flask db upgrade
 ```
+
 当表发生变化时，执行
+
 ```text
 flask db migrate
 flask db upgrade
 ```
 
+#### 最新任务
 
-#### bug
-修改一次用户信息后，返回的页面中无法再次点击修改信息按钮
+删除商品功能中需要对相关图片进行删除（好像数据库会自动一起删除）
 
-####问题
-ChangeUserInfoForm表中的属性命名规则不一致
+商品下架功能的实现
