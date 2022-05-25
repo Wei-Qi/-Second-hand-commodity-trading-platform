@@ -26,12 +26,12 @@ class goods():
         user = UserModel.query.filter_by(UserId=userid).first()
         if user is None:
             return '用户id不不存在'
-        goods = GoodsModel(GoodsName=goodsname, GoodsPrice=goodsprice, GoodsStock=goodsstock,
+        goods1 = GoodsModel(GoodsName=goodsname, GoodsPrice=goodsprice, GoodsStock=goodsstock,
                            GoodsDescribe=goodsdescribe, UserId=userid)
-        db.session.add(goods)
+        db.session.add(goods1)
         db.session.commit()
         for picture in goodspicturelist:
-            goods.add_goods_picture(goods.GoodsId, picture)
+            goods.add_goods_picture(goods1.GoodsId, picture)
         return True
 
     @staticmethod
