@@ -10,6 +10,7 @@ from Function import function
 from User.user import user
 from Goods.goods import goods
 from Comment.comment import Comment
+from Comment.recomment  import Recomment
 
 login_manager = LoginManager()
 

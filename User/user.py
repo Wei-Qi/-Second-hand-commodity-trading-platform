@@ -237,3 +237,18 @@ class user:
         db.session.commit()
         return True
 
+    @staticmethod
+    def change_user_image(userid, picturepath):
+        """
+        改变用户的头像
+        :param userid:用户id
+        :param picturepath:图片路径
+        :return:'用户Id不存在' or True
+        """
+        user = UserModel.query.filter_by(UserId=userid)
+        if user is None:
+            return '用户Id不存在'
+        user.UserImage = picturepath
+        db.session.commit()
+        return True
+
