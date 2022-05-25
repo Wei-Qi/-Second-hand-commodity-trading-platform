@@ -50,7 +50,7 @@ def uploads():
                 # 将 uuid和后缀拼接为 完整的文件名
                 file_name = first_name + '.' + file_name_hz
                 # 保存原图到cache，正式提交表单才将其放入到指定位置
-                file.save("./static/images/cache/"+file_name)
+                file.save("./static/images/"+file_name)
                 cnt+=1
                 image_names+=image_names+"\n"
         if cnt>0:

@@ -179,7 +179,7 @@ def returnOrder():
 @bp.route("/my_goods")
 @login_required
 def myGoods():
-    goods_list=goods.get_goods_info_byuser(current_user.get_id())
+    goods_list=goods.get_goods_info_by_user(current_user.get_id())
     return render_template("myGoods.html",goods_list=goods_list)
 
 
