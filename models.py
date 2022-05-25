@@ -25,6 +25,7 @@ class UserModel(db.Model, UserMixin):
     UserEmail = db.Column(db.String(100), nullable=False, unique=True)
     UserName = db.Column(db.String(200), nullable=False, unique=True)
     UserIdcard = db.Column(db.String(18), unique=True)
+    UserImage = db.Column(db.String(128), unique=True)
     UserSex = db.Column(db.Boolean)
     UserPhone = db.Column(db.String(20))
     UserPassword = db.Column(db.String(200), nullable=False)
