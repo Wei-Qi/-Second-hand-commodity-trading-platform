@@ -91,6 +91,7 @@ class CommentModel(db.Model):
     CommentTime = db.Column(db.DateTime, default=datetime.now)
     UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
     GoodsId = db.Column(db.Integer, db.ForeignKey('goods.GoodsId', ondelete='CASCADE'))
+    Is_del = db.Column(db.Boolean, default=False)
 
     goods = db.relationship('GoodsModel', backref=db.backref('comments', order_by=CommentTime.desc()))
 
@@ -103,9 +104,11 @@ class ReCommentModel(db.Model):
     CommentId = db.Column(db.Integer, db.ForeignKey('comment.CommentId', ondelete='CASCADE'))
     ReCommentDescribe = db.Column(db.String(1024), nullable=False)
     ReCommentTime = db.Column(db.DateTime, default=datetime.now)
-
+    # 评论与回复评论的关系
     comments = db.relationship('CommentModel', backref=db.backref('recomments', order_by=ReCommentTime.desc()))
+    # 用户 与 回复评论的关系
     user = db.relationship('UserModel', backref='recomments', foreign_keys=[UserId])
+    # 用户 与 被回复评论的关系
     reuser = db.relationship('UserModel', backref='rerecommments', foreign_keys=[ReUserId])
 
 class ReturnModel(db.Model):
