@@ -9,6 +9,7 @@ from models import *
 from Function import function
 from User.user import user
 from Goods.goods import goods
+from Comment.comment import Comment
 
 login_manager = LoginManager()
 
@@ -35,8 +36,6 @@ app.register_blueprint(image_bp)
 @app.route('/')
 @app.route('/home')
 def home():
-    res = goods.get_goods_info_byuser(1)
-    print(res)
     return render_template('index.html')
 
 
