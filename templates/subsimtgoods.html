@@ -184,6 +184,7 @@
 <script type="text/javascript">
 var dataArr=[];
 var form1=new FormData();
+var imageNames=""
  $('#file').on('change',function(){
     	var filePath = $(this).val();        //获取到input的value，里面是文件的路径
     	var	fileFormat = filePath.substring(filePath.lastIndexOf(".")).toLowerCase();
@@ -199,7 +200,7 @@ var form1=new FormData();
             reader.readAsDataURL(this.files[i]);
             form1.append('image',this.files[i])
             reader.fileName = this.files[i].name;
-            console.log(this.files[i]);
+            //console.log(this.files[i]);
             reader.onload = function(e){
                 var imgMsg = {
                     name : this.fileName,//获取文件名
@@ -222,7 +223,7 @@ var form1=new FormData();
                 div['className'] = 'float';
                 document.getElementById("imageBox").appendChild(div);
                 var img = div.getElementsByTagName('img')[0];
-                console.log(img);
+                //console.log(img);
                 img.onload = function(){
                     var nowHeight = ReSizePic(this); //设置图片大小
                     this.parentNode.style.display = 'block';
@@ -288,6 +289,10 @@ var form1=new FormData();
          contentType: false,
          success : function(res){
              if(res['code']==200){
+                 imageNames = $("#image_names").val()
+                 imageNames=imageNames+res['image_names'];
+                 $("#image_names").attr('value',imageNames)
+                 //console.log(imageNames);
                  alert(res['message']);
              }else {
                  alert(res['message']);
@@ -297,6 +302,8 @@ var form1=new FormData();
  }
  //上传图片
  $("#upImage").on('click',function () {
+     $("#file").value="";
+     $('.float').remove();
      if(!dataArr.length){
          return alert('请先选择文件');
      }
