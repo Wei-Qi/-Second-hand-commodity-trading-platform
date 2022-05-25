@@ -25,6 +25,7 @@ class UserModel(db.Model, UserMixin):
     UserEmail = db.Column(db.String(100), nullable=False, unique=True)
     UserName = db.Column(db.String(200), nullable=False, unique=True)
     UserIdcard = db.Column(db.String(18), unique=True)
+    UserImage = db.Column(db.String(128), unique=True)
     UserSex = db.Column(db.Boolean)
     UserPhone = db.Column(db.String(20))
     UserPassword = db.Column(db.String(200), nullable=False)
@@ -104,6 +105,7 @@ class ReCommentModel(db.Model):
     CommentId = db.Column(db.Integer, db.ForeignKey('comment.CommentId', ondelete='CASCADE'))
     ReCommentDescribe = db.Column(db.String(1024), nullable=False)
     ReCommentTime = db.Column(db.DateTime, default=datetime.now)
+    Is_del = db.Column(db.Boolean, default=False)
     # 评论与回复评论的关系
     comments = db.relationship('CommentModel', backref=db.backref('recomments', order_by=ReCommentTime.desc()))
     # 用户 与 回复评论的关系

@@ -54,4 +54,43 @@ class Recomment():
 
     @staticmethod
     def get_recomment_by_commentid(commentid):
-        pass
+        """
+        通过留言Id获取所有的回复留言的信息
+        :param commentid:留言Id
+        :return:'被回复留言的Id不存在' or recomment_json
+        """
+        comment = CommentModel.query.filter_by(CommentId=commentid)
+        if comment is None:
+            return '被回复留言的Id不存在'
+        recomment_json = []
+        for recomment in comment.rerecommments:
+            tmp_dict = Recomment.get_recomment(recomment.RecommentId)
+            recomment_json.append(tmp_dict)
+        return recomment_json
+
+    @staticmethod
+    def del_recomment_by_recommentid(recommentid):
+        """
+        通过回复留言的ID删除回复留言
+        :param recommentid:回复留言的Id
+        :return:'回复的留言Id不存在' or True
+        """
+        recomment = ReCommentModel.query.filter_by(RecommentId=recommentid)
+        if recomment is None:
+            return '回复的留言Id不存在'
+        recomment.ReCommentDescribe = '该留言已经被删除'
+        recomment.IS_del = True
+        db.session.commit()
+        return True
+
+    @staticmethod
+    def recomment_is_del(recommentid):
+        """
+        判断段回复留言石佛偶已经被删除了
+        :param recommentid:回复留言的id
+        :return:'回复留言的Id不存在' or Is_del
+        """
+        recomment = ReCommentModel.query.filter_by(RecommentId=recommentid)
+        if recomment is None:
+            return '回复留言的Id不存在'
+        return recomment.Is_del
