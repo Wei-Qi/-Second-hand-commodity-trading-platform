@@ -36,11 +36,22 @@ class Recomment():
 
     @staticmethod
     def get_recomment(recommentid):
+        """
+        获取回复留言的信息
+        :param recommentid:
+        :return:
+        """
         recomment = ReCommentModel.query.filter_by(RecommentId=recommentid)
         if recomment is None:
             return '回复留言的Id不存在'
         recomment_json = dict()
-        
+        recomment_json['回复Id'] = recomment.UserId
+        recomment_json['被回复者Id'] = recomment.ReUserId
+        recomment_json['回复的留言Id'] = recomment.CommentId
+        recomment_json['回复的内容'] = recomment.ReCommentDescribe
+        recomment_json['回复的时间'] = recomment.ReCommentTime
+        return recomment
 
-
-
+    @staticmethod
+    def get_recomment_by_commentid(commentid):
+        pass

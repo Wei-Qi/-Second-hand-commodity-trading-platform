@@ -12,7 +12,7 @@ import json
 
 class goods():
     @staticmethod
-    def add_goods(userid, goodsname, goodsprice, goodsstock, goodsdescribe):
+    def add_goods(userid, goodsname, goodsprice, goodsstock, goodsdescribe, goodspicturelist=[]):
         """
         添加商品
         :param userid:用户id
@@ -20,6 +20,7 @@ class goods():
         :param goodsprice:商品的价格
         :param goodsstock:商品的库存
         :param goodsdescribe:商品的描述
+        :param:商品图片路径的一个列表
         :return: True or '用户id不存在'
         """
         user = UserModel.query.filter_by(UserId=userid).first()
@@ -29,6 +30,8 @@ class goods():
                            GoodsDescribe=goodsdescribe, UserId=userid)
         db.session.add(goods)
         db.session.commit()
+        for picture in goodspicturelist:
+            goods.add_goods_picture(goods.GoodsId, picture)
         return True
 
     @staticmethod
@@ -56,7 +59,7 @@ class goods():
         return goods_json
 
     @staticmethod
-    def get_goods_info_byuser(userid):
+    def get_goods_info_by_user(userid):
         user = UserModel.query.filter_by(UserId=userid).first()
         if user is None:
             return '用户Id不存在'
