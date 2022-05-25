@@ -105,6 +105,7 @@ class ReCommentModel(db.Model):
     CommentId = db.Column(db.Integer, db.ForeignKey('comment.CommentId', ondelete='CASCADE'))
     ReCommentDescribe = db.Column(db.String(1024), nullable=False)
     ReCommentTime = db.Column(db.DateTime, default=datetime.now)
+    Is_del = db.Column(db.Boolean, default=False)
     # 评论与回复评论的关系
     comments = db.relationship('CommentModel', backref=db.backref('recomments', order_by=ReCommentTime.desc()))
     # 用户 与 回复评论的关系
