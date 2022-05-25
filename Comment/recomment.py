@@ -22,7 +22,7 @@ class Recomment():
         user = UserModel.query.filter_by(UserId=UserId).first()
         if user is None:
             return '回复者的Id不存在'
-        user = UserModel.qusery.filter_by(UserId=ReUserId).first()
+        user = UserModel.query.filter_by(UserId=ReUserId).first()
         if user is None:
             return '被回复者的Id不存在'
         comment = CommentModel.query.filter_by(CommentId=CommentId).first()
@@ -41,16 +41,20 @@ class Recomment():
         :param recommentid:
         :return:
         """
-        recomment = ReCommentModel.query.filter_by(RecommentId=recommentid)
+        recomment = ReCommentModel.query.filter_by(RecommentId=recommentid).first()
         if recomment is None:
             return '回复留言的Id不存在'
         recomment_json = dict()
-        recomment_json['回复Id'] = recomment.UserId
-        recomment_json['被回复者Id'] = recomment.ReUserId
+        recomment_json['回复Id'] = recomment.RecommentId
+        recomment_json['回复者姓名'] = recomment.user.UserName
+        recomment_json['回复者头像'] = recomment.user.UserImage
+        recomment_json['被回复者姓名'] = recomment.reuser.UserName
+        recomment_json['被回复者头像'] = recomment.reuser.UserImage
         recomment_json['回复的留言Id'] = recomment.CommentId
         recomment_json['回复的内容'] = recomment.ReCommentDescribe
         recomment_json['回复的时间'] = recomment.ReCommentTime
-        return recomment
+        recomment_json['是否被删除'] = recomment.Is_del
+        return recomment_json
 
     @staticmethod
     def get_recomment_by_commentid(commentid):
@@ -59,11 +63,11 @@ class Recomment():
         :param commentid:留言Id
         :return:'被回复留言的Id不存在' or recomment_json
         """
-        comment = CommentModel.query.filter_by(CommentId=commentid)
+        comment = CommentModel.query.filter_by(CommentId=commentid).first()
         if comment is None:
             return '被回复留言的Id不存在'
         recomment_json = []
-        for recomment in comment.rerecommments:
+        for recomment in comment.recomments:
             tmp_dict = Recomment.get_recomment(recomment.RecommentId)
             recomment_json.append(tmp_dict)
         return recomment_json
@@ -75,7 +79,7 @@ class Recomment():
         :param recommentid:回复留言的Id
         :return:'回复的留言Id不存在' or True
         """
-        recomment = ReCommentModel.query.filter_by(RecommentId=recommentid)
+        recomment = ReCommentModel.query.filter_by(RecommentId=recommentid).first()
         if recomment is None:
             return '回复的留言Id不存在'
         recomment.ReCommentDescribe = '该留言已经被删除'
@@ -90,7 +94,7 @@ class Recomment():
         :param recommentid:回复留言的id
         :return:'回复留言的Id不存在' or Is_del
         """
-        recomment = ReCommentModel.query.filter_by(RecommentId=recommentid)
+        recomment = ReCommentModel.query.filter_by(RecommentId=recommentid).first()
         if recomment is None:
             return '回复留言的Id不存在'
         return recomment.Is_del

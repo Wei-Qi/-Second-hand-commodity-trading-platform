@@ -17,7 +17,7 @@ def upload():
     if form.validate_on_submit():
         res=goods.add_goods(current_user.get_id(),form.goods_name.data,form.goods_price.data,form.goods_stock.data,form.goods_describe.data)
         for img in form.image_names.split('\n'):
-            
+            pass
         if res is True:
             flash("上架成功")
             return redirect(url_for("user.myGoods"))
