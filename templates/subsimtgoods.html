@@ -164,16 +164,15 @@
                          <button type="button" id="addImage" style="width: 18rem">追加图片</button>
                          <button type="button" id="upImage" style="width: 18rem">上传</button>
                      </div>
-                        {% if form.goods_describe.errors %}
+                        {% if form.image_names.errors %}
                             <div class="invalid-feedback">
-                                {% for error in form.goods_describe.errors %}
+                                {% for error in form.image_names.errors %}
                                     <span>{{ error }}</span>
                                 {% endfor %}
                             </div>
                         {% endif %}
                      <br/>
 					 <button type="submit" class="btn btn-main text-center">提交</button>
-
                   </form>
                </div>
             </div>
@@ -261,6 +260,7 @@ var imageNames=""
  }
  //选择图片
  $("#select").on('click',function () {
+     $("#image_names").attr('value',"")
     $("#file").value="";
     $('.float').remove();
     $("#file").click();
