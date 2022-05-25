@@ -54,4 +54,18 @@ class Recomment():
 
     @staticmethod
     def get_recomment_by_commentid(commentid):
-        pass
+        """
+        通过留言Id获取所有的回复留言的信息
+        :param commentid:留言Id
+        :return:'被回复留言的Id不存在' or recomment_json
+        """
+        comment = CommentModel.query.filter_by(CommentId=commentid)
+        if comment is None:
+            return '被回复留言的Id不存在'
+        recomment_json = []
+        for recomment in comment.rerecommments:
+            tmp_dict = Recomment.get_recomment(recomment.RecommentId)
+            recomment_json.append(tmp_dict)
+        return recomment_json
+
+
