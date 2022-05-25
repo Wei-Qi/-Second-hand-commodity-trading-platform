@@ -38,7 +38,6 @@ def get_frame(imageId):
 @bp.route("/upload", methods=['POST', "GET"])
 def uploads():
     if request.method == 'POST':
-        print('yes')
         cnt=0
         image_names=""
         for file in request.files.getlist('image'):
