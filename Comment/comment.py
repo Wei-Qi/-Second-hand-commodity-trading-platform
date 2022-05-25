@@ -56,14 +56,15 @@ class Comment():
         :param GoodsId:商品Id
         :return: '商品Id不存在' or comments_list（时间倒序）
         """
-        goods = GoodsModel.querry.filter_by(GoodsId=GoodsId).first()
+        goods = GoodsModel.query.filter_by(GoodsId=GoodsId).first()
         if goods is None:
             return '商品Id不存在'
-        comments = goods.comments.all()
+        print(goods.comments)
+        comments = goods.comments
         comments_list = []
         for comment in comments:
             tmp_dict = Comment.get_comment(comment.CommentId)
-            comments_list.apppend(tmp_dict)
+            comments_list.append(tmp_dict)
         return comments_list
 
     @staticmethod
@@ -80,3 +81,15 @@ class Comment():
         comment.Is_del = True
         db.session.commit()
         return True
+
+    @staticmethod
+    def comment_is_del(commentid):
+        """
+        判断留言是否已经被删除
+        :param commentid:留言Id
+        :return:'留言的Id不存在' or Is_del
+        """
+        comment = CommentModel.query.filter_by(CommentId=commentid).first()
+        if comment is None:
+            return '留言的Id不存在'
+        return comment.Is_del

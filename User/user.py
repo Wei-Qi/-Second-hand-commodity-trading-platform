@@ -167,6 +167,7 @@ class user:
         user = UserModel.query.filter_by(UserId=id).first()
         if user is None:
             return '用户id不存在'
+        print(type(user.UserAddresses))
         useraddress = user.UserAddresses.all()
         user_address_json = []
         for address in useraddress:
