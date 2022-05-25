@@ -66,15 +66,7 @@ class goods():
         goods = user.UserGoods.all()
         goods_list = []
         for good in goods:
-            tmp_dict = {}
-            tmp_dict['商品ID'] = good.GoodsId
-            tmp_dict['商品名称'] = good.GoodsName
-            tmp_dict['商品价格'] = good.GoodsPrice
-            tmp_dict['商品库存'] = good.GoodsStock
-            tmp_dict['商品描述'] = good.GoodsDescribe
-            tmp_dict['商品创建的时间'] = good.GoodsTime
-            tmp_dict['用户id'] = good.UserId
-            tmp_dict['商品图片'] = []
+            tmp_dict = goods.get_goods_info(good.GoodsId)
             goods_list.append(tmp_dict)
         return goods_list
 
