@@ -12,10 +12,10 @@ class Comment():
     @staticmethod
     def add_comment(UserId, GoodsId, CommentDescribe):
         """
-        添加评论
+        添加留言
         :param UserId:用户id
         :param GoodsId:商品id
-        :param CommentDescribe: 评论的描述
+        :param CommentDescribe: 留言的描述
         :return: '商品id不存在' or '用户id不存在' or True
         """
         goods = GoodsModel.query.filter_by(GoodsId=GoodsId).first()
@@ -32,9 +32,9 @@ class Comment():
     @staticmethod
     def get_comment(CommentId):
         """
-        根据评论Id获取评论的内容
-        :param CommentId:评论的Id
-        :return:'评论Id不存在' or comment_json
+        根据留言Id获取留言的内容
+        :param CommentId:留言的Id
+        :return:'留言Id不存在' or comment_json
         """
         comment = CommentModel.query.filter_by(CommentId=CommentId).first()
         if comment is None:
@@ -45,13 +45,14 @@ class Comment():
         comment_json['用户姓名'] = comment.user.UserName
         # comment_json['用户头像']
         comment_json['评论时间'] = comment.CommentTime
+        comment_json['是否被删除'] = comment.Is_del
 
         return comment_json
 
     @staticmethod
     def get_comment_by_goods(GoodsId):
         """
-        根据商品Id获取的所有的评论信息
+        根据商品Id获取的所有的留言信息
         :param GoodsId:商品Id
         :return: '商品Id不存在' or comments_list（时间倒序）
         """
@@ -64,3 +65,18 @@ class Comment():
             tmp_dict = Comment.get_comment(comment.CommentId)
             comments_list.apppend(tmp_dict)
         return comments_list
+
+    @staticmethod
+    def del_comment_by_commentId(commentid):
+        """
+        根据留言Id删除留言
+        :param commentid: 留言Id
+        :return: '留言的Id不存在' or True
+        """
+        comment = CommentModel.query.filter_by(CommentId=commentid).first()
+        if comment is None:
+            return '留言的Id不存在'
+        comment.CommentDescribe = '该留言已经被删除'
+        comment.Is_del = True
+        db.session.commit()
+        return True
