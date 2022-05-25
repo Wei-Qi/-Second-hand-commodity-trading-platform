@@ -33,3 +33,14 @@ class Recomment():
         db.session.add(recomment)
         db.session.commit()
         return True
+
+    @staticmethod
+    def get_recomment(recommentid):
+        recomment = ReCommentModel.query.filter_by(RecommentId=recommentid)
+        if recomment is None:
+            return '回复留言的Id不存在'
+        recomment_json = dict()
+        
+
+
+

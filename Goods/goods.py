@@ -137,3 +137,18 @@ class goods():
     #         goods_list.append(tmp_dict)
     #     return goods_list
 
+    @staticmethod
+    def add_goods_picture(goodsid, picturepath):
+        """
+        增加商品图片
+        :param goodsid:商品ID
+        :param picturepath:路径
+        :return:'商品的Id不存在' or True
+        """
+        goods = GoodsModel.query.filter_by(GoodsId=goodsid)
+        if goods is None:
+            return '商品的Id不存在'
+        goods_picture = GoodsPictureModel(GoodsId=goodsid, picturepath=picturepath)
+        db.session.add(goods_picture)
+        db.session.commit()
+        return True
