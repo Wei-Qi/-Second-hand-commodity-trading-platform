@@ -142,7 +142,7 @@
                      <div class="form-group">
 
 {#                        <input type="text" class="form-control" id="Commodity_description" placeholder="">#}
-                              {{ form.goods_describe.label() }}
+{#                              {{ form.goods_describe.label() }}#}
                                     {{ form.goods_describe(class="form-control") }}
                                     {% if form.goods_describe.errors %}
                                         <div class="invalid-feedback">
@@ -150,8 +150,9 @@
                                                 <span>{{ error }}</span>
                                             {% endfor %}
                                         </div>
-                              {% endif %}
+                                    {% endif %}
                      </div>
+                    {{ form.image_names() }}
 
 					 <div style="margin-bottom: 1em;display:inline-block;width: auto;height: auto" id="imageBox">
 
@@ -163,6 +164,13 @@
                          <button type="button" id="addImage" style="width: 18rem">追加图片</button>
                          <button type="button" id="upImage" style="width: 18rem">上传</button>
                      </div>
+                        {% if form.goods_describe.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.goods_describe.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                      <br/>
 					 <button type="submit" class="btn btn-main text-center">提交</button>
 
@@ -174,10 +182,11 @@
    </div>
 </div>
 <script type="text/javascript">
+var dataArr=[];
+var form1=new FormData();
  $('#file').on('change',function(){
     	var filePath = $(this).val();        //获取到input的value，里面是文件的路径
     	var	fileFormat = filePath.substring(filePath.lastIndexOf(".")).toLowerCase();
-        var dataArr=[];
     	// 检查是否是图片
     	if( !fileFormat.match(/.png|.jpg|.jpeg/) ) {
     		error_prompt_alert('上传错误,文件格式必须为：png/jpg/jpeg');
@@ -188,6 +197,7 @@
     	for(i=0;i<this.files.length;i++){
             var reader = new FileReader();
             reader.readAsDataURL(this.files[i]);
+            form1.append('image',this.files[i])
             reader.fileName = this.files[i].name;
             console.log(this.files[i]);
             reader.onload = function(e){
@@ -273,11 +283,9 @@
      $.ajax({
          url : '/image/upload',
          type : 'POST',
-         data : {
-             'image':this.files
-         },
-         //processData: false,   用FormData传fd时需有这两项
-         //contentType: false,
+         data : form1,
+         processData: false,   //用FormData传fd时需有这两项
+         contentType: false,
          success : function(res){
              if(res['code']==200){
                  alert(res['message']);

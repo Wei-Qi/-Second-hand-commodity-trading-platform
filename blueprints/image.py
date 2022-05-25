@@ -15,7 +15,7 @@ bp=Blueprint('image',__name__,url_prefix="/image")
 ALLOW_EXTENSIONS = ['png', 'jpg', 'jpeg']
 
 # 设置图片返回的域名前缀
-image_url = "/image/"
+image_url_prefix = "/image/"
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[-1] in ALLOW_EXTENSIONS
@@ -38,6 +38,9 @@ def get_frame(imageId):
 @bp.route("/upload", methods=['POST', "GET"])
 def uploads():
     if request.method == 'POST':
+        print('yes')
+        cnt=0
+        image_names=""
         for file in request.files.getlist('image'):
             # 检测文件格式
             if file and allowed_file(file.filename):
@@ -47,10 +50,12 @@ def uploads():
                 first_name = str(uuid.uuid4())
                 # 将 uuid和后缀拼接为 完整的文件名
                 file_name = first_name + '.' + file_name_hz
-                # 保存原图
-                file.save("./static/images/"+file_name)
-                # 返回原本和缩略图的 完整浏览链接
-                return {"code": '200', "image_url": image_url + file_name,"message": "上传成功"}
-            else:
-                return "格式错误，仅支持jpg、png、jpeg格式文件"
+                # 保存原图到cache，正式提交表单才将其放入到指定位置
+                file.save("./static/images/cache/"+file_name)
+                cnt+=1
+                image_names+=image_names+"\n"
+        if cnt>0:
+            return {"code": '200', "image_names": image_names, "message":"成功上传"+str(cnt)+"张图片","cnt":cnt}
+        else:
+            return {"code":'503',"message":"图片上传失败，仅支持png、jpg、jpeg类型"}
     return {"code": '503', "data": "", "message": "仅支持post方法"}
