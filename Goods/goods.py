@@ -12,7 +12,7 @@ import json
 
 class goods():
     @staticmethod
-    def add_goods(userid, goodsname, goodsprice, goodsstock, goodsdescribe, goodspicturelist=[]):
+    def add_goods(userid, goodsname, goodsprice, goodsstock, goodsdescribe, goodspicturelist):
         """
         添加商品
         :param userid:用户id
@@ -55,7 +55,7 @@ class goods():
         goods_json['商品图片'] = []
         goodspicture = goods.GoodsPicture.all()
         for picture in goodspicture:
-            goods_json['商品图片'].append(picture)
+            goods_json['商品图片'].append(picture.picturepath)
         return goods_json
 
     @staticmethod

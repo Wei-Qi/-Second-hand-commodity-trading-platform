@@ -112,6 +112,7 @@ class UploadGoodsForm(FlaskForm):
 
     def validate_image_names(self,field):
         names=field.data.split('\n')
+        print(names)
         if len(names)>5:
             raise ValidationError("最多上传5张图片")
         elif len(names)<1:

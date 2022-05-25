@@ -16,6 +16,7 @@ def upload():
     form=UploadGoodsForm()
     if form.validate_on_submit():
         piclist=form.image_names.data.split('\n')
+        print(piclist)
         res=goods.add_goods(current_user.get_id(),form.goods_name.data,form.goods_price.data,form.goods_stock.data,form.goods_describe.data,piclist)
         if res is True:
             flash("上架成功")
@@ -27,6 +28,7 @@ def upload():
 @bp.route('/<int:goodsid>')
 def detail(goodsid):
     goodsInfo=goods.get_goods_info(goodsid)
+    #print(goodsInfo['商品图片'])
     if goodsInfo == '商品id不存在':
         return '没有找到该商品的信息'
     return render_template('product-single.html',goodsInfo=goodsInfo)

@@ -26,7 +26,7 @@ def allowed_file(filename):
 def get_frame(imageId):
     # 图片上传保存的路径
     try:
-        with open(r'./static/images/{}'.format(imageId), 'rb') as f:
+        with open(r'.\\static\\images\\{}'.format(imageId), 'rb') as f:
             image = f.read()
             result = Response(image, mimetype="image/jpg")
             return result
