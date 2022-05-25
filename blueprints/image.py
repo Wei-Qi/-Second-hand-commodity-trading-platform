@@ -52,7 +52,7 @@ def uploads():
                 # 保存原图到cache，正式提交表单才将其放入到指定位置
                 file.save(".\\static\\images\\"+file_name)
                 cnt+=1
-                image_names+=file_name+"\n"
+                image_names+=file_name+" "
         if cnt>0:
             return {"code": '200', "image_names": image_names, "message":"成功上传"+str(cnt)+"张图片","cnt":cnt}
         else:

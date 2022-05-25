@@ -117,7 +117,7 @@
 					<div class="product-quantity">
 						<span>数量:</span>
 						<div class="product-quantity-slider">
-							<input id="product-quantity" type="text" value="0" name="product-quantity">
+							<input id="product-quantity" type="number" value="1" min="1" max="1000" name="product-quantity">
 						</div>
 					</div>
 					
@@ -135,7 +135,11 @@
 					<div class="tab-content patternbg">
 						<div id="details" class="tab-pane fade active in">
 							<h4>商品介绍</h4>
-                            <p>{{ goodsInfo['商品描述'] }}</p>
+                            {% for line in goodsInfo['商品描述'].split() %}
+                                <p>{{ line }}</p>
+                            {% endfor %}
+
+
 {#							<p>2022春夏系列“BlossomIllusion”以花为意象，围绕少女复杂隐秘的精神世界，讲述兼具甜美怪力和古典神秘感的异色梦境。灵感来源一个近乎儒执地迷恋着爱、温柔、脆弱和梦幻的少女形象。当女孩试图以做游戏的形式，在纯l的幻想和模糊的秩序中疯狂地探寻无数的可能，最终陷入了古怪寓言故事的命运，消失于现实。</p>#}
 {#							<p>“Blossom Illusion”SunsetPark22SSCampaign通过戏剧性和幻想性构想痕漫的视觉叙事，将女性独立勇敢和彼得潘式的天l情感注入复古提花、蕾丝、蝴蝶结和花卉图案等带有甜美特质的元素中，开后一场本能地探索自我的悸动幻想。</p>#}
 						</div>

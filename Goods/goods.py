@@ -63,9 +63,9 @@ class goods():
         user = UserModel.query.filter_by(UserId=userid).first()
         if user is None:
             return '用户Id不存在'
-        goods = user.UserGoods.all()
+        goods1 = user.UserGoods.all()   #不要再goods类里面将变量命名为goods，老是报错！！！
         goods_list = []
-        for good in goods:
+        for good in goods1:
             tmp_dict = goods.get_goods_info(good.GoodsId)
             goods_list.append(tmp_dict)
         return goods_list

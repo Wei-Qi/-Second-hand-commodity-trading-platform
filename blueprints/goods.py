@@ -15,7 +15,7 @@ bp=Blueprint('goods',__name__,url_prefix="/goods")
 def upload():
     form=UploadGoodsForm()
     if form.validate_on_submit():
-        piclist=form.image_names.data.split('\n')
+        piclist=form.image_names.data.split()
         print(piclist)
         res=goods.add_goods(current_user.get_id(),form.goods_name.data,form.goods_price.data,form.goods_stock.data,form.goods_describe.data,piclist)
         if res is True:
