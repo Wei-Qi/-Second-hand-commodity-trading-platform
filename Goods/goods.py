@@ -140,7 +140,7 @@ class goods():
         :param picturepath:路径
         :return:'商品的Id不存在' or True
         """
-        goods = GoodsModel.query.filter_by(GoodsId=goodsid)
+        goods = GoodsModel.query.filter_by(GoodsId=goodsid).first()
         if goods is None:
             return '商品的Id不存在'
         goods_picture = GoodsPictureModel(GoodsId=goodsid, picturepath=picturepath)
