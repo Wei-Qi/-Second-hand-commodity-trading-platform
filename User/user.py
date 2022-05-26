@@ -245,7 +245,7 @@ class user:
         :param picturepath:图片路径
         :return:'用户Id不存在' or True
         """
-        user = UserModel.query.filter_by(UserId=userid)
+        user = UserModel.query.filter_by(UserId=userid).first()
         if user is None:
             return '用户Id不存在'
         user.UserImage = picturepath

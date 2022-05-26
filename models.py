@@ -70,6 +70,7 @@ class GoodsModel(db.Model):
     UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
     # 一对多关系通常放在一的那一方
     GoodsPicture = db.relationship('GoodsPictureModel', backref='goods', lazy='dynamic')
+    GoodsMessage = db.relationship('MessageRemindModel', backref='goods', lazy='dynamic')
 
 
 class OrderModel(db.Model):
@@ -144,3 +145,15 @@ class GoodsPictureModel(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     picturepath = db.Column(db.String(1024), nullable=False)
     GoodsId = db.Column(db.Integer, db.ForeignKey('goods.GoodsId', ondelete='CASCADE'))
+
+class MessageRemindModel(db.Model):
+    __tablename__ = 'messageremind'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
+    MakerId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
+    GoodsId = db.Column(db.Integer, db.ForeignKey('goods.GoodsId', ondelete='CASCADE'))
+    Create_time = db.Column(db.DateTime, default=datetime.now)
+    # 用户 与 留言提醒的关系
+    user = db.relationship('UserModel', backref='messages', foreign_keys=[UserId])
+    # 留言者 与 留言提醒的关系
+    maker = db.relationship('UserModel', backref='makemessages', foreign_keys=[MakerId])
