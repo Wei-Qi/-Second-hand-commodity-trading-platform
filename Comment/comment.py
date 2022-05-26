@@ -47,7 +47,6 @@ class Comment():
         comment_json['用户头像'] = comment.user.UserImage
         comment_json['评论时间'] = comment.CommentTime
         comment_json['是否被删除'] = comment.Is_del
-
         return comment_json
 
 
