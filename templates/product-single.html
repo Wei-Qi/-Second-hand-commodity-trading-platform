@@ -131,6 +131,7 @@
 					<ul class="nav nav-tabs">
 						<li class="active"><a data-toggle="tab" href="#details" aria-expanded="true">详细信息</a></li>
 						<li class=""><a data-toggle="tab" href="#reviews" aria-expanded="false">评论 (3)</a></li>
+                        <li class=""><a data-toggle="tab" href="#review1" aria-expanded="false">留言</a></li>
 					</ul>
 					<div class="tab-content patternbg">
 						<div id="details" class="tab-pane fade active in">
@@ -146,84 +147,103 @@
 						<div id="reviews" class="tab-pane fade">
 							<div class="post-comments">
 						    	<ul class="media-list comments-list m-bot-50 clearlist">
-								    <!-- Comment Item start-->
-								    <li class="media">
 
+								    <li class="media">
 								        <a class="pull-left" href="#!">
 								            <img class="media-object comment-avatar" src="images/1.png" alt="" width="50" height="50" />
 								        </a>
-
 								        <div class="media-body">
-								            <div class="comment-info">
-								                <h4 class="comment-author">
-								                    <a href="#!">小明</a>
-								                	
-								                </h4>
-								                <time datetime="2013-04-06T13:53">2022-5-25</time>
-								                <a class="comment-button" href="#!"><i class="tf-ion-chatbubbles"></i>回复</a>
-								            </div>
-
-								            <p>
-								                此用户未评价
-								            </p>
-								        </div>
-
-								    </li>
-								    <!-- End Comment Item -->
-
-								    <!-- Comment Item start-->
-								    <li class="media">
-
-								        <a class="pull-left" href="#!">
-								            <img class="media-object comment-avatar" src="images/1.png" alt="" width="50" height="50" />
-								        </a>
-
-								        <div class="media-body">
-
 								            <div class="comment-info">
 								                <h4 class="comment-author">
 								                    <a href="#!">小红</a>
-								                	
-								                </h4>
+                                                </h4>
 								                <time datetime="2013-04-06T13:53">2022-5-25</time>
 								                <a class="comment-button" href="#!"><i class="tf-ion-chatbubbles"></i>回复</a>
 								            </div>
-
-								            <p>
-								                此用户未评价
-								            </p>
-
+								            <p>此用户未评价</p>
 								        </div>
-
 								    </li>
-								    <!-- End Comment Item -->
-
-								    <!-- Comment Item start-->
 								    <li class="media">
-
 								        <a class="pull-left" href="#!">
 								            <img class="media-object comment-avatar" src="images/1.png" alt="" width="50" height="50">
 								        </a>
-
 								        <div class="media-body">
-
 								            <div class="comment-info">
 								                <h4 class="comment-author">
 								                    <a href="#!">小亮</a>
-								                	
 								                </h4>
 								                <time datetime="2013-04-06T13:53">2022-5-25</time>
 								                <a class="comment-button" href="#!"><i class="tf-ion-chatbubbles"></i>回复</a>
 								            </div>
-
-								            <p>
-								                此用户未评价
-								            </p>
-
+								            <p>此用户未评价</p>
 								        </div>
-
 								    </li>
 							</ul>
+							</div>
+						</div>
+                         <!-- 留言板块 -->
+                        <div id="review1" class="tab-pane fade">
+							<div class="post-comments">
+						    	<ul class="media-list comments-list m-bot-50 clearlist">
+								    <li class="media">
+								        <a class="pull-left" href="#!">
+								            <img class="media-object comment-avatar" src="images/1.png" alt="" width="50" height="50" />
+								        </a>
+								        <div class="media-body">
+								            <div class="comment-info">
+								                <h4 class="comment-author">
+								                    <a href="#!">小红</a>
+								                </h4>
+								                <time datetime="2013-04-06T13:53">2022-5-25</time>
+								                <a class="comment-button" href="#!"><i class="tf-ion-chatbubbles"></i>回复</a>
+                                                <a class="comment-button" href="#!">删除</a>
+								            </div>
+								            <p>此用户未评价</p>
+								        </div>
+								    </li>
+
+								    <li class="media">
+                                        <!-- 在这里设计缩进 -->
+								        <a class="pull-left col-md-offset-1" href="#!">
+								            <img class="media-object comment-avatar" src="images/1.png" alt="" width="50" height="50">
+								        </a>
+								        <div class="media-body">
+								            <div class="comment-info">
+								                <h4 class="comment-author">
+								                    <a href="#!">小亮</a>
+								                </h4>
+								                <time datetime="2013-04-06T13:53">2022-5-25</time>
+								                <a class="comment-button" href="#!"><i class="tf-ion-chatbubbles"></i>回复</a>
+                                                <a class="comment-button" href="#!">删除</a>
+								            </div>
+								            <p>此用户未评价</p>
+								        </div>
+								    </li>
+                                    <li class="media">
+								        <a class="pull-left" href="#!">
+								            <img class="media-object comment-avatar" src="images/1.png" alt="" width="50" height="50" />
+								        </a>
+								        <div class="media-body">
+								            <div class="comment-info">
+								                <h4 class="comment-author">
+								                    <a href="#!">小红</a>
+								                </h4>
+								                <time datetime="2013-04-06T13:53">2022-5-25</time>
+								                <a class="comment-button" href="#!"><i class="tf-ion-chatbubbles"></i>回复</a>
+                                                <a class="comment-button" href="#!">删除</a>
+								            </div>
+								            <p>此用户未评价</p>
+								        </div>
+								    </li>
+							</ul>
+                            <!-- 留言添加 -->
+                            <div class="form-inline">
+                               <span class="input-group-btn">
+                                   <button type="button" class="btn btn-main pull-right" id="addMessage">添加留言</button>
+                                   <input id="kw" type="text" class="form-control pull-right" placeholder="输入留言" name="word" size="30" baiduSug="1" style="width:50rem;">
+
+                               </span>
+                            </div>
 							</div>
 						</div>
 					</div>
@@ -232,5 +252,28 @@
 		</div>
 	</div>
 </section>
+<script type="text/javascript">
+    $('#addMessage').on('click',function () {
+        var mes = $(this).next().val();
+        if(mes==null){
+            alert('留言不能为空');
+            return ;
+        }
+        $.ajax({
+            url:' ',
+            method: 'POST',
+            data: {
+                'information': mes
+            },
+            success: function () {
+              if(res['code']==200){
+                  alter(res['message']);
+              }else{
+                  alter(res['message']);
+              }
+            }
+        })
+    })
 
+</script>
 {% endblock %}
