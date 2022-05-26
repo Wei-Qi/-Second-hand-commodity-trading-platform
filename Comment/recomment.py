@@ -46,8 +46,10 @@ class Recomment():
             return '回复留言的Id不存在'
         recomment_json = dict()
         recomment_json['回复Id'] = recomment.RecommentId
+        recomment_json['回复者Id'] = recomment.user.UserId
         recomment_json['回复者姓名'] = recomment.user.UserName
         recomment_json['回复者头像'] = recomment.user.UserImage
+        recomment_json['被回复者Id'] = recomment.reuser.UserId
         recomment_json['被回复者姓名'] = recomment.reuser.UserName
         recomment_json['被回复者头像'] = recomment.reuser.UserImage
         recomment_json['回复的留言Id'] = recomment.CommentId
@@ -55,6 +57,7 @@ class Recomment():
         recomment_json['回复的时间'] = recomment.ReCommentTime
         recomment_json['是否被删除'] = recomment.Is_del
         return recomment_json
+
 
     @staticmethod
     def get_recomment_by_commentid(commentid):

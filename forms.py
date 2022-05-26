@@ -117,3 +117,9 @@ class UploadGoodsForm(FlaskForm):
             raise ValidationError("最多上传5张图片")
         elif len(names)<1:
             raise ValidationError("请至少上传1张图片")
+
+
+class ReplyCommentForm(FlaskForm):
+    userid=StringField(render_kw={'style': u'display:none'})
+    commentid=StringField(render_kw={'style': u'display:none'})
+    content=StringField('留言', validators=[DataRequired(u"留言不能为空")])
