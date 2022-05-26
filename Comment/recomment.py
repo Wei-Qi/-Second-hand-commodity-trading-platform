@@ -46,8 +46,10 @@ class Recomment():
             return '回复留言的Id不存在'
         recomment_json = dict()
         recomment_json['回复Id'] = recomment.RecommentId
+        recomment_json['回复者Id'] = recomment.user.UserId
         recomment_json['回复者姓名'] = recomment.user.UserName
         recomment_json['回复者头像'] = recomment.user.UserImage
+        recomment_json['被回复者Id'] = recomment.reuser.UserId
         recomment_json['被回复者姓名'] = recomment.reuser.UserName
         recomment_json['被回复者头像'] = recomment.reuser.UserImage
         recomment_json['回复的留言Id'] = recomment.CommentId
