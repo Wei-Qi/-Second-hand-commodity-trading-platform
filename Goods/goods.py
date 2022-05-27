@@ -56,6 +56,7 @@ class goods():
         goodspicture = goods.GoodsPicture.all()
         for picture in goodspicture:
             goods_json['商品图片'].append(picture.picturepath)
+        goods_json['是否下架'] = goods.Goods_Is_Takedown
         return goods_json
 
     @staticmethod
@@ -145,5 +146,21 @@ class goods():
             return '商品的Id不存在'
         goods_picture = GoodsPictureModel(GoodsId=goodsid, picturepath=picturepath)
         db.session.add(goods_picture)
+        db.session.commit()
+        return True
+
+    @staticmethod
+    def take_down_goods(goodsid):
+        """
+        根据商品id下架商品
+        :param goodsid:商品id
+        :return:'商品id不存在' or '商品已经存在' or True
+        """
+        goods = GoodsModel.query.filter_by(GoodsId=goodsid).first()
+        if goods is None:
+            return '商品id不存在'
+        if goods.Goods_Is_Takedown == True:
+            return '商品已经存在'
+        goods.Goods_Is_Takedown = True
         db.session.commit()
         return True

@@ -68,6 +68,7 @@ class GoodsModel(db.Model):
     GoodsDescribe = db.Column(db.String(1024), nullable=False)
     GoodsTime = db.Column(db.DateTime, default=datetime.now)
     UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
+    Goods_Is_Takedown = db.Column(db.Boolean, default=False)
     # 一对多关系通常放在一的那一方
     GoodsPicture = db.relationship('GoodsPictureModel', backref='goods', lazy='dynamic')
     GoodsMessage = db.relationship('MessageRemindModel', backref='goods', lazy='dynamic')
