@@ -21,7 +21,7 @@ class Message():
         user = UserModel.query.filter_by(UserId=userid).first()
         if user is None:
             return '用户id不存在'
-        maker = UserModel.query.filter_by(MakerId=makerid).first()
+        maker = UserModel.query.filter_by(UserId=makerid).first()
         if maker is None:
             return '留言者id不存在'
         goods = GoodsModel.query.filter_by(GoodsId=goodsid).first()
@@ -53,7 +53,7 @@ class Message():
         :param messageid:留言提醒id
         :return:'留言提醒id不存在' or message_dict
         """
-        message = MessageRemindModel(id=messageid)
+        message = MessageRemindModel.query.filter_by(id=messageid).first()
         if message is None:
             return '留言提醒id不存在'
         message_dict = dict()
