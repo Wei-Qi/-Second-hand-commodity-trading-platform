@@ -38,14 +38,14 @@ class Comment():
         """
         comment = CommentModel.query.filter_by(CommentId=CommentId).first()
         if comment is None:
-            return '评论Id不存在'
+            return '留言Id不存在'
         comment_json = dict()
-        comment_json['评论Id'] = comment.CommentId
-        comment_json['评论内容'] = comment.CommentDescribe
+        comment_json['留言Id'] = comment.CommentId
+        comment_json['留言内容'] = comment.CommentDescribe
         comment_json['用户Id'] = comment.user.UserId
         comment_json['用户姓名'] = comment.user.UserName
         comment_json['用户头像'] = comment.user.UserImage
-        comment_json['评论时间'] = comment.CommentTime
+        comment_json['留言时间'] = comment.CommentTime
         comment_json['是否被删除'] = comment.Is_del
         return comment_json
 
