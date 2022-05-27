@@ -198,10 +198,16 @@
 								                <time datetime="2013-04-06T13:53">{{ comment['留言时间'] }}</time>
                                                 <p style="display: none" class="comment_id">{{ comment['留言Id'] }}</p>
                                                 <p style="display: none" class="user_id">{{ comment['用户Id'] }}</p>
+                                                {% if comment['是否被删除'] == False %}
 								                <a class="comment-button reply" href="#!" id="" data-toggle="modal" data-target="#exampleModalCenter"><i class="tf-ion-chatbubbles"></i>回复</a>
                                                 <a class="comment-button comment" href="#!" id="">删除</a>
+                                                {% endif %}
 								            </div>
+                                            {% if comment['是否被删除'] == False %}
 								            <p>{{ comment['留言内容'] }}</p>
+                                            {% else: %}
+                                            <p style="color:orangered">留言已删除</p>
+                                            {% endif %}
 								        </div>
 								    </li>
                                         {% for recomment in recomment_dict[comment['留言Id']] %}
@@ -216,13 +222,20 @@
                                                             <a href="#!">{{ recomment['回复者姓名'] }}&nbsp;&nbsp;回复&nbsp;&nbsp;{{ recomment['被回复者姓名'] }}</a>
                                                         </h4>
                                                         <time datetime="2013-04-06T13:53">{{ recomment['回复的时间'] }}</time>
+                                                        <p style="display: none" class="recomment_id">{{ recomment['回复Id'] }}</p>
                                                         <p style="display: none" class="comment_id">{{ comment['留言Id'] }}</p>
                                                         <p style="display: none" class="user_id">{{ recomment['回复者Id'] }}</p>
-                                                        <p style="display: none" class="recomment_id">{{ recomment['回复Id'] }}</p>
-                                                        <a class="comment-button reply" href="#!" ><i class="tf-ion-chatbubbles"></i>回复</a>
+                                                        {% if recomment['是否被删除'] == False %}
+                                                        <a class="comment-button reply" href="#!" data-toggle="modal" data-target="#exampleModalCenter" ><i class="tf-ion-chatbubbles"></i>回复</a>
                                                         <a class="comment-button recomment" href="#!">删除</a>
+                                                        {% endif %}
+
                                                     </div>
-                                                    <p>{{ recomment['回复的内容'] }}</p>
+                                                    {% if recomment['是否被删除'] == False %}
+                                                        <p>{{ recomment['回复的内容'] }}</p>
+                                                    {% else: %}
+                                                    <p style="color:orangered">留言已删除</p>
+                                                    {% endif %}
                                                 </div>
                                             </li>
                                         {% endfor %}
@@ -256,11 +269,15 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form class="text-left clearfix" action="#" method="post">
+                    <form class="text-left clearfix" action="/goods/reply_comment/{{ goodsInfo['商品ID'] }}" method="post">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="请输入">
-                            <p style="display: none" class="comment_id1"></p>
-                            <p style="display: none" class="user_id1"></p>
+                            {{ form.hidden_tag() }}
+{#                            <input type="text" class="form-control" placeholder="请输入">#}
+                            {{ form.content(class="form-control",placeholder="请输入") }}
+{#                            <p style="display: none" class="comment_id1"></p>#}
+{#                            <p style="display: none" class="user_id1"></p>#}
+                            {{ form.commentid(class="form-control comment_id1") }}
+                            {{ form.userid(class="form-control user_id1") }}
                         </div>
                         <div class="text-center">
                             <button type="submit" class="btn btn-main text-center">回复</button>
@@ -278,19 +295,19 @@
     $('.reply').on('click',function () {
         var id1=$(this).prev().text();
         var id2=$(this).prev().prev().text();
-        $('.comment_id1').text(id2);
-        $('.user_id1').text(id1);
+        $('.comment_id1').val(id2);
+        $('.user_id1').val(id1);
     })
     <!-- 留言删除 -->
     $('.comment').on('click',function () {
-        var id=$(this).prev().prev().text()
+        var id=$(this).prev().prev().prev().text()
         $.ajax({
-            url: "/goods/delete_comment/<int:goodsid>",
+            url: "/goods/delete_comment/{{ goodsInfo['商品ID'] }}",
             method: "POST",
             data: {
-                'comment_id': id
+                'commentid': id
             },
-            success: function () {
+            success: function (res) {
                 if(res['code']==200){
                     window.location = res['url'];
                 }else{
@@ -301,14 +318,14 @@
     })
     <!-- 回复删除 -->
     $('.recomment').on('click',function () {
-        var id=$(this).prev().prev().text()
+        var id=$(this).prev().prev().prev().prev().text()
         $.ajax({
-            url: "/goods/delete_recomment/<int:goodsid>",
+            url: "/goods/delete_recomment/{{ goodsInfo['商品ID']  }}",
             method: "POST",
             data: {
-                'comment_id': id
+                'recommentid': id
             },
-            success: function () {
+            success: function (res) {
                 if(res['code']==200){
                     window.location = res['url'];
                 }else{
