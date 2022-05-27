@@ -6,6 +6,7 @@ Date：2022/5/19
 
 from models import *
 from exts import db
+from sqlalchemy import or_
 from werkzeug.security import generate_password_hash, check_password_hash
 import json
 
@@ -27,7 +28,7 @@ class goods():
         if user is None:
             return '用户id不不存在'
         goods1 = GoodsModel(GoodsName=goodsname, GoodsPrice=goodsprice, GoodsStock=goodsstock,
-                           GoodsDescribe=goodsdescribe, UserId=userid)
+                            GoodsDescribe=goodsdescribe, UserId=userid)
         db.session.add(goods1)
         db.session.commit()
         for picture in goodspicturelist:
@@ -56,6 +57,7 @@ class goods():
         goodspicture = goods.GoodsPicture.all()
         for picture in goodspicture:
             goods_json['商品图片'].append(picture.picturepath)
+        goods_json['是否下架'] = goods.Goods_Is_Takedown
         return goods_json
 
     @staticmethod
@@ -63,7 +65,7 @@ class goods():
         user = UserModel.query.filter_by(UserId=userid).first()
         if user is None:
             return '用户Id不存在'
-        goods1 = user.UserGoods.all()   #不要再goods类里面将变量命名为goods，老是报错！！！
+        goods1 = user.UserGoods.all()  # 不要再goods类里面将变量命名为goods，老是报错！！！
         goods_list = []
         for good in goods1:
             tmp_dict = goods.get_goods_info(good.GoodsId)
@@ -140,10 +142,37 @@ class goods():
         :param picturepath:路径
         :return:'商品的Id不存在' or True
         """
-        goods = GoodsModel.query.filter_by(GoodsId=goodsid)
+        goods = GoodsModel.query.filter_by(GoodsId=goodsid).first()
         if goods is None:
             return '商品的Id不存在'
         goods_picture = GoodsPictureModel(GoodsId=goodsid, picturepath=picturepath)
         db.session.add(goods_picture)
         db.session.commit()
         return True
+
+    @staticmethod
+    def take_down_goods(goodsid):
+        """
+        根据商品id下架商品
+        :param goodsid:商品id
+        :return:'商品id不存在' or '商品已经存在' or True
+        """
+        goods = GoodsModel.query.filter_by(GoodsId=goodsid).first()
+        if goods is None:
+            return '商品id不存在'
+        if goods.Goods_Is_Takedown == True:
+            return '商品已经存在'
+        goods.Goods_Is_Takedown = True
+        db.session.commit()
+        return True
+
+    @staticmethod
+    def search_goods(content):
+        goods1 = GoodsModel.query.filter(
+            or_(GoodsModel.GoodsName.contains(content), GoodsModel.GoodsDescribe.contains(content))).order_by(
+            db.text('-GoodsTime'))
+        goods_list = []
+        for item in goods1:
+            if item.Goods_Is_Takedown == False:
+                goods_list.append(goods.get_goods_info(item.GoodsId))
+        return goods_list

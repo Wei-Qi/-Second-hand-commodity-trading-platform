@@ -198,8 +198,8 @@
 								                <time datetime="2013-04-06T13:53">{{ comment['留言时间'] }}</time>
                                                 <p style="display: none" class="comment_id">{{ comment['留言Id'] }}</p>
                                                 <p style="display: none" class="user_id">{{ comment['用户Id'] }}</p>
-								                <a class="comment-button" href="#!"><i class="tf-ion-chatbubbles"></i>回复</a>
-                                                <a class="comment-button comment" href="#!">删除</a>
+								                <a class="comment-button reply" href="#!" id="" data-toggle="modal" data-target="#exampleModalCenter"><i class="tf-ion-chatbubbles"></i>回复</a>
+                                                <a class="comment-button comment" href="#!" id="">删除</a>
 								            </div>
 								            <p>{{ comment['留言内容'] }}</p>
 								        </div>
@@ -219,7 +219,7 @@
                                                         <p style="display: none" class="comment_id">{{ comment['留言Id'] }}</p>
                                                         <p style="display: none" class="user_id">{{ recomment['回复者Id'] }}</p>
                                                         <p style="display: none" class="recomment_id">{{ recomment['回复Id'] }}</p>
-                                                        <a class="comment-button" href="#!"><i class="tf-ion-chatbubbles"></i>回复</a>
+                                                        <a class="comment-button reply" href="#!" ><i class="tf-ion-chatbubbles"></i>回复</a>
                                                         <a class="comment-button recomment" href="#!">删除</a>
                                                     </div>
                                                     <p>{{ recomment['回复的内容'] }}</p>
@@ -227,32 +227,14 @@
                                             </li>
                                         {% endfor %}
                                     {% endfor %}
-
-{#                                    <li class="media">#}
-{#								        <a class="pull-left" href="#!">#}
-{#								            <img class="media-object comment-avatar" src="images/1.png" alt="" width="50" height="50" />#}
-{#								        </a>#}
-{#								        <div class="media-body">#}
-{#								            <div class="comment-info">#}
-{#								                <h4 class="comment-author">#}
-{#								                    <a href="#!">小红</a>#}
-{#								                </h4>#}
-{#								                <time datetime="2013-04-06T13:53">2022-5-25</time>#}
-{#								                <a class="comment-button" href="#!"><i class="tf-ion-chatbubbles"></i>回复</a>#}
-{#                                                <a class="comment-button" href="#!">删除</a>#}
-{#								            </div>#}
-{#								            <p>此用户未评价</p>#}
-{#								        </div>#}
-{#								    </li>#}
 							</ul>
                             <!-- 留言添加 -->
                             <div class="form-inline">
-
                                <span class="input-group-btn">
                                    <form action="/goods/add_comment/{{ goodsInfo['商品ID'] }}" method="post">
                                    <button type="submit" class="btn btn-main pull-right" id="addMessage">添加留言</button>
                                    <input id="kw" type="text" class="form-control pull-right" placeholder="输入留言" name="comment" size="30" baiduSug="1" style="width:50rem;">
-                                    </form>
+                                   </form>
                                </span>
                             </div>
 							</div>
@@ -263,28 +245,77 @@
 		</div>
 	</div>
 </section>
+     <!-- 回复模态框 -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addressTitle">修改地址</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="text-left clearfix" action="#" method="post">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="请输入">
+                            <p style="display: none" class="comment_id1"></p>
+                            <p style="display: none" class="user_id1"></p>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-main text-center">回复</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
 <script type="text/javascript">
-    {#$('#addMessage').on('click',function () {#}
-    {#    var mes = $(this).next().val();#}
-    {#    if(mes==null){#}
-    {#        alert('留言不能为空');#}
-    {#        return ;#}
-    {#    }#}
-    {#    $.ajax({#}
-    {#        url:' ',#}
-    {#        method: 'POST',#}
-    {#        data: {#}
-    {#            'information': mes#}
-    {#        },#}
-    {#        success: function () {#}
-    {#          if(res['code']==200){#}
-    {#              alter(res['message']);#}
-    {#          }else{#}
-    {#              alter(res['message']);#}
-    {#          }#}
-    {#        }#}
-    {#    })#}
-    {# }) #}
-
+    <!-- 点击回复 -->
+    $('.reply').on('click',function () {
+        var id1=$(this).prev().text();
+        var id2=$(this).prev().prev().text();
+        $('.comment_id1').text(id2);
+        $('.user_id1').text(id1);
+    })
+    <!-- 留言删除 -->
+    $('.comment').on('click',function () {
+        var id=$(this).prev().prev().text()
+        $.ajax({
+            url: "/goods/delete_comment/<int:goodsid>",
+            method: "POST",
+            data: {
+                'comment_id': id
+            },
+            success: function () {
+                if(res['code']==200){
+                    window.location = res['url'];
+                }else{
+                    alert(res['message']);
+                }
+            }
+        })
+    })
+    <!-- 回复删除 -->
+    $('.recomment').on('click',function () {
+        var id=$(this).prev().prev().text()
+        $.ajax({
+            url: "/goods/delete_recomment/<int:goodsid>",
+            method: "POST",
+            data: {
+                'comment_id': id
+            },
+            success: function () {
+                if(res['code']==200){
+                    window.location = res['url'];
+                }else{
+                    alert(res['message']);
+                }
+            }
+        })
+    })
 </script>
 {% endblock %}

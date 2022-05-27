@@ -27,6 +27,9 @@ class Comment():
         comment = CommentModel(UserId=UserId, GoodsId=GoodsId, CommentDescribe=CommentDescribe)
         db.session.add(comment)
         db.session.commit()
+        meaasge = MessageRemindModel(Maker=UserId, GoodsId=GoodsId, UserId=goods.UserId)
+        db.session.add(meaasge)
+        db.session.commit()
         return True
 
     @staticmethod
