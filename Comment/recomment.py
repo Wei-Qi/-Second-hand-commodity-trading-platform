@@ -86,7 +86,7 @@ class Recomment():
         if recomment is None:
             return '回复的留言Id不存在'
         recomment.ReCommentDescribe = '该留言已经被删除'
-        recomment.IS_del = True
+        recomment.Is_del = True
         db.session.commit()
         return True
 
