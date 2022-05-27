@@ -173,5 +173,6 @@ class goods():
             db.text('-GoodsTime'))
         goods_list = []
         for item in goods1:
-            goods_list.append(goods.get_goods_info(item.GoodsId))
+            if item.Goods_Is_Takedown == False:
+                goods_list.append(goods.get_goods_info(item.GoodsId))
         return goods_list
