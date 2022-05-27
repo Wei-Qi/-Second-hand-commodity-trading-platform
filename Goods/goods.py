@@ -7,6 +7,7 @@ Date：2022/5/19
 from models import *
 from exts import db
 from sqlalchemy import or_
+
 from werkzeug.security import generate_password_hash, check_password_hash
 import json
 
@@ -168,8 +169,13 @@ class goods():
 
     @staticmethod
     def search_goods(content):
+        """
+        搜索商品（已下架的商品不返回）
+        :param content:搜索的内容
+        :return:goods_list
+        """
         goods1 = GoodsModel.query.filter(
-            or_(GoodsModel.GoodsName.contains(content), GoodsModel.GoodsDescribe.contains(content))).order_by(
+            or_(GoodsModel.GoodsName.like('%' + content + '%'), GoodsModel.GoodsDescribe.contains('%' + content + '%'))).order_by(
             db.text('-GoodsTime'))
         goods_list = []
         for item in goods1:

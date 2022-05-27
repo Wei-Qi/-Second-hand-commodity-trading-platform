@@ -35,6 +35,7 @@ class UserModel(db.Model, UserMixin):
     UserAddresses = db.relationship('UserAddressModel', backref='user', lazy='dynamic')
     UserGoods = db.relationship('GoodsModel', backref='user', lazy='dynamic')
     UserComments = db.relationship('CommentModel', backref='user', lazy='dynamic')
+    UserCarts = db.relationship('CartModel', backref='user', lazy='dynamic')
 
     def keys(self):
         return (
@@ -72,6 +73,7 @@ class GoodsModel(db.Model):
     # 一对多关系通常放在一的那一方
     GoodsPicture = db.relationship('GoodsPictureModel', backref='goods', lazy='dynamic')
     GoodsMessage = db.relationship('MessageRemindModel', backref='goods', lazy='dynamic')
+    GoodsCart = db.relationship('CartModel', backref='goods', lazy='dynamic')
 
 
 class OrderModel(db.Model):
@@ -158,3 +160,11 @@ class MessageRemindModel(db.Model):
     user = db.relationship('UserModel', backref='messages', foreign_keys=[UserId])
     # 留言者 与 留言提醒的关系
     maker = db.relationship('UserModel', backref='makemessages', foreign_keys=[MakerId])
+
+
+class CartModel(db.Model):
+    __tablename__ = 'cart'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
+    GoodsId = db.Column(db.Integer, db.ForeignKey('goods.GoodsId', ondelete='CASCADE'))
+    GoodsNum = db.Column(db.Integer, nullable=False)
