@@ -82,11 +82,11 @@ class OrderModel(db.Model):
     __tablename__ = 'order'
     OrderId = db.Column(db.Integer, primary_key=True, autoincrement=True)
     OrderExpress = db.Column(db.String(200), unique=True)
-    OrderNum = db.Column(db.Integer, nullable=False)
+    GoodsNum = db.Column(db.Integer, nullable=False)
     # OrderAddress = db.Column(db.String(200), nullable=False)
     # OrderPhone = db.Column(db.String(11), nullable=False)
     OrderTime = db.Column(db.DateTime, default=datetime.now)
-    OrderState = db.Column(db.Integer)
+    OrderState = db.Column(db.Integer, default=0)
     AddressId = db.Column(db.Integer, db.ForeignKey('useraddress.id', ondelete='CASCADE'))
     UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
     GoodsId = db.Column(db.Integer, db.ForeignKey('goods.GoodsId', ondelete='CASCADE'))
