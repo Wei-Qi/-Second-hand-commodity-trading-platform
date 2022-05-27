@@ -6,6 +6,7 @@ Date：2022/5/19
 
 from models import *
 from exts import db
+from sqlalchemy import or_
 from werkzeug.security import generate_password_hash, check_password_hash
 import json
 
@@ -27,7 +28,7 @@ class goods():
         if user is None:
             return '用户id不不存在'
         goods1 = GoodsModel(GoodsName=goodsname, GoodsPrice=goodsprice, GoodsStock=goodsstock,
-                           GoodsDescribe=goodsdescribe, UserId=userid)
+                            GoodsDescribe=goodsdescribe, UserId=userid)
         db.session.add(goods1)
         db.session.commit()
         for picture in goodspicturelist:
@@ -64,7 +65,7 @@ class goods():
         user = UserModel.query.filter_by(UserId=userid).first()
         if user is None:
             return '用户Id不存在'
-        goods1 = user.UserGoods.all()   #不要再goods类里面将变量命名为goods，老是报错！！！
+        goods1 = user.UserGoods.all()  # 不要再goods类里面将变量命名为goods，老是报错！！！
         goods_list = []
         for good in goods1:
             tmp_dict = goods.get_goods_info(good.GoodsId)
@@ -164,3 +165,13 @@ class goods():
         goods.Goods_Is_Takedown = True
         db.session.commit()
         return True
+
+    @staticmethod
+    def search_goods(content):
+        goods1 = GoodsModel.query.filter(
+            or_(GoodsModel.GoodsName.contains(content), GoodsModel.GoodsDescribe.contains(content))).order_by(
+            db.text('-GoodsTime'))
+        goods_list = []
+        for item in goods1:
+            goods_list.append(goods.get_goods_info(item.GoodsId))
+        return goods_list
