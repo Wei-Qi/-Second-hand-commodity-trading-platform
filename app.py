@@ -12,6 +12,7 @@ from Goods.goods import goods
 from Comment.comment import Comment
 from Comment.recomment  import Recomment
 from Comment.message import Message
+from Cart.Cart import Cart
 
 login_manager = LoginManager()
 

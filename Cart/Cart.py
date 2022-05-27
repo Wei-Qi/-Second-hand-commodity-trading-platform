@@ -20,7 +20,7 @@ class Cart():
         user = UserModel.query.filter_by(UserId=userid).first()
         if user is None:
             return '用户id不存在'
-        goods = GoodsModel.query.filter_by(GoodId=goodsid).first()
+        goods = GoodsModel.query.filter_by(GoodsId=goodsid).first()
         if goods is None:
             return '商品id不存在'
         cart = CartModel(UserId=userid, GoodsId=goodsid, GoodsNum=goodsnum)
@@ -35,7 +35,7 @@ class Cart():
         :param cartid:购物车id
         :return:'购物车id不存在' or None or cart_dict
         """
-        cart = CartModel.query.filter_by(CartId=cartid).first()
+        cart = CartModel.query.filter_by(id=cartid).first()
         if cart is None:
             return '购物车id不存在'
         if cart.goods.Goods_Is_Takedown == True:
