@@ -94,3 +94,17 @@ class Cart():
         cart = CartModel.query.filter_by(id=cartid).delete()
         db.session.commit()
         return True
+
+    @staticmethod
+    def clear_cart_by_userid(userid):
+        """
+        清空用户的购物车
+        :param userid:用户id
+        :return:'用户id不存在' or True
+        """
+        user = UserModel.query.filter_by(UserId=userid).first()
+        if user is None:
+            return '用户id不存在'
+        cart = CartModel.query.filter_by(UserId=userid).delete()
+        db.session.commit()
+        return True
