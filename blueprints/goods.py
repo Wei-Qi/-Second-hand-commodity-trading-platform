@@ -37,8 +37,8 @@ def detail(goodsid):
     comment_list=Comment.get_comment_by_goods(goodsid)
     recomment_dict={}
     for comment in comment_list:
-        temp=Recomment.get_recomment_by_commentid(comment['评论Id'])
-        recomment_dict[comment['评论Id']]=temp
+        temp=Recomment.get_recomment_by_commentid(comment['留言Id'])
+        recomment_dict[comment['留言Id']]=temp
     return render_template('product-single.html',form=form,goodsInfo=goodsInfo,comment_list=comment_list,recomment_dict=recomment_dict)
 
 @bp.route('/add_comment/<int:goodsid>',methods=['POST'])
@@ -56,32 +56,41 @@ def addComment(goodsid):
     return redirect('/goods/'+str(goodsid))
 
 @bp.route('/reply_comment/<int:goodsid>',methods=['POST'])
+@login_required
 def replyComment(goodsid):
     form=ReplyCommentForm()
+    print(form.userid.data,form.commentid.data,form.content.data)
     if form.validate_on_submit():
-        res=Recomment.add_recomment(form.userid.data,current_user.get_id(),form.commentid.data,form.content.data)
+        print('yes')
+        res=Recomment.add_recomment(current_user.get_id(),form.userid.data,form.commentid.data,form.content.data)
         if res is True:
             flash('回复成功')
         else:
             flash(res)
     return redirect('/goods/'+str(goodsid))
 
-@bp.route('/delete_comment/<int:goodsid>')
+@bp.route('/delete_comment/<int:goodsid>',methods=['POST'])
+@login_required
 def deleteComment(goodsid):
     commentid=request.form.get('commentid')
+    if Comment.get_comment(commentid)['用户Id'] !=current_user.get_id():
+        return jsonify({'code': 400, 'message': '无法删除别人的留言'})
     res=Comment.del_comment_by_commentId(commentid)
     if res is True:
         flash('删除成功')
+        return jsonify({'code': 200, 'url': '/goods/' + str(goodsid) })
     else:
-        flash(res)
-    return redirect('/goods/' + str(goodsid))
+        return jsonify({'code': 400, 'message': res})
 
-@bp.route('delete_recomment/<int:goodsid>')
+@bp.route('delete_recomment/<int:goodsid>',methods=['POST'])
+@login_required
 def deleteRecomment(goodsid):
     recommentid = request.form.get('recommentid')
+    if Recomment.get_recomment(recommentid)['回复者Id'] !=current_user.get_id():
+        return jsonify({'code': 400, 'message': '无法删除别人的留言'})
     res = Recomment.del_recomment_by_recommentid(recommentid)
     if res is True:
         flash('删除成功')
+        return jsonify({'code': 200, 'url': '/goods/' + str(goodsid) })
     else:
-        flash(res)
-    return redirect('/goods/' + str(goodsid))
+        return jsonify({'code': 400, 'message': res})
