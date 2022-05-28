@@ -162,7 +162,7 @@ class user:
         """
         通过id获取用户的全地址信息
         :param id: 用户id
-        :return: '改昵称已经被注册' or user_address_json
+        :return: '用户id不存在' or user_address_json
         """
         user = UserModel.query.filter_by(UserId=id).first()
         if user is None:

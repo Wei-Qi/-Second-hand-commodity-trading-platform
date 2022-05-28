@@ -36,7 +36,6 @@ class UserModel(db.Model, UserMixin):
     UserGoods = db.relationship('GoodsModel', backref='user', lazy='dynamic')
     UserComments = db.relationship('CommentModel', backref='user', lazy='dynamic')
     UserCarts = db.relationship('CartModel', backref='user', lazy='dynamic')
-    UserOrder = db.relationship('OrderModel', backref='user', lazy='dynamic')
 
     def keys(self):
         return (
@@ -90,7 +89,11 @@ class OrderModel(db.Model):
     AddressId = db.Column(db.Integer, db.ForeignKey('useraddress.id', ondelete='CASCADE'))
     UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
     GoodsId = db.Column(db.Integer, db.ForeignKey('goods.GoodsId', ondelete='CASCADE'))
+    SellerId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
 
+    user = db.relationship('UserModel', backref='UserOrder', foreign_keys=[UserId])
+
+    seller = db.relationship('UserModel', backref='SellerOrder', foreign_keys=[SellerId])
 
 class CommentModel(db.Model):
     __tablename__ = 'comment'
