@@ -38,8 +38,6 @@ class Cart():
         cart = CartModel.query.filter_by(id=cartid).first()
         if cart is None:
             return '购物车id不存在'
-        if cart.goods.Goods_Is_Takedown == True:
-            return None
         cart_dict = dict()
         cart_dict['id'] = cart.id
         cart_dict['用户id'] = cart.UserId
@@ -48,10 +46,11 @@ class Cart():
         cart_dict['商品单价'] = cart.goods.GoodsPrice
         cart_dict['商品库存'] = cart.goods.GoodsStock
         cart_dict['商品数量'] = cart.GoodsNum
+        cart_dict['商品图片'] = cart.goods.GoodsPicture.first().picturepath
         return cart_dict
 
     @staticmethod
-    def get_cart_by_usrid(userid):
+    def get_cart_by_userid(userid):
         """
         根据用户返回购物车
         :param userid:用户id
@@ -60,10 +59,11 @@ class Cart():
         user = UserModel.query.filter_by(UserId=userid).first()
         if user is None:
             return '用户id不存在'
-        carts =  user.UserCarts.all()
+        carts = user.UserCarts.all()
         cart_json = []
         for cart in carts:
-            cart_json.append(Cart.get_cart_by_id(cart.id))
+            if not cart.goods.Goods_Is_Takedown:
+                cart_json.append(Cart.get_cart_by_id(cart.id))
         return cart_json
 
     @staticmethod
