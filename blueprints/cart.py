@@ -46,4 +46,3 @@ def setCnt(itemid):
     else:
         return jsonify({'code':400,'message':res})
 
-/cart/set_cnt/
