@@ -108,8 +108,8 @@
 			<div class="col-md-7">
 				<div class="single-product-details">
 					<h2>{{ goodsInfo['商品名称'] }}</h2>
-                    <p class="product-price"><strong>单价： </strong>{{ goodsInfo['商品价格'] }}</p>
-					
+                    <p class="product-price"><strong>单价： </strong>{{ goodsInfo['商品价格'] }} ￥</p>
+					<p class="product-stock"><strong>库存： </strong>{{ goodsInfo['商品库存'] }}</p>
 {#					<p class="product-description mt-20">#}
 {#						SunsetPark日落公园 新中式白色连衣裙小众设计公主蓬蓬裙子女夏#}
 {#					</p>#}
@@ -117,7 +117,7 @@
 					<div class="product-quantity">
 						<span>数量:</span>
 						<div class="product-quantity-slider">
-							<input id="product-quantity" type="number" value="1" min="1" max="1000" name="product-quantity">
+							<input id="product-quantity" type="number" value="1" min="1" max="{{ goodsInfo['商品库存'] }}" name="product-quantity">
 						</div>
 					</div>
 					
@@ -183,6 +183,15 @@
 						</div>
                          <!-- 留言板块 -->
                         <div id="review1" class="tab-pane fade">
+                        <!-- 留言添加 -->
+                            <div class="form-inline">
+                               <span class="input-group-btn">
+                                   <form action="/goods/add_comment/{{ goodsInfo['商品ID'] }}" method="post">
+                                   <button type="submit" class="btn btn-main pull-right" id="addMessage">添加留言</button>
+                                   <input id="kw" type="text" class="form-control pull-right" placeholder="输入留言" name="comment" size="30" baiduSug="1" style="width:97rem;">
+                                   </form>
+                               </span>
+                            </div>
 							<div class="post-comments">
 						    	<ul class="media-list comments-list m-bot-50 clearlist">
                                     {% for comment in comment_list %}
@@ -241,15 +250,7 @@
                                         {% endfor %}
                                     {% endfor %}
 							</ul>
-                            <!-- 留言添加 -->
-                            <div class="form-inline">
-                               <span class="input-group-btn">
-                                   <form action="/goods/add_comment/{{ goodsInfo['商品ID'] }}" method="post">
-                                   <button type="submit" class="btn btn-main pull-right" id="addMessage">添加留言</button>
-                                   <input id="kw" type="text" class="form-control pull-right" placeholder="输入留言" name="comment" size="30" baiduSug="1" style="width:50rem;">
-                                   </form>
-                               </span>
-                            </div>
+
 							</div>
 						</div>
 					</div>

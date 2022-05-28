@@ -1,0 +1,315 @@
+{% extends "base.html" %}
+
+{% block title %}修改商品信息{% endblock %}
+
+{% block content %}
+<style type="text/css">
+    .float{
+        float:left;
+        width : 200px;
+        height: 200px;
+        overflow: hidden;
+        border: 1px solid #CCCCCC;
+        border-radius: 10px;
+        padding: 5px;
+        margin: 5px;
+    }
+    img{
+        position: relative;
+    }
+    .result{
+        width: 200px;
+        height: 200px;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+
+    #file_input{
+        display: none;
+    }
+
+
+    .delete{
+        width: 200px;
+        height:200px;
+        position: absolute;
+        text-align: center;
+        line-height: 200px;
+        z-index: 10;
+        font-size: 30px;
+        background-color: rgba(255,255,255,0.8);
+        color: #777;
+        opacity: 0;
+        transition-duration: 0.7s;
+        -webkit-transition-duration: 0.7s;
+    }
+
+    .delete:hover{
+        cursor: pointer;
+        opacity: 1;
+    }
+
+</style>
+
+<div>
+  {%for message in get_flashed_messages()%}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{message}}
+    </div>
+  {%endfor%}
+</div>
+
+<section class="page-header" style="margin-top: -2em">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="content">
+					<h1 class="page-name">修改商品信息</h1>
+					<ol class="breadcrumb">
+						<li><a href="index.html">首页</a></li>
+						<li class="active">修改商品信息</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+{%for message in get_flashed_messages()%}
+<div class="alert alert-warning">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    {{message}}
+</div>
+{%endfor%}
+
+<div class="page-wrapper" style="margin-top: -5em">
+   <div class="checkout shopping">
+      <div class="container">
+         <div class="row">
+            <div class="col-md-8">
+               <div class="block billing-details">
+                  <h4 class="widget-title">商品信息填写</h4>
+                  <form class="checkout-form" action="/goods/change/{{ goodsid }}" method="post">
+                     {{ form.hidden_tag() }}
+                     <div class="form-group">
+{#                        <label for="full_name">商品名称</label>#}
+{#                        <input type="text" class="form-control" id="full_name" placeholder="">#}
+                            {{ form.goods_name.label() }}
+                            {{ form.goods_name(class="form-control") }}
+                            {% if form.goods_name.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.goods_name.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                     </div>
+{#                     <div class="form-group">#}
+{#                        <label for="user_address">商品类型</label>#}
+{#                        <input type="text" class="form-control" id="user_address" placeholder="">#}
+{#                     </div>#}
+                     <div class="checkout-country-code clearfix">
+                        <div class="form-group">
+{#                           <label for="user_post_code">定价</label>#}
+{#                           <input type="text" class="form-control" id="user_post_code" name="zipcode" value="">#}
+                             {{ form.goods_price.label() }}
+                                {{ form.goods_price(class="form-control") }}
+                                {% if form.goods_price.errors %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.goods_price.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                        </div>
+                        <div class="form-group" >
+{#                           <label for="goods_num">数量</label>#}
+{#                           <input type="text" class="form-control" id="goods_num" name="num" value="">#}
+                            {{ form.goods_stock.label() }}
+                                {{ form.goods_stock(class="form-control") }}
+                                {% if form.goods_stock.errors %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.goods_stock.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                        </div>
+                     </div>
+                     <label for="Commodity_description">商品描述</label>
+                     <div class="form-group">
+
+{#                        <input type="text" class="form-control" id="Commodity_description" placeholder="">#}
+{#                              {{ form.goods_describe.label() }}#}
+                                    {{ form.goods_describe(class="form-control") }}
+                                    {% if form.goods_describe.errors %}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.goods_describe.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                     </div>
+                    {{ form.image_names() }}
+
+					 <div style="margin-bottom: 1em;display:inline-block;width: auto;height: auto" id="imageBox">
+
+                     </div>
+                     <div style="margin-bottom: 1rem">
+                         <label for="file">图片描述</label><br>
+                         <button type="button" id="select">(重新)选择图片</button>
+                         <input type="file" id="file" class="btn" name="upload_image" multiple accept="image/gif, image/jpeg, image/png, image/jpg" style="display: none"/>
+                         <button type="button" id="addImage" style="width: 18rem">追加图片</button>
+                         <button type="button" id="upImage" style="width: 18rem">上传</button>
+                     </div>
+                        {% if form.image_names.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.image_names.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                     <br/>
+					 <button type="submit" class="btn btn-main text-center">提交</button>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<script type="text/javascript">
+var dataArr=[];
+var form1=new FormData();
+var imageNames=""
+ $('#file').on('change',function(){
+    	var filePath = $(this).val();        //获取到input的value，里面是文件的路径
+    	var	fileFormat = filePath.substring(filePath.lastIndexOf(".")).toLowerCase();
+    	// 检查是否是图片
+    	if( !fileFormat.match(/.png|.jpg|.jpeg/) ) {
+    		error_prompt_alert('上传错误,文件格式必须为：png/jpg/jpeg');
+        	return;
+        }
+
+    	var i;
+    	for(i=0;i<this.files.length;i++){
+            var reader = new FileReader();
+            reader.readAsDataURL(this.files[i]);
+            form1.append('image',this.files[i])
+            reader.fileName = this.files[i].name;
+            //console.log(this.files[i]);
+            reader.onload = function(e){
+                var imgMsg = {
+                    name : this.fileName,//获取文件名
+                    base64 : this.result   //reader.readAsDataURL方法执行完后，base64数据储存在reader.result里
+				}
+                dataArr.push(imgMsg);
+                var div = document.createElement('div');
+                if(i==0){
+                    div.innerHTML = '<div class="delete">删除</div><div class="result"><img id="'+'image'+i+'" ' +
+                        'class="subPic" src="'+this.result+'" alt="'+this.fileName+'"/></div>';
+                }
+                else if(i%2==0&&i!=0){
+                    div.innerHTML = '<div class="delete">删除</div><div class="result"><img id="'+'image'+i+'" ' +
+                        'class="subPic" src="'+this.result+'" alt="'+this.fileName+'"/></div><br/>';
+                }
+                else{
+                    div.innerHTML = '<div class="delete">删除</div><div class="result"><img id="'+'image'+i+'" ' +
+                        'class="subPic" src="'+this.result+'" alt="'+this.fileName+'"/></div>';
+                }
+                div['className'] = 'float';
+                document.getElementById("imageBox").appendChild(div);
+                var img = div.getElementsByTagName('img')[0];
+                //console.log(img);
+                img.onload = function(){
+                    var nowHeight = ReSizePic(this); //设置图片大小
+                    this.parentNode.style.display = 'block';
+                    var Parent = this.parentNode;
+                    if(nowHeight){
+                        Parent.style.paddingTop = (Parent.offsetHeight - nowHeight)/2 + 'px';
+                    }
+                }
+                div.onclick = function(){
+                    $(this).remove();                  // 在页面中删除该图片元素
+                }
+            }
+    	}
+
+});
+//修改图片大小
+ function ReSizePic(ThisPic) {
+     var RePicWidth = 200; //这里修改为您想显示的宽度值
+
+     var TrueWidth = ThisPic.width; //图片实际宽度
+     var TrueHeight = ThisPic.height; //图片实际高度
+
+     if(TrueWidth>TrueHeight){
+         //宽大于高
+         var reWidth = RePicWidth;
+         ThisPic.width = reWidth;
+         //垂直居中
+         var nowHeight = TrueHeight * (reWidth/TrueWidth);
+         return nowHeight;  //将图片修改后的高度返回，供垂直居中用
+     }else{
+         //宽小于高
+         var reHeight = RePicWidth;
+         ThisPic.height = reHeight;
+     }
+ }
+ //选择图片
+ $("#select").on('click',function () {
+     $("#image_names").attr('value',"")
+    $("#file").value="";
+    $('.float').remove();
+    $("#file").click();
+ })
+ //追加图片
+ $("#addImage").on('click',function () {
+     $("#file").value="";
+     $("#file").click();
+ })
+
+ //获取图片数据并发送
+ function send(){
+     /*var submitArr = [];
+           $('.subPic').each(function () {
+                   submitArr.push({
+                        name: $(this).attr('alt'),
+                        base64: $(this).attr('src')
+                    });
+                }
+            );*/
+     $.ajax({
+         url : '/image/upload',
+         type : 'POST',
+         data : form1,
+         processData: false,   //用FormData传fd时需有这两项
+         contentType: false,
+         success : function(res){
+             if(res['code']==200){
+                 imageNames = $("#image_names").val()
+                 imageNames=imageNames+res['image_names'];
+                 $("#image_names").attr('value',imageNames)
+                 //console.log(imageNames);
+                 alert(res['message']);
+             }else {
+                 alert(res['message']);
+             }
+         }
+     })
+ }
+ //上传图片
+ $("#upImage").on('click',function () {
+     $("#file").value="";
+     $('.float').remove();
+     if(!dataArr.length){
+         return alert('请先选择文件');
+     }
+     send();
+ });
+
+</script>
+
+{% endblock %}

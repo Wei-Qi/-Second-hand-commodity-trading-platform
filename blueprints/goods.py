@@ -27,6 +27,22 @@ def upload():
             flash(res)
     return render_template('subsimtgoods.html',form=form)
 
+@bp.route('/change/<int:goodsid>',methods=['POST','GET'])
+@login_required
+def change(goodsid):
+    goods1=goods.get_goods_info(goodsid)
+    if goods1 == '商品id不存在':
+        return '商品不存在'
+    form=UpdateGoodsForm(goods_name=goods1['商品名称'],goods_describe=goods1['商品描述'],goods_stock=goods1['商品库存'],goods_price=goods1['商品价格'])
+    if form.validate_on_submit():
+        res=goods.change_goods_info(current_user.get_id(),goodsid,form.goods_name.data,form.goods_price.data,form.goods_stock.data,form.goods_describe.data)
+        if res is True:
+            flash('修改成功')
+            return redirect(f'/goods/{goodsid}')
+        else:
+            flash(res)
+    return render_template('changegoods.html',form=form,goodsid=goodsid)
+
 @bp.route('/<int:goodsid>')
 def detail(goodsid):
     form=ReplyCommentForm()
@@ -82,7 +98,7 @@ def deleteComment(goodsid):
     else:
         return jsonify({'code': 400, 'message': res})
 
-@bp.route('delete_recomment/<int:goodsid>',methods=['POST'])
+@bp.route('/delete_recomment/<int:goodsid>',methods=['POST'])
 @login_required
 def deleteRecomment(goodsid):
     recommentid = request.form.get('recommentid')
@@ -94,3 +110,16 @@ def deleteRecomment(goodsid):
         return jsonify({'code': 200, 'url': '/goods/' + str(goodsid) })
     else:
         return jsonify({'code': 400, 'message': res})
+
+@bp.route('/withdraw/<int:goodsid>')
+@login_required
+def withdraw(goodsid):
+    if goods.get_goods_info(goodsid)['用户id'] != current_user.get_id():
+        flash('无法下架别人的商品')
+    else:
+        res=goods.take_down_goods(goodsid)
+        if res is True:
+            flash('下架成功')
+        else:
+            flash(res)
+    return redirect('/user/my_goods')

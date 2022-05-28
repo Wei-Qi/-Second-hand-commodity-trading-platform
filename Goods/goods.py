@@ -156,13 +156,13 @@ class goods():
         """
         根据商品id下架商品
         :param goodsid:商品id
-        :return:'商品id不存在' or '商品已经存在' or True
+        :return:'商品id不存在' or '商品已经下架' or True
         """
         goods = GoodsModel.query.filter_by(GoodsId=goodsid).first()
         if goods is None:
             return '商品id不存在'
         if goods.Goods_Is_Takedown == True:
-            return '商品已经存在'
+            return '商品已经下架'
         goods.Goods_Is_Takedown = True
         db.session.commit()
         return True

@@ -123,3 +123,22 @@ class ReplyCommentForm(FlaskForm):
     userid=StringField(render_kw={'style': u'display:none'})
     commentid=StringField(render_kw={'style': u'display:none'})
     content=StringField('留言', validators=[DataRequired(u"留言不能为空")])
+
+
+class UpdateGoodsForm(FlaskForm):
+    goods_name = StringField('商品名称',
+                             validators=[DataRequired(u"商品名称不能为空"), Length(min=3, max=100, message=u'长度位于3~100之间')])
+    goods_describe = TextAreaField("商品描述",
+                                   validators=[DataRequired(u"商品描述不能为空"), Length(max=1024, message=u'描述不超过1024个字符')])
+    image_names = StringField("图片名称", render_kw={'style': u'display:none'})
+    goods_stock = IntegerField('库存', validators=[DataRequired(u"库存不能为空"),
+                                                 NumberRange(min=1, max=1000, message=u'库存个数需在1~1000之间')])
+    goods_price = FloatField('单价', validators=[DataRequired(u"单价不能为空")])
+
+    def validate_image_names(self, field):
+        names = field.data.split()
+        print(names)
+        if len(names) > 5:
+            raise ValidationError("最多上传5张图片")
+        elif len(names) < 1:
+            raise ValidationError("请至少上传1张图片")
