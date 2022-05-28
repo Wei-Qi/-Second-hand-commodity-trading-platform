@@ -130,4 +130,4 @@ def search():
     搜索结果页面
     '''
     query=request.args.get('query') #获取搜索关键字
-    return ''
+    return render_template('searchResults.html')
