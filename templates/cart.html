@@ -303,8 +303,6 @@
 	</div>
 </section>
 
-
-
 <div class="page-wrapper">
   <div class="cart shopping">
     <div class="container">
@@ -316,6 +314,7 @@
                 <table class="table">
                   <thead>
                     <tr>
+                      <th><input type="checkbox" id="checkAll">全选</th>
                       <th class="">商品</th>
                       <th class="">单价</th>
 					  <th class="">数量</th>
@@ -324,6 +323,7 @@
                   </thead>
                   <tbody>
                     <tr class="">
+                      <td><input type="checkbox" id="check"></td>
                       <td class="">
                         <div class="product-info">
                           <img width="80" src="../static/images/shop/cart/cart-1.jpg" alt="" />
@@ -332,15 +332,16 @@
                       </td>
                       <td class="">200.00</td>
 					  <td>
-						<button type="button" class="btn btn-sm"">+</button>
-						3
-						<button type="button" class="btn btn-sm"">-</button>
+						<button type="button" class="btn btn-sm" id="addNum">+</button>
+						<span>3</span>
+						<button type="button" class="btn btn-sm" id="subNum">-</button>
 					   </td>
                       <td class="">
                         <a class="product-remove" href="#!">删除</a>
                       </td>
                     </tr>
                     <tr class="">
+                      <td><input type="checkbox" id="check"></td>
                       <td class="">
                         <div class="product-info">
                           <img width="80" src="../static/images/shop/cart/cart-2.jpg" alt="" />
@@ -349,15 +350,16 @@
                       </td>
                       <td class="">200.00</td>
 					  <td>
-						<button type="button" class="btn btn-sm"">+</button>
-						3
-						<button type="button" class="btn btn-sm"">-</button>
+						<button type="button" class="btn btn-sm">+</button>
+						<span>3</span>
+						<button type="button" class="btn btn-sm">-</button>
 					   </td>
                       <td class="">
                         <a class="product-remove" href="#!">删除</a>
                       </td>
                     </tr>
                     <tr class="">
+                      <td><input type="checkbox" id="check"></td>
                       <td class="">
                         <div class="product-info">
                           <img width="80" src="../static/images/shop/cart/cart-3.jpg" alt="" />
@@ -366,9 +368,9 @@
                       </td>
                       <td class="">200.00</td>
 					  <td>
-						<button type="button" class="btn btn-sm"">+</button>
-						3
-						<button type="button" class="btn btn-sm"">-</button>
+						<button type="button" class="btn btn-sm">+</button>
+						<span>3</span>
+						<button type="button" class="btn btn-sm">-</button>
 					   </td>
                       <td class="">
                         <a class="product-remove" href="#!">删除</a>
@@ -460,8 +462,29 @@
 
     <!-- Main Js File -->
     <script src="../static/js/script.js"></script>
-    
+    <script type="text/javascript">
+        $('#addNum').on('click',function () {
+            var num= parseInt($(this).next().text());
+            console.log(num);
+            num=num+1;
+            console.log(num);
+            if(num < 100){
+                $(this).next().text(num);
+            }
+        })
+        $('#subNum').on('click',function () {
+            var num= parseInt($(this).prev().text());
+            num=num-1;
+            console.log(num);
+            if(num > 0){
+                $(this).prev().text(num);
+            }else{
+                alert('已经减到最小了！！');
+            }
+        })
+        $('#checkAll').on('click',function () {
 
-
+        })
+    </script>
   </body>
   </html>

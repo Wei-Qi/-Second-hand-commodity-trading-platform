@@ -293,6 +293,8 @@ var imageNames=""
                  imageNames=imageNames+res['image_names'];
                  $("#image_names").attr('value',imageNames)
                  //console.log(imageNames);
+                 form1=null;
+                 form1 = new FormData();
                  alert(res['message']);
              }else {
                  alert(res['message']);
