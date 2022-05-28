@@ -41,13 +41,13 @@
                     <tr class="">
                       <td class="">
                         <div class="product-info">
-                            <a href="/goods/{{ cart_item['商品id'] }}"><img width="80" src="/static/images/" alt="" /></a>
+                            <a href="/goods/{{ cart_item['商品id'] }} " class="myGoods"><img width="80" src="/static/images/" alt="" /></a>
                           <a href="#!"></a>
                         </div>
                       </td>
                       <td class="">{{ cart_item['商品单价']*cart_item['商品数量'] }}</td>
 					  <td>
-                          <p style="display: none">{{ cart_item['id'] }}</p>
+                          <p style="display: none" class="item_id">{{ cart_item['id'] }}</p>
 						<button type="button" class="btn btn-sm addNum" id="">+</button>
 						<span>{{ cart_item['商品数量'] }}</span>
 						<button type="button" class="btn btn-sm subNum" id="">-</button>
@@ -108,25 +108,58 @@
         $('.addNum').on('click',function () {
             var num= parseInt($(this).next().text());
             var price =parseInt($(this).parent().prev().text())/num;
+            var goods_id = $(this).prev().text();
+            let subsmit_url = '/cart/set_cnt/'+ toString(goods_id);
             console.log(num);
             num=num+1;
             console.log(price);
             if(num < 100){
-                $(this).next().text(num);
-                $(this).parent().prev().text(price*num);
+                $.ajax({
+                    url: subsmit_url,
+                    method: 'POST',
+                    data: {
+                        'goods_num': goods_id
+                    },
+                    success: function () {
+                        if(res['code']==200){
+                            $(this).next().text(num);
+                            $(this).parent().prev().text(price*num);
+                        }else{
+                            alert(res['message']);
+                        }
+                    }
+                })
             }
         })
         $('.subNum').on('click',function () {
             var num= parseInt($(this).prev().text());
             var price =parseInt($(this).parent().prev().text())/num;
+            var goods_id = $(this).parent().firstChild().text();
+            let subsmit_url = '/cart/set_cnt/'+ toString(goods_id);
             num=num-1;
             console.log(num);
             if(num > 0){
-                $(this).prev().text(num);
-                $(this).parent().prev().text(price*num);
+                $.ajax({
+                    url: subsmit_url,
+                    method: 'POST',
+                    data: {
+                        'goods_num': goods_id
+                    },
+                    success: function () {
+                        if(res['code']==200){
+                            $(this).prev().text(num);
+                            $(this).parent().prev().text(price*num);
+                        }else{
+                            alert(res['message']);
+                        }
+                    }
+                })
+
+
             }else{
                 alert('已经减到最小了！！');
             }
         })
+
     </script>
 {% endblock %}
