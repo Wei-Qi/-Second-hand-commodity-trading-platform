@@ -15,7 +15,7 @@ bp=Blueprint('cart',__name__,url_prefix="/cart")
 @login_required
 def cart():
 
-    cart_items=Cart.get_cart_by_usrid(current_user.get_id())
+    cart_items=Cart.get_cart_by_userid(current_user.get_id())
     return render_template('cart.html',cart_items=cart_items)
 
 @bp.route('/delete_item/<int:itemid>')
