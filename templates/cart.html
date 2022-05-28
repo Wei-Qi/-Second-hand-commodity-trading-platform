@@ -31,63 +31,66 @@
                   <thead>
                     <tr>
                       <th class="">商品</th>
-                      <th class="">单价</th>
+                      <th class="">总计</th>
 					  <th class="">数量</th>
                       <th class="">操作</th>
                     </tr>
                   </thead>
                   <tbody>
+                  {% for cart_item in cart_items %}
                     <tr class="">
                       <td class="">
                         <div class="product-info">
-                          <img width="80" src="../static/images/shop/cart/cart-1.jpg" alt="" />
+                            <a href="/goods/{{ cart_item['商品id'] }}"><img width="80" src="/static/images/" alt="" /></a>
                           <a href="#!"></a>
                         </div>
                       </td>
-                      <td class="">200.00</td>
+                      <td class="">{{ cart_item['商品单价']*cart_item['商品数量'] }}</td>
 					  <td>
+                          <p style="display: none">{{ cart_item['id'] }}</p>
 						<button type="button" class="btn btn-sm addNum" id="">+</button>
-						<span>1</span>
+						<span>{{ cart_item['商品数量'] }}</span>
 						<button type="button" class="btn btn-sm subNum" id="">-</button>
 					   </td>
                       <td class="">
-                        <a class="product-remove" href="#!">删除</a>
+                        <a class="product-remove" href="/cart/delete_item/{{ cart_item['id']}}">删除</a>
                       </td>
                     </tr>
-                    <tr class="">
-                      <td class="">
-                        <div class="product-info">
-                          <img width="80" src="../static/images/shop/cart/cart-2.jpg" alt="" />
-                          <a href="#!"></a>
-                        </div>
-                      </td>
-                      <td class="">200.00</td>
-					  <td>
-						<button type="button" class="btn btn-sm addNum" id="">+</button>
-						<span>1</span>
-						<button type="button" class="btn btn-sm subNum" id="">-</button>
-					   </td>
-                      <td class="">
-                        <a class="product-remove" href="#!">删除</a>
-                      </td>
-                    </tr>
-                    <tr class="">
-                      <td class="">
-                        <div class="product-info">
-                          <img width="80" src="../static/images/shop/cart/cart-3.jpg" alt="" />
-                          <a href="#!"></a>
-                        </div>
-                      </td>
-                      <td class="">200.00</td>
-					  <td>
-						<button type="button" class="btn btn-sm addNum" id="">+</button>
-						<span>1</span>
-						<button type="button" class="btn btn-sm subNum" id="">-</button>
-					   </td>
-                      <td class="">
-                        <a class="product-remove" href="#!">删除</a>
-                      </td>
-                    </tr>
+                  {% endfor %}
+{#                    <tr class="">#}
+{#                      <td class="">#}
+{#                        <div class="product-info">#}
+{#                          <img width="80" src="../static/images/shop/cart/cart-2.jpg" alt="" />#}
+{#                          <a href="#!"></a>#}
+{#                        </div>#}
+{#                      </td>#}
+{#                      <td class="">200.00</td>#}
+{#					  <td>#}
+{#						<button type="button" class="btn btn-sm addNum" id="">+</button>#}
+{#						<span>1</span>#}
+{#						<button type="button" class="btn btn-sm subNum" id="">-</button>#}
+{#					   </td>#}
+{#                      <td class="">#}
+{#                        <a class="product-remove" href="#!">删除</a>#}
+{#                      </td>#}
+{#                    </tr>#}
+{#                    <tr class="">#}
+{#                      <td class="">#}
+{#                        <div class="product-info">#}
+{#                          <img width="80" src="../static/images/shop/cart/cart-3.jpg" alt="" />#}
+{#                          <a href="#!"></a>#}
+{#                        </div>#}
+{#                      </td>#}
+{#                      <td class="">200.00</td>#}
+{#					  <td>#}
+{#						<button type="button" class="btn btn-sm addNum" id="">+</button>#}
+{#						<span>1</span>#}
+{#						<button type="button" class="btn btn-sm subNum" id="">-</button>#}
+{#					   </td>#}
+{#                      <td class="">#}
+{#                        <a class="product-remove" href="#!">删除</a>#}
+{#                      </td>#}
+{#                    </tr>#}
                   </tbody>
                 </table>
                 <a href="checkout.html" class="btn btn-main pull-right">结算</a>
