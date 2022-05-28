@@ -13,6 +13,7 @@ from Comment.comment import Comment
 from Comment.recomment import Recomment
 from Comment.message import Message
 from Cart.Cart import Cart
+from Order.Order import Order
 
 login_manager = LoginManager()
 
@@ -40,6 +41,7 @@ app.register_blueprint(cart_bp)
 @app.route('/')
 @app.route('/home')
 def home():
+    print(Order.get_order_by_sellerid(2))
     return render_template('index.html')
 
 
