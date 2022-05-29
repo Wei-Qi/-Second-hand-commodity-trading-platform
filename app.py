@@ -1,7 +1,7 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import config
 from exts import db
-from blueprints import user_bp,goods_bp,image_bp,cart_bp
+from blueprints import user_bp, goods_bp, image_bp, cart_bp
 
 from exts import mail
 from flask_migrate import Migrate
@@ -14,6 +14,9 @@ from Comment.recomment import Recomment
 from Comment.message import Message
 from Cart.Cart import Cart
 from Order.Order import Order
+from payment.ALIPAY import aliurl
+import json
+from payment.ALIPAY import alipay
 
 login_manager = LoginManager()
 
@@ -38,10 +41,20 @@ app.register_blueprint(goods_bp)
 app.register_blueprint(image_bp)
 app.register_blueprint(cart_bp)
 
+
 @app.route('/')
 @app.route('/home')
 def home():
-    print(Order.get_order_by_sellerid(2))
+    data = request.args.to_dict()
+    # sign 不能参与签名验证
+    signature = data.pop("sign")
+    print(json.dumps(data))
+    print(signature)
+    # verify
+    success = alipay.verify(data, signature)
+    print(success)
+    if success:
+        print("trade succeed")
     return render_template('index.html')
 
 
