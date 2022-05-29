@@ -30,15 +30,18 @@
                 <table class="table">
                   <thead>
                     <tr>
+                      <th class="">&nbsp;</th>
                       <th class="">商品</th>
                       <th class="">总计</th>
 					  <th class="">数量</th>
                       <th class="">操作</th>
+
                     </tr>
                   </thead>
                   <tbody>
                   {% for cart_item in cart_items %}
                     <tr class="">
+                      <td class=""><input type="checkbox" class="myCheck"></td>
                       <td class="">
                         <div class="product-info">
                             <a href="/goods/{{ cart_item['商品id'] }} " class="myGoods"><img width="80" src="/static/images/{{ cart_item['商品图片'] }}" alt="" /></a>
@@ -47,7 +50,7 @@
                       </td>
                       <td class="">{{ cart_item['商品单价']*cart_item['商品数量'] }}</td>
 					  <td>
-                          <p style="display: none" class="item_id">{{ cart_item['id'] }}</p>
+                        <p style="display: none" class="item_id">{{ cart_item['id'] }}</p>
 						<button type="button" class="btn btn-sm addNum" id="">+</button>
 						<span>{{ cart_item['商品数量'] }}</span>
 						<button type="button" class="btn btn-sm subNum" id="">-</button>
@@ -110,10 +113,13 @@
             var price =parseInt($(this).parent().prev().text())/num;
             var goods_id = $(this).prev().text();
             let subsmit_url = '/cart/set_cnt/'+ goods_id;
-            console.log(goods_id);
+            var flag=0;
+            //console.log(num);
             num=num+1;
-            console.log(price);
+            //console.log(num);
+
             if(num < 100){
+                $.ajaxSetup({async :false});//设置ajax为同步
                 $.ajax({
                     url: subsmit_url,
                     method: 'POST',
@@ -122,23 +128,31 @@
                     },
                     success: function (res) {
                         if(res['code']==200){
-                            $(this).next().text(num);
-                            $(this).parent().prev().text(price*num);
+                            flag= 1;
+
                         }else{
                             alert(res['message']);
                         }
                     }
                 })
+                //console.log(flag)
+                if(flag==1){
+                    $(this).next().text(num);
+                    $(this).parent().prev().text(price*num);
+                }
             }
         })
-        $('.subNum').on('click',function () {
+        $('.subNum').on('click',function (res) {
             var num= parseInt($(this).prev().text());
             var price =parseInt($(this).parent().prev().text())/num;
             var goods_id = $(this).prev().prev().prev().text();
             let subsmit_url = '/cart/set_cnt/'+ goods_id;
+            let flag=0;
             num=num-1;
-            console.log(goods_id);
+            //console.log(num);
+
             if(num > 0){
+                $.ajaxSetup({async :false});
                 $.ajax({
                     url: subsmit_url,
                     method: 'POST',
@@ -147,19 +161,20 @@
                     },
                     success: function (res) {
                         if(res['code']==200){
-                            $(this).prev().text(num);
-                            $(this).parent().prev().text(price*num);
+                             flag= 1;
+                            //alert('玩尼玛');
                         }else{
                             alert(res['message']);
                         }
                     }
                 })
-
-
+                 if(flag==1){
+                    $(this).prev().text(num);
+                    $(this).parent().prev().text(price*num);
+                }
             }else{
                 alert('已经减到最小了！！');
             }
         })
-
     </script>
 {% endblock %}
