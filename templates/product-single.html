@@ -121,7 +121,7 @@
 						</div>
 					</div>
 					
-					<a href="cart.html" class="btn btn-main mt-20">加入购物车</a>
+					<a href="#" class="btn btn-main mt-20 myCart">加入购物车</a>
 				</div>
 			</div>
 		</div>
@@ -327,6 +327,28 @@
                 'recommentid': id
             },
             success: function (res) {
+                if(res['code']==200){
+                    window.location = res['url'];
+                }else{
+                    alert(res['message']);
+                }
+            }
+        })
+    })
+    <!-- 加入购物车 -->
+    $('.myCart').on('click',function () {
+        let goodsNum = $("input[name='product-quantity']").val();
+        console.log(goodsNum);
+        if(goodsNum==null){
+            return;
+        }
+        $.ajax({
+            url: "/cart/add_item/{{goodsInfo['商品ID']}}",
+            method: "POST",
+            data: {
+                'num': goodsNum
+            },
+            success: function () {
                 if(res['code']==200){
                     window.location = res['url'];
                 }else{

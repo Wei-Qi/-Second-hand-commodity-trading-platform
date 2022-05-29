@@ -109,7 +109,7 @@
             var num= parseInt($(this).next().text());
             var price =parseInt($(this).parent().prev().text())/num;
             var goods_id = $(this).prev().text();
-            let subsmit_url = '/cart/set_cnt/'+ toString(goods_id);
+            let subsmit_url = '/cart/set_cnt/'+ goods_id;
             console.log(num);
             num=num+1;
             console.log(price);
@@ -135,7 +135,7 @@
             var num= parseInt($(this).prev().text());
             var price =parseInt($(this).parent().prev().text())/num;
             var goods_id = $(this).parent().firstChild().text();
-            let subsmit_url = '/cart/set_cnt/'+ toString(goods_id);
+            let subsmit_url = '/cart/set_cnt/'+ goods_id;
             num=num-1;
             console.log(num);
             if(num > 0){
