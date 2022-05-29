@@ -93,7 +93,7 @@
 {#                    </tr>#}
                   </tbody>
                 </table>
-                <a href="checkout.html" class="btn btn-main pull-right">结算</a>
+                <a href="/cart/checkout" class="btn btn-main pull-right">结算</a>
               </form>
             </div>
           </div>
@@ -110,7 +110,7 @@
             var price =parseInt($(this).parent().prev().text())/num;
             var goods_id = $(this).prev().text();
             let subsmit_url = '/cart/set_cnt/'+ goods_id;
-            console.log(num);
+            console.log(goods_id);
             num=num+1;
             console.log(price);
             if(num < 100){
@@ -134,10 +134,10 @@
         $('.subNum').on('click',function () {
             var num= parseInt($(this).prev().text());
             var price =parseInt($(this).parent().prev().text())/num;
-            var goods_id = $(this).parent().firstChild().text();
+            var goods_id = $(this).prev().prev().prev().text();
             let subsmit_url = '/cart/set_cnt/'+ goods_id;
             num=num-1;
-            console.log(num);
+            console.log(goods_id);
             if(num > 0){
                 $.ajax({
                     url: subsmit_url,
