@@ -346,11 +346,11 @@
             url: "/cart/add_item/{{goodsInfo['商品ID']}}",
             method: "POST",
             data: {
-                'num': goodsNum
+                'cnt': goodsNum
             },
-            success: function () {
+            success: function (res) {
                 if(res['code']==200){
-                    window.location = res['url'];
+                    alert(res['message'])
                 }else{
                     alert(res['message']);
                 }

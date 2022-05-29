@@ -120,7 +120,7 @@
                     data: {
                         'cnt': num
                     },
-                    success: function () {
+                    success: function (res) {
                         if(res['code']==200){
                             $(this).next().text(num);
                             $(this).parent().prev().text(price*num);
@@ -145,7 +145,7 @@
                     data: {
                         'cnt': num
                     },
-                    success: function () {
+                    success: function (res) {
                         if(res['code']==200){
                             $(this).prev().text(num);
                             $(this).parent().prev().text(price*num);
