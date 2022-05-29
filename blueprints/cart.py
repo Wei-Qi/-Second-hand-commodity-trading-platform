@@ -46,3 +46,8 @@ def setCnt(itemid):
     else:
         return jsonify({'code':400,'message':res})
 
+@bp.route('/checkout')
+@login_required
+def checkout():
+
+    return render_template('checkout.html')
