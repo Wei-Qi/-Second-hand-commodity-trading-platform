@@ -1,7 +1,7 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import config
 from exts import db
-from blueprints import user_bp,goods_bp,image_bp,cart_bp
+from blueprints import user_bp, goods_bp, image_bp, cart_bp
 
 from exts import mail
 from flask_migrate import Migrate
@@ -13,6 +13,10 @@ from Comment.comment import Comment
 from Comment.recomment import Recomment
 from Comment.message import Message
 from Cart.Cart import Cart
+from Order.Order import Order
+from payment.ALIPAY import ALIPAY
+import json
+from payment.ALIPAY import alipay
 
 login_manager = LoginManager()
 
@@ -37,9 +41,11 @@ app.register_blueprint(goods_bp)
 app.register_blueprint(image_bp)
 app.register_blueprint(cart_bp)
 
+
 @app.route('/')
 @app.route('/home')
 def home():
+    # data = request.args.to_dict()
     return render_template('index.html')
 
 

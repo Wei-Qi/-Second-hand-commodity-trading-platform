@@ -31,12 +31,12 @@ class UserModel(db.Model, UserMixin):
     UserPassword = db.Column(db.String(200), nullable=False)
     UserCredit = db.Column(db.Integer, default=100)
     UserJoin_time = db.Column(db.DateTime, default=datetime.now)
+    UserAliaccount = db.Column(db.String(1024))
     # 一对多关系通常放在一的那一方
     UserAddresses = db.relationship('UserAddressModel', backref='user', lazy='dynamic')
     UserGoods = db.relationship('GoodsModel', backref='user', lazy='dynamic')
     UserComments = db.relationship('CommentModel', backref='user', lazy='dynamic')
     UserCarts = db.relationship('CartModel', backref='user', lazy='dynamic')
-    UserOrder = db.relationship('OrderModel', backref='user', lazy='dynamic')
 
     def keys(self):
         return (
@@ -90,7 +90,12 @@ class OrderModel(db.Model):
     AddressId = db.Column(db.Integer, db.ForeignKey('useraddress.id', ondelete='CASCADE'))
     UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
     GoodsId = db.Column(db.Integer, db.ForeignKey('goods.GoodsId', ondelete='CASCADE'))
+    SellerId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
+    AliId = db.Column(db.Integer)
 
+    user = db.relationship('UserModel', backref='UserOrder', foreign_keys=[UserId])
+
+    seller = db.relationship('UserModel', backref='SellerOrder', foreign_keys=[SellerId])
 
 class CommentModel(db.Model):
     __tablename__ = 'comment'

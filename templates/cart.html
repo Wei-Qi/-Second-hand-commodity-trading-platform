@@ -44,7 +44,7 @@
                       <td class=""><input type="checkbox" class="myCheck"></td>
                       <td class="">
                         <div class="product-info">
-                            <a href="/goods/{{ cart_item['商品id'] }} " class="myGoods"><img width="80" src="/static/images/" alt="" /></a>
+                            <a href="/goods/{{ cart_item['商品id'] }} " class="myGoods"><img width="80" src="/static/images/{{ cart_item['商品图片'] }}" alt="" /></a>
                           <a href="#!"></a>
                         </div>
                       </td>
@@ -124,7 +124,7 @@
                     url: subsmit_url,
                     method: 'POST',
                     data: {
-                        'cnt': goods_id
+                        'cnt': num
                     },
                     success: function (res) {
                         if(res['code']==200){
@@ -157,7 +157,7 @@
                     url: subsmit_url,
                     method: 'POST',
                     data: {
-                        'cnt': goods_id
+                        'cnt': num
                     },
                     success: function (res) {
                         if(res['code']==200){
