@@ -14,7 +14,7 @@ bp=Blueprint('cart',__name__,url_prefix="/cart")
 @bp.route('/')
 @login_required
 def cart():
-
+    #Cart.add_cart(1,21,10)
     cart_items=Cart.get_cart_by_userid(current_user.get_id())
     return render_template('cart.html',cart_items=cart_items)
 
