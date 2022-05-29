@@ -10,10 +10,11 @@ from exts import db
 class Order():
     """
     订单状态：
-        0：待发货
-        1：待收货
-        2：已完成
-        3：退货中
+        0：待支付
+        1：待发货
+        2：待收货
+        3：已完成
+        4：退货中
     """
 
     @staticmethod
@@ -81,6 +82,22 @@ class Order():
         return True
 
     @staticmethod
+    def confirm_goods(orderid):
+        """
+        根据订单id收货
+        :param orderid:
+        :return:
+        """
+        order = OrderModel.query.filter_by(OrderId=orderid).first()
+        if order is None:
+            return '订单id不存在'
+        order.OrderState = 3
+        db.session.commit()
+        return True
+
+
+
+    @staticmethod
     def get_order_by_orderid(orderid):
         """
         根据订单id获取订单信息
@@ -124,6 +141,8 @@ class Order():
         for order in user.UserOrder:
             order_json.append(Order.get_order_by_orderid(order.OrderId))
         return order_json
+
+
 
     @staticmethod
     def get_order_by_sellerid(userid):
