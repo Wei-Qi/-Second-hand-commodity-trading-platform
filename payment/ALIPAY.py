@@ -56,6 +56,7 @@ class ALIPAY():
         if order is None:
             return '订单id不存在'
         amount = order.GoodsNum * order.goods.GoodsPrice
+        amount = round(amount, 2)
         url_string = alipay.api_alipay_trade_page_pay(
             out_trade_no=str(orderid),
             total_amount=amount,
@@ -102,6 +103,7 @@ class ALIPAY():
         if order.OrderState == 0 or order.OrderState == 3 or order.OrderState == 4 or order.OrderState:
             return '该订单无法退款'
         amount = order.GoodsNum * order.goods.GoodsPrice
+        amount = round(amount, 2)
         result = alipay.api_alipay_trade_refund(
             refund_amount=amount,
             out_trade_no=str(orderid),
@@ -118,28 +120,23 @@ class ALIPAY():
             return False
 
     @staticmethod
-    def transform_money(orderid):
+    def transform_money(amount, account):
         """
-        根据订单id向商家转账
-        :param orderid:订单id
+        向卖家转钱
+        :param amount:金额
+        :param account:卖家账户
         :return:
         """
-        order = OrderModel.query.filter_by(OrderId=orderid).first()
-        if order is None:
-            return '订单id不存在'
-        amount = order.GoodsNum * order.goods.GoodsPrice
-
+        amount = round(amount, 2)
         result = alipay.api_alipay_fund_trans_toaccount_transfer(
             datetime.now().strftime("%Y%m%d%H%M%S"),
             payee_type="ALIPAY_LOGONID",
-            payee_account=str(order.seller.UserAliaccount),
+            payee_account=str(account),
             amount=amount
         )
         # result = {'code': '10000', 'msg': 'Success', 'order_id': '', 'out_biz_no': '',
         #           'pay_date': '2017-06-26 14:36:25'}
         if result["code"] == "10000":
-            order.OrderState = 3
-            db.session.commit()
             return True
         else:
             return False

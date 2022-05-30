@@ -5,8 +5,9 @@ Date：2022/5/27
 """
 from models import *
 from exts import db
+from payment.ALIPAY import ALIPAY
 
-_Order_State = {0: '待支付', 1: '待发货', 2: '待收货', 3: '已完成', 4: '退货', 5: '退货完成'}
+_Order_State = {0: '待支付', 1: '待发货', 2: '待收货', 3: '已完成', 4: '退货申请中', 5: '同意退货'}
 
 
 class Order():
@@ -17,7 +18,7 @@ class Order():
         2：待收货
         3：已完成
         4：退货申请中
-        5：确认退货
+        5：同意退货（修改了原来的名字）
     """
 
     @staticmethod
@@ -79,7 +80,7 @@ class Order():
         order = OrderModel.query.filter_by(OrderId=orderid).first()
         if order is None:
             return '订单id不存在'
-        Order.change_order_state(orderid, 1)
+        Order.change_order_state(orderid, 2)
         order.OrderExpress = express
         db.session.commit()
         return True
@@ -87,15 +88,54 @@ class Order():
     @staticmethod
     def confirm_goods(orderid):
         """
-        根据订单id收货
+        根据订单id确认收货
         :param orderid:
         :return:
         """
         order = OrderModel.query.filter_by(OrderId=orderid).first()
         if order is None:
             return '订单id不存在'
-        Order.change_order_state(orderid, 3)
+        amount = order.GoodsNum * order.goods.GoodsPrice
+        result = ALIPAY.transform_money(account=order.seller.UserAliaccount, amount=amount)
+        if result:
+            Order.change_order_state(orderid, 3)
+            return True
+        else:
+            return False
+
+    @staticmethod
+    def request_return(orderid, reason):
+        """
+        买家发起退货申请
+        :param orderid:订单id
+        :param reason:退货原因
+        :return:'订单id不存在' or True
+        """
+        order = OrderModel.query.filter_by(OrderId=orderid).first()
+        if order is None:
+            return '订单id不存在'
+        Order.change_order_state(orderid, 4)
+        Order.OrderReturnReason = reason
+        db.session.commit()
         return True
+
+    @staticmethod
+    def check_request_return(orderid, is_agree):
+        """
+        卖家处理退货请求
+        :param orderid:订单id
+        :param is_agree:是否同意
+        :return:'订单id不存在' or True
+        """
+        order = OrderModel.query.filter_by(OrderId=orderid).first()
+        if order is None:
+            return '订单id不存在'
+        if is_agree:
+            Order.change_order_state(5)
+        else:
+            Order.change_order_state(2)
+        return True
+
 
     @staticmethod
     def get_order_by_orderid(orderid):
