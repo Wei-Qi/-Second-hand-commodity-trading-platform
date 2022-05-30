@@ -32,14 +32,14 @@ alipay = AliPay(
 
 # 电脑网站支付，需要跳转到：https://openapi.alipaydev.com/gateway.do? + order_string
 # 使用示例
-order_string = alipay.api_alipay_trade_page_pay(
-    out_trade_no="231231230",
-    total_amount=10000,
-    subject='被子',
-    return_url="http://127.0.0.1:5000/",
-    notify_url=None  # 可选，不填则使用默认 notify url
-)
-url = 'https://openapi.alipaydev.com/gateway.do?' + order_string
+# order_string = alipay.api_alipay_trade_page_pay(
+#     out_trade_no="231231230",
+#     total_amount=10000,
+#     subject='被子',
+#     return_url="http://127.0.0.1:5000/",
+#     notify_url=None  # 可选，不填则使用默认 notify url
+# )
+# url = 'https://openapi.alipaydev.com/gateway.do?' + order_string
 
 print(url)
 
