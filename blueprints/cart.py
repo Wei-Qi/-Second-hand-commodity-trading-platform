@@ -39,6 +39,7 @@ def addItem(goodsid):
 @bp.route('/set_cnt/<int:itemid>',methods=['POST'])
 @login_required
 def setCnt(itemid):
+    print(request.form)
     cnt=request.form.get('cnt')
     res=Cart.change_goods_num(itemid,cnt)
     if res is True:
@@ -49,5 +50,4 @@ def setCnt(itemid):
 @bp.route('/checkout')
 @login_required
 def checkout():
-
     return render_template('checkout.html')

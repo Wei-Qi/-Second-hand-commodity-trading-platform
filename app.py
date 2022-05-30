@@ -14,7 +14,7 @@ from Comment.recomment import Recomment
 from Comment.message import Message
 from Cart.Cart import Cart
 from Order.Order import Order
-from payment.ALIPAY import aliurl
+
 import json
 from payment.ALIPAY import alipay
 
@@ -45,16 +45,16 @@ app.register_blueprint(cart_bp)
 @app.route('/')
 @app.route('/home')
 def home():
-    data = request.args.to_dict()
-    # sign 不能参与签名验证
-    signature = data.pop("sign")
-    print(json.dumps(data))
-    print(signature)
-    # verify
-    success = alipay.verify(data, signature)
-    print(success)
-    if success:
-        print("trade succeed")
+    # data = request.args.to_dict()
+    # # sign 不能参与签名验证
+    # signature = data.pop("sign")
+    # print(json.dumps(data))
+    # print(signature)
+    # # verify
+    # success = alipay.verify(data, signature)
+    # print(success)
+    # if success:
+    #     print("trade succeed")
     return render_template('index.html')
 
 

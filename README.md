@@ -13,6 +13,7 @@ flask_login
 flask_wtf
 email-validator
 pymysql
+pip install python-alipay-sdk --upgrade
 ```
 
 ---
