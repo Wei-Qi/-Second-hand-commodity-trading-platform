@@ -6,7 +6,7 @@ Date：2022/5/27
 from models import *
 from exts import db
 
-_Order_State = {0: '待支付',1: '待发货', 2: '待收货', 3: '已完成', 4: '退货'}
+_Order_State = {0: '待支付',1: '待发货', 2: '待收货', 3: '已完成', 4: '退货', 5: '退货完成'}
 
 class Order():
     """
@@ -16,6 +16,7 @@ class Order():
         2：待收货
         3：已完成
         4：退货中
+        5：退货完成
     """
 
     @staticmethod

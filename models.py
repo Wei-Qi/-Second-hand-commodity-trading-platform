@@ -92,6 +92,7 @@ class OrderModel(db.Model):
     GoodsId = db.Column(db.Integer, db.ForeignKey('goods.GoodsId', ondelete='CASCADE'))
     SellerId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
     AliId = db.Column(db.Integer)
+    # OrderReturnExpress = db.Column(db.String(1024), unique=True)
 
     user = db.relationship('UserModel', backref='UserOrder', foreign_keys=[UserId])
 
@@ -182,3 +183,4 @@ class CartModel(db.Model):
     UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
     GoodsId = db.Column(db.Integer, db.ForeignKey('goods.GoodsId', ondelete='CASCADE'))
     GoodsNum = db.Column(db.Integer, nullable=False)
+
