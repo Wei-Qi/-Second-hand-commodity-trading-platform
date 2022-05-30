@@ -6,6 +6,7 @@ Date：2022/5/27
 from models import *
 from exts import db
 
+_Order_State = {0: '待支付',1: '待发货', 2: '待收货', 3: '已完成', 4: '退货'}
 
 class Order():
     """
@@ -48,7 +49,7 @@ class Order():
         db.session.commit()
         goods.GoodsStock -= goodsnum
         db.session.commit()
-        return True
+        return order.OrderId
 
     @staticmethod
     def change_order_state(orderid, state):
@@ -91,8 +92,7 @@ class Order():
         order = OrderModel.query.filter_by(OrderId=orderid).first()
         if order is None:
             return '订单id不存在'
-        order.OrderState = 3
-        db.session.commit()
+        Order.change_order_state(orderid, 3)
         return True
 
 
@@ -125,6 +125,8 @@ class Order():
         order_dict['卖家id'] = order.SellerId
         order_dict['卖家姓名'] = order.seller.UserName
         order_dict['卖家头像'] = order.user.UserImage
+        order_dict['时间'] = order.OrderTime
+        order_dict['订单状态'] = _Order_State[order.OrderState]
         return order_dict
 
     @staticmethod
