@@ -41,7 +41,7 @@ class UserModel(db.Model, UserMixin):
     def keys(self):
         return (
             'UserId', 'UserEmail', 'UserName', 'UserIdcard', 'UserSex', 'UserAddresses', 'UserPhone', 'UserPassword',
-            'UserCredit', 'UserJoin_time')
+            'UserCredit', 'UserJoin_time', 'UserAliaccount')
 
     def __getitem__(self, item):
         return getattr(self, item)
