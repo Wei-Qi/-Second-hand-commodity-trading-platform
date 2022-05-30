@@ -125,6 +125,7 @@ class Order():
         order_dict['卖家id'] = order.SellerId
         order_dict['卖家姓名'] = order.seller.UserName
         order_dict['卖家头像'] = order.user.UserImage
+        order_dict['卖家支付宝账户'] = order.user.UserAliaccount
         order_dict['时间'] = order.OrderTime
         order_dict['订单状态'] = _Order_State[order.OrderState]
         return order_dict

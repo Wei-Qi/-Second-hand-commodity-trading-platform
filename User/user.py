@@ -12,7 +12,7 @@ import json
 
 class user:
     @staticmethod
-    def add_user(email, password, username):
+    def add_user(email, password, username, aliaccount):
         """
         注册时添加用户
         :param email:邮箱
@@ -27,7 +27,7 @@ class user:
         if user is not None:
             return '该用户名已经被注册'
         hash_password = generate_password_hash(password)
-        user = UserModel(UserEmail=email, UserName=username, UserPassword=hash_password)
+        user = UserModel(UserEmail=email, UserName=username, UserPassword=hash_password, UserAliaccount=aliaccount)
         db.session.add(user)
         db.session.commit()
         return True
@@ -214,7 +214,6 @@ class user:
         db.session.commit()
         return True
 
-
     @staticmethod
     def change_user_address(userid, addressid, person_name, address_name, phone):
         """
@@ -251,4 +250,3 @@ class user:
         user.UserImage = picturepath
         db.session.commit()
         return True
-

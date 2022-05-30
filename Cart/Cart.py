@@ -23,6 +23,8 @@ class Cart():
         goods = GoodsModel.query.filter_by(GoodsId=goodsid).first()
         if goods is None:
             return '商品id不存在'
+        if goods.Goods_Is_Takedown:
+            return '该商品已经下架'
         cart = CartModel(UserId=userid, GoodsId=goodsid, GoodsNum=goodsnum)
         db.session.add(cart)
         db.session.commit()

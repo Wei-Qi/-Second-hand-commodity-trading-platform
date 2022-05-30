@@ -107,6 +107,8 @@ class goods():
             return '商品id不存在'
         if goods.UserId != userid:
             return '不是该用户的商品'
+        if goods.Goods_Is_Takedown:
+            return '该商品已经下架'
         goods = GoodsModel.query.filter_by(GoodsId=goodsid).first()
         goods.GoodsName = goodsname
         goods.GoodsPrice = goodsprice
