@@ -65,7 +65,6 @@ class Comment():
         goods = GoodsModel.query.filter_by(GoodsId=GoodsId).first()
         if goods is None:
             return '商品Id不存在'
-        print(goods.comments)
         comments = goods.comments
         comments_list = []
         for comment in comments:

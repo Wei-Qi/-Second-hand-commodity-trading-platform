@@ -37,6 +37,7 @@ class UserModel(db.Model, UserMixin):
     UserGoods = db.relationship('GoodsModel', backref='user', lazy='dynamic')
     UserComments = db.relationship('CommentModel', backref='user', lazy='dynamic')
     UserCarts = db.relationship('CartModel', backref='user', lazy='dynamic')
+    UserEvaluation = db.relationship('EvaluationModel', backref='user', lazy='dynamic')
 
     def keys(self):
         return (
@@ -54,11 +55,13 @@ class EvaluationModel(db.Model):
     __tablename__ = 'evaluation'
     EvaluationId = db.Column(db.Integer, primary_key=True, autoincrement=True)
     EvaluationDescribe = db.Column(db.String(1024), nullable=False)
-    EvaluationPicture = db.Column(db.BLOB)
+    EvaluationPicture = db.Column(db.String(1024))
     EvaluationScore = db.Column(db.Integer)
     EvaluationTime = db.Column(db.DateTime, default=datetime.now)
-    UserId = db.Column(db.Integer), db.ForeignKey('user.UserId', ondelete='CASCADE')
-    OrderId = db.Column(db.Integer, db.ForeignKey('order.OrderId', ondelete='CASCADE'))
+    UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
+    GoodsId = db.Column(db.Integer, db.ForeignKey('goods.GoodsId', ondelete='CASCADE'))
+
+    goods = db.relationship('GoodsModel', backref=db.backref('evaluations', order_by=EvaluationTime.desc()))
 
 
 class GoodsModel(db.Model):
@@ -83,8 +86,6 @@ class OrderModel(db.Model):
     OrderId = db.Column(db.Integer, primary_key=True, autoincrement=True)
     OrderExpress = db.Column(db.String(200), unique=True)
     GoodsNum = db.Column(db.Integer, nullable=False)
-    # OrderAddress = db.Column(db.String(200), nullable=False)
-    # OrderPhone = db.Column(db.String(11), nullable=False)
     OrderTime = db.Column(db.DateTime, default=datetime.now)
     OrderState = db.Column(db.Integer, default=0)
     AddressId = db.Column(db.Integer, db.ForeignKey('useraddress.id', ondelete='CASCADE'))
@@ -92,6 +93,7 @@ class OrderModel(db.Model):
     GoodsId = db.Column(db.Integer, db.ForeignKey('goods.GoodsId', ondelete='CASCADE'))
     SellerId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
     AliId = db.Column(db.Integer)
+    OrderReturnReason = db.Column(db.String(1024))
     # OrderReturnExpress = db.Column(db.String(1024), unique=True)
 
     user = db.relationship('UserModel', backref='UserOrder', foreign_keys=[UserId])

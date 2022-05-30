@@ -15,6 +15,7 @@ from Comment.message import Message
 from Cart.Cart import Cart
 from Order.Order import Order
 from payment.ALIPAY import ALIPAY
+from Evaluation.Evaluation import Evaluation
 login_manager = LoginManager()
 
 login_manager.login_view = '/user/login'  # 未登录将自动跳转到该路径
@@ -42,7 +43,6 @@ app.register_blueprint(order_bp)
 @app.route('/')
 @app.route('/home')
 def home():
-    # ALIPAY.refund()
     return render_template('index.html')
 
 
