@@ -17,7 +17,7 @@ from flask_login import current_user, logout_user, login_user, login_required, f
 from forms import *
 from User.user import user
 from Goods.goods import goods
-
+from Order.Order import Order
 
 bp = Blueprint('user', __name__, url_prefix='/user')
 
@@ -98,10 +98,11 @@ def signIn():
     return render_template('signin.html', form=form)
 
 
-@bp.route("/dashboard")
+@bp.route("/my_sale")
 @login_required
-def dashboard():
-    return render_template("dashboard.html")
+def mySale():
+    sale_list=Order.get_order_by_sellerid(current_user.get_id())
+    return render_template("mysale.html",sale_list=sale_list)
 
 
 @bp.route("/address")
@@ -165,10 +166,11 @@ def returnGoods():
     return render_template("return_goods.html")
 
 
-@bp.route("/order")
+@bp.route("/my_purchase")
 @login_required
-def order():
-    return render_template("order.html")
+def myPurchase():
+    order_list=Order.get_order_by_userid(current_user.get_id())
+    return render_template("mypurchase.html",order_list=order_list)
 
 
 @bp.route("/return_order")

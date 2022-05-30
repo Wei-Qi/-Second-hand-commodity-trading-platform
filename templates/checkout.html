@@ -35,26 +35,39 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td><input type="radio" name="addressid" id="address1"></td>
-                          <td>小明</td>
-                          <td>西南交通大学犀浦校区天佑斋</td>
-                          <td>123456789101</td>
+                      {% for i in range(address_list|length) %}
+                      <tr>
+                          {% if i == 0 %}
+                          <td><input type="radio" name="addressid"  value="{{ address_list[i]['地址id'] }}" checked="checked" ></td>
+                          {% else %}
+                          <td><input type="radio" name="addressid"  value="{{ address_list[i]['地址id'] }}"></td>
+                          {% endif %}
+                          <td>{{ address_list[i]['收货人'] }}</td>
+                          <td>{{ address_list[i]['收货地址']}}</td>
+                          <td>{{ address_list[i]['电话号码'] }}</td>
+                      </tr>
+                      {% endfor %}
 
-                        </tr>
-                        <tr>
-                          <td><input type="radio" name="addressid" id="address1"></td>
-                          <td>小红</td>
-                          <td>西南交通大学犀浦校区天佑斋</td>
-                          <td>123456789101</td>
-
-                        </tr>
-                        <tr>
-                          <td><input type="radio" name="addressid" id="address1"></td>
-                          <td>小光</td>
-                          <td>西南交通大学犀浦校区天佑斋</td>
-                          <td>123456789101</td>
-                        </tr>
+{#                        <tr>#}
+{#                          <td><input type="radio" name="addressid" id="address1"></td>#}
+{#                          <td>小明</td>#}
+{#                          <td>西南交通大学犀浦校区天佑斋</td>#}
+{#                          <td>123456789101</td>#}
+{##}
+{#                        </tr>#}
+{#                        <tr>#}
+{#                          <td><input type="radio" name="addressid" id="address1"></td>#}
+{#                          <td>小红</td>#}
+{#                          <td>西南交通大学犀浦校区天佑斋</td>#}
+{#                          <td>123456789101</td>#}
+{##}
+{#                        </tr>#}
+{#                        <tr>#}
+{#                          <td><input type="radio" name="addressid" id="address1"></td>#}
+{#                          <td>小光</td>#}
+{#                          <td>西南交通大学犀浦校区天佑斋</td>#}
+{#                          <td>123456789101</td>#}
+{#                        </tr>#}
                       </tbody>
                     </table>
                   </div>
@@ -66,41 +79,23 @@
                      <h4 class="widget-title">商品信息确认</h4>
                      <div class="media product-card">
                         <a class="pull-left" href="product-single.html">
-                           <img class="media-object" src="../static/images/shop/cart/cart-1.jpg" alt="Image" />
+                           <img class="media-object" src="/static/images/{{ item['商品图片'] }}" alt="Image" />
                         </a>
                         <div class="media-body">
-                           <h4 class="media-heading"><a href="/goods/<int:goodsid>">太阳眼镜</a></h4>
-                           <p class="price">1 x 249</p>
-                           <span class="remove" >删除</span>
+                           <h4 class="media-heading"><a href="/goods/{{ item['商品id'] }}">{{ item['商品名称'] }}</a></h4>
+                           <p class="price">{{ item['商品数量'] }} x {{ item['商品单价'] }}￥</p>
                         </div>
                      </div>
                      <ul class="summary-prices">
                         <li>
-                           <span>小计:</span>
-                           <span class="price">190</span>
-                        </li>
-                     </ul>
-
-                     <div class="media product-card">
-                        <a class="pull-left" href="product-single.html">
-                           <img class="media-object" src="../static/images/shop/cart/cart-1.jpg" alt="Image" />
-                        </a>
-                        <div class="media-body">
-                           <h4 class="media-heading"><a href="product-single.html">太阳眼镜</a></h4>
-                           <p class="price">1 x 249</p>
-                           <span class="remove" >删除</span>
-                        </div>
-                     </div>
-                     <ul class="summary-prices">
-                        <li>
-                           <span>小计:</span>
-                           <span class="price">190</span>
+                           <span></span>
+                           <span class="price">小计:{{ item['商品数量'] * item['商品单价']}}￥</span>
                         </li>
                      </ul>
 
                      <div class="summary-total">
                         <span>总计：</span>
-                        <span>380</span>
+                        <span>{{ item['商品数量'] * item['商品单价']}}￥</span>
                      </div>
                      
                   </div>

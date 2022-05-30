@@ -7,6 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, logout_user, login_user, login_required, fresh_login_required
 from forms import *
 from Goods.goods import goods
+from User.user import user
 from Cart.Cart import Cart
 
 bp=Blueprint('cart',__name__,url_prefix="/cart")
@@ -14,7 +15,6 @@ bp=Blueprint('cart',__name__,url_prefix="/cart")
 @bp.route('/')
 @login_required
 def cart():
-    #Cart.add_cart(1,21,10)
     cart_items=Cart.get_cart_by_userid(current_user.get_id())
     return render_template('cart.html',cart_items=cart_items)
 
@@ -47,7 +47,12 @@ def setCnt(itemid):
     else:
         return jsonify({'code':400,'message':res})
 
-@bp.route('/checkout')
+@bp.route('/checkout/<int:itemid>')
 @login_required
-def checkout():
-    return render_template('checkout.html')
+def checkout(itemid):
+    item=Cart.get_cart_by_id(itemid)
+    if item == '购物车id不存在':
+        flash('购物车中不存在此项商品')
+        return redirect('/cart')
+    address_list=user.get_user_address(current_user.get_id())
+    return render_template('checkout.html',item=item,address_list=address_list)

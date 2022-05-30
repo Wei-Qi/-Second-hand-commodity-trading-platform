@@ -30,18 +30,17 @@
                 <table class="table">
                   <thead>
                     <tr>
-                      <th class="">&nbsp;</th>
                       <th class="">商品</th>
                       <th class="">总计</th>
 					  <th class="">数量</th>
                       <th class="">操作</th>
-
+                      <th class="">操作</th>
                     </tr>
                   </thead>
                   <tbody>
                   {% for cart_item in cart_items %}
                     <tr class="">
-                      <td class=""><input type="checkbox" class="myCheck"></td>
+{#                      <td class=""><input type="checkbox" class="myCheck"></td>#}
                       <td class="">
                         <div class="product-info">
                             <a href="/goods/{{ cart_item['商品id'] }} " class="myGoods"><img width="80" src="/static/images/{{ cart_item['商品图片'] }}" alt="" /></a>
@@ -57,6 +56,9 @@
 					   </td>
                       <td class="">
                         <a class="product-remove" href="/cart/delete_item/{{ cart_item['id']}}">删除</a>
+                      </td>
+                        <td class="">
+                        <a class="product-remove" href="/cart/checkout/{{ cart_item['id']}}">购买</a>
                       </td>
                     </tr>
                   {% endfor %}
@@ -96,7 +98,7 @@
 {#                    </tr>#}
                   </tbody>
                 </table>
-                <a href="/cart/checkout" class="btn btn-main pull-right">结算</a>
+{#                <a href="/cart/checkout" class="btn btn-main pull-right">结算</a>#}
               </form>
             </div>
           </div>

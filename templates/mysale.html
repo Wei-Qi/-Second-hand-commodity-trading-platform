@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="content">
+					<h1 class="page-name">个人中心</h1>
+					<ol class="breadcrumb">
+						<li><a href="index.html" style="font-size: large">首页</a></li>
+						<li class="active" style="font-size: medium">我的售卖</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<section class="user-dashboard page-wrapper" style="margin-top: -5em">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="dashboard-wrapper user-dashboard">
+					<div class="total-order mt-20">
+						<h4>订单信息</h4>
+						<div class="table-responsive">
+							<table class="table" style="font-size: medium">
+								<thead>
+									<tr>
+										<th>订单编号</th>
+                                        <th>商品名称</th>
+                                        <th>购买用户</th>
+										<th>日期</th>
+										<th>数量</th>
+										<th>总价</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+                                {% for sale in sale_list %}
+                                    <tr>
+										<td><a href="/order/{{ order['id'] }}">#{{ order['id'] }}</a></td>
+                                        <td>{{ order['商品名称'] }}</td>
+                                        <td>{{ order['买家姓名'] }}</td>
+										<td>{{ order['时间'] }}</td>
+										<td>{{ order['商品数量'] }}</td>
+										<td> {{ order['商品价格'] }}</td>
+									</tr>
+                                {% endfor %}
+
+{#									<tr>#}
+{#										<td><a href="#!">#252125</a></td>#}
+{#										<td>2022-5-4</td>#}
+{#										<td>2</td>#}
+{#										<td> 99.00</td>#}
+{#									</tr>#}
+{#									<tr>#}
+{#										<td><a href="#!">#252125</a></td>#}
+{#										<td>2022-5-4</td>#}
+{#										<td>2</td>#}
+{#										<td> 99.00</td>#}
+{#									</tr>#}
+{#									<tr>#}
+{#										<td><a href="#!">#252125</a></td>#}
+{#										<td>2022-5-4</td>#}
+{#										<td>2</td>#}
+{#										<td> 99.00</td>#}
+{#									</tr>#}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}
