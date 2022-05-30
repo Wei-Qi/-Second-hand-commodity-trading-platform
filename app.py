@@ -42,7 +42,7 @@ app.register_blueprint(order_bp)
 @app.route('/')
 @app.route('/home')
 def home():
-    ALIPAY.refund()
+    # ALIPAY.refund()
     return render_template('index.html')
 
 
