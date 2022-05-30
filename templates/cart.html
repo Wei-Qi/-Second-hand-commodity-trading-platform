@@ -19,7 +19,7 @@
 	</div>
 </section>
 
-<div class="page-wrapper">
+<div class="page-wrapper" style="margin-top: -5rem;font-size: medium">
   <div class="cart shopping">
     <div class="container">
       <div class="row">
@@ -111,12 +111,13 @@
     <script type="text/javascript">
 
         $('.addNum').on('click',function () {
-            var num= parseInt($(this).next().text());
-            var price =parseInt($(this).parent().prev().text())/num;
+            var num= $(this).next().text();
+            var price =parseFloat($(this).parent().prev().text())/num;
             var goods_id = $(this).prev().text();
             let subsmit_url = '/cart/set_cnt/'+ goods_id;
             var flag=0;
-            //console.log(num);
+            num = +(num);
+            //console.log(parseFloat(num));
             num=num+1;
             //console.log(num);
 

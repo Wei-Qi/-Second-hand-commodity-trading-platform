@@ -32,7 +32,7 @@ def create(cartid):
 @login_required
 def order(orderid):
     order=Order.get_order_by_orderid(orderid)
-    return ''
+    return render_template('order_single.html')
 
 @bp.route('/pay/check/<int:orderid>')
 @login_required
@@ -50,3 +50,9 @@ def check(orderid):
 def pay(orderid):
     alipay_url=ALIPAY.get_alipay_url(orderid,'/order/pay/check/'+str(orderid))
     return redirect(alipay_url)
+
+@bp.route('/order_single')
+@login_required
+def order_single():
+    # order=Order.get_order_by_orderid(orderid)
+    return render_template('order_single.html')
