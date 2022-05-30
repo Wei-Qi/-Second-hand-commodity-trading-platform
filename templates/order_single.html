@@ -22,52 +22,37 @@
    <div class="checkout shopping">
       <div class="container">
          <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-9">
                 <div class="dashboard-wrapper user-dashboard">
                   <div class="table-responsive">
                     <table class="table" style="font-size: medium">
                       <thead>
                         <tr>
-                          <th class="col-md-1 col-sm-6">&nbsp;</th>
                           <th class="col-md-2 col-sm-3">收货人</th>
                           <th class="col-md-3 col-sm-3">收货地址</th>
                           <th class="col-md-2 col-sm-3">电话号码</th>
                         </tr>
                       </thead>
                       <tbody>
-                      {% for i in range(address_list|length) %}
-                      <tr>
-                          {% if i == 0 %}
-                          <td><input type="radio" name="addressid"  value="{{ address_list[i]['地址id'] }}" checked="checked" ></td>
-                          {% else %}
-                          <td><input type="radio" name="addressid"  value="{{ address_list[i]['地址id'] }}"></td>
-                          {% endif %}
-                          <td>{{ address_list[i]['收货人'] }}</td>
-                          <td>{{ address_list[i]['收货地址']}}</td>
-                          <td>{{ address_list[i]['电话号码'] }}</td>
-                      </tr>
-                      {% endfor %}
+{#                      {% for i in range(address_list|length) %}#}
+{#                      <tr>#}
+{#                          {% if i == 0 %}#}
+{#                          <td><input type="radio" name="addressid"  value="{{ address_list[i]['地址id'] }}" checked="checked" ></td>#}
+{#                          {% else %}#}
+{#                          <td><input type="radio" name="addressid"  value="{{ address_list[i]['地址id'] }}"></td>#}
+{#                          {% endif %}#}
+{#                          <td>{{ address_list[i]['收货人'] }}</td>#}
+{#                          <td>{{ address_list[i]['收货地址']}}</td>#}
+{#                          <td>{{ address_list[i]['电话号码'] }}</td>#}
+{#                      </tr>#}
+{#                      {% endfor %}#}
 
-{#                        <tr>#}
-{#                          <td><input type="radio" name="addressid" id="address1"></td>#}
-{#                          <td>小明</td>#}
-{#                          <td>西南交通大学犀浦校区天佑斋</td>#}
-{#                          <td>123456789101</td>#}
-{##}
-{#                        </tr>#}
-{#                        <tr>#}
-{#                          <td><input type="radio" name="addressid" id="address1"></td>#}
-{#                          <td>小红</td>#}
-{#                          <td>西南交通大学犀浦校区天佑斋</td>#}
-{#                          <td>123456789101</td>#}
-{##}
-{#                        </tr>#}
-{#                        <tr>#}
-{#                          <td><input type="radio" name="addressid" id="address1"></td>#}
-{#                          <td>小光</td>#}
-{#                          <td>西南交通大学犀浦校区天佑斋</td>#}
-{#                          <td>123456789101</td>#}
-{#                        </tr>#}
+                        <tr>
+                          <td>小明</td>
+                          <td>西南交通大学犀浦校区天佑斋</td>
+                          <td>123456789101</td>
+                        </tr>
+
                       </tbody>
                     </table>
                   </div>
@@ -76,37 +61,47 @@
             <div class="col-md-9" style="margin-top: -1rem">
                <div class="product-checkout-details">
                   <div class="block">
-                     <h4 class="widget-title">商品信息确认</h4>
+                     <h4 class="widget-title">商品信息</h4>
                      <div class="media product-card">
                         <a class="pull-left" href="product-single.html">
-                           <img class="media-object" src="/static/images/{{ item['商品图片'] }}" alt="Image" />
+                           <img class="media-object" src="/static/images/cart-1.jpg" alt="Image" />
                         </a>
                         <div class="media-body">
-                           <h4 class="media-heading"><a href="/goods/{{ item['商品id'] }}" id="goodsid">{{ item['商品名称'] }}</a></h4>
-                           <p class="price">{{ item['商品数量'] }} x {{ item['商品单价'] }}￥</p>
+                           <h4 class="media-heading"><a href="/goods/">haocac</a></h4>
+                           <p class="price">10￥</p>
                         </div>
                      </div>
                      <ul class="summary-prices">
-                        <li>
+                        <li style="margin-bottom: 1rem">
                            <span></span>
-                           <span class="price">小计:{{ item['商品数量'] * item['商品单价']}}￥</span>
+                           <span class="price">小计:10￥</span>
                         </li>
                      </ul>
 
-                     <div class="summary-total" style="margin-top: 1rem">
+                     <div class="summary-total" style="border-bottom: 1px solid #bbbbbb;padding-bottom: 2rem">
                         <span>总计：</span>
-                        <span>{{ item['商品数量'] * item['商品单价']}}￥</span>
+                        <span>10￥</span>
                      </div>
-                     
+                     <div class="media product-card" style="border-bottom: 1px solid #bbbbbb;padding-bottom: 2rem">
+                         <div class="summary-total">
+                            <span>订单生成时间：</span>
+                            <span>2021-2-21 18：12：23</span>
+                         </div>
+                     </div>
+                     <div class="media product-card" style="border-bottom: 1px solid #bbbbbb;padding-bottom: 2rem">
+                         <div class="summary-total">
+                            <span>订单支付状态：</span>
+                            <span class="label label-primary">待支付</span>
+                         </div>
+                     </div>
                   </div>
                </div>
 			   <div class="block">
-				<button type="button" class="btn btn-primary" style="float: right;" id="submit_order">
-                    提交订单
-{#					<a href=" /order/order_single " class="btn btn-primary" style="float: right;" id="submit_order">提交订单</a>#}
+				<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#exampleModalCenter" style="float: right;">
+					支付
 				</button>
                 <!-- 支付模态框 -->
-				{#<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+				<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 					<div class="modal-dialog modal-dialog-centered" role="document">
 					  <div class="modal-content">
 						<div class="modal-header">
@@ -133,7 +128,7 @@
 						</div>
 					  </div>
 					</div>
-				  </div>#}
+				  </div>
 				
 			 </div>
             </div>
@@ -141,7 +136,7 @@
       </div>
    </div>
 </div>
-{#   <!-- Modal -->
+   <!-- Modal -->
    <div class="modal fade" id="coupon-modal" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
          <div class="modal-content">
@@ -155,7 +150,7 @@
             </div>
          </div>
       </div>
-   </div>#}
+   </div>
 
 <script type="text/javascript">
 
@@ -171,34 +166,6 @@ $('input:radio').click(function(){
 		isDefualtAdd = 1;
 	}
 });
-
-$('#submit_order').on('click',function () {
-    var addressid;
-    $("input[type=radio]:checked").each(function() {
-        addressid = $(this).val();
-        //alert(addressid)
-    })
-
-    var goodsid = $('#goodsid').attr('href').split('/')[2];
-    var urls='/order/create/' + goodsid;
-    console.log(urls)
-    console.log(goodsid)
-    $.ajax({
-        url: 'urls',
-        method: 'POST',
-        data: {
-            'addressid': addressid
-        },
-        success: function (res) {
-            if(res['code']==200){
-                alert('dadsd')
-                window.location.href = res['url'];
-            }else{
-                alert(res['message']);
-            }
-        }
-    });
-})
 
 </script>
 {% endblock %}
