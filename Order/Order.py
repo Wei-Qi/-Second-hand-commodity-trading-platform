@@ -80,6 +80,8 @@ class Order():
         order = OrderModel.query.filter_by(OrderId=orderid).first()
         if order is None:
             return '订单id不存在'
+        if order.OrderState != 1:
+            return '该订单无法发货'
         Order.change_order_state(orderid, 2)
         order.OrderExpress = express
         db.session.commit()
@@ -95,6 +97,8 @@ class Order():
         order = OrderModel.query.filter_by(OrderId=orderid).first()
         if order is None:
             return '订单id不存在'
+        if order.OrderState != 2:
+            return '该订单无法确认收货'
         amount = order.GoodsNum * order.goods.GoodsPrice
         result = ALIPAY.transform_money(account=order.seller.UserAliaccount, amount=amount)
         if result:
@@ -114,6 +118,8 @@ class Order():
         order = OrderModel.query.filter_by(OrderId=orderid).first()
         if order is None:
             return '订单id不存在'
+        if order.OrderState == 0 or order.OrderState == 3 or order.OrderState == 4 or order.OrderState == 5:
+            return '该订单无法申请退货'
         Order.change_order_state(orderid, 4)
         Order.OrderReturnReason = reason
         db.session.commit()
@@ -130,6 +136,8 @@ class Order():
         order = OrderModel.query.filter_by(OrderId=orderid).first()
         if order is None:
             return '订单id不存在'
+        if order.OrderState != 4:
+            return '该订单无法处理退货请求'
         if is_agree:
             Order.change_order_state(5)
         else:
