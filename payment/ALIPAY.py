@@ -40,8 +40,7 @@ alipay = AliPay(
 #     notify_url=None  # 可选，不填则使用默认 notify url
 # )
 # url = 'https://openapi.alipaydev.com/gateway.do?' + order_string
-
-print(url)
+# print(url)
 
 
 class ALIPAY():
@@ -100,7 +99,7 @@ class ALIPAY():
         order = OrderModel.query.filter_by(OrderId=orderid).first()
         if order is None:
             return '订单id不存在'
-        if order.OrderState == 0 or order.OrderState == 3 or order.OrderState == 4:
+        if order.OrderState == 0 or order.OrderState == 3 or order.OrderState == 4 or order.OrderState:
             return '该订单无法退款'
         amount = order.GoodsNum * order.goods.GoodsPrice
         result = alipay.api_alipay_trade_refund(
@@ -112,8 +111,8 @@ class ALIPAY():
         #  'fund_change': 'Y', 'gmt_refund_pay': '2022-05-30 18:25:05', 'out_trade_no': '231231230',
         #  'refund_fee': '10000.00', 'send_back_fee': '0.00', 'trade_no': '2022053022001421780502206166'}
         if result["code"] == "10000":
-            # order.OrderState = 4
-            # db.session.commmit()
+            order.OrderState = 5
+            db.session.commmit()
             return True
         else:
             return False
