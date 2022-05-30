@@ -129,16 +129,19 @@ class ReCommentModel(db.Model):
     reuser = db.relationship('UserModel', backref='rerecommments', foreign_keys=[ReUserId])
 
 
-class ReturnModel(db.Model):
-    __tablename__ = 'return'
-    ReturnId = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    ReturnAddress = db.Column(db.String(200), nullable=False)
-    ReturnReason = db.Column(db.String(200), nullable=False)
-    ReturnTime = db.Column(db.DateTime, default=datetime.now)
-    ReturnExpress = db.Column(db.String(200), unique=True)
-    ReturnIsfinished = db.Column(db.Boolean)
+class ReturnOrderModel(db.Model):
+    __tablename__ = 'returnorder'
+    ReturnOrderId = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    ReturnOrderTime = db.Column(db.DateTime, default=datetime.now)
+    ReturnOrderExpress = db.Column(db.String(200), unique=True)
+    ReturnOrderState = db.Column(db.Integer)
+    SellerId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
     UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
     OrderId = db.Column(db.Integer, db.ForeignKey('order.OrderId', ondelete='CASCADE'))
+
+    user = db.relationship('UserModel', backref='UserOrder', foreign_keys=[UserId])
+    seller = db.relationship('UserModel', backref='SellerOrder', foreign_keys=[SellerId])
+    order = db.relationship("OrderModel", backref=db.backref("returnorder", uselist=False))
 
 
 class EmailCaptchaModel(db.Model):
@@ -156,6 +159,7 @@ class UserAddressModel(db.Model):
     address = db.Column(db.String(200), nullable=False)
     phone = db.Column(db.String(200), nullable=False)
     UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
+    SellerId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
     order = db.relationship('OrderModel', backref='address', lazy='dynamic')
 
 
