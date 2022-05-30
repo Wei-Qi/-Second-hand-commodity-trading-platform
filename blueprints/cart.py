@@ -50,5 +50,4 @@ def setCnt(itemid):
 @bp.route('/checkout')
 @login_required
 def checkout():
-
     return render_template('checkout.html')
