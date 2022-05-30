@@ -6,7 +6,6 @@ Date：2022/5/27
 from models import *
 from exts import db
 
-_Order_State = {0: '待支付',1: '待发货', 2: '待收货', 3: '已完成', 4: '退货', 5: '退货完成'}
 
 class Order():
     """
@@ -96,8 +95,6 @@ class Order():
         Order.change_order_state(orderid, 3)
         return True
 
-
-
     @staticmethod
     def get_order_by_orderid(orderid):
         """
@@ -145,8 +142,6 @@ class Order():
             order_json.append(Order.get_order_by_orderid(order.OrderId))
         return order_json
 
-
-
     @staticmethod
     def get_order_by_sellerid(userid):
         """
@@ -161,7 +156,6 @@ class Order():
         for order in user.SellerOrder:
             order_json.append(Order.get_order_by_orderid(order.OrderId))
         return order_json
-
 
     @staticmethod
     def check_stock(goodsid, goodsnum):
