@@ -31,6 +31,7 @@ class UserModel(db.Model, UserMixin):
     UserPassword = db.Column(db.String(200), nullable=False)
     UserCredit = db.Column(db.Integer, default=100)
     UserJoin_time = db.Column(db.DateTime, default=datetime.now)
+    UserAliaccount = db.Column(db.String(1024))
     # 一对多关系通常放在一的那一方
     UserAddresses = db.relationship('UserAddressModel', backref='user', lazy='dynamic')
     UserGoods = db.relationship('GoodsModel', backref='user', lazy='dynamic')
@@ -90,6 +91,7 @@ class OrderModel(db.Model):
     UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
     GoodsId = db.Column(db.Integer, db.ForeignKey('goods.GoodsId', ondelete='CASCADE'))
     SellerId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
+    AliId = db.Column(db.Integer)
 
     user = db.relationship('UserModel', backref='UserOrder', foreign_keys=[UserId])
 

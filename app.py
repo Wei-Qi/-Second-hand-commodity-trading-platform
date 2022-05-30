@@ -14,10 +14,6 @@ from Comment.recomment import Recomment
 from Comment.message import Message
 from Cart.Cart import Cart
 from Order.Order import Order
-
-import json
-from payment.ALIPAY import alipay
-
 login_manager = LoginManager()
 
 login_manager.login_view = '/user/login'  # 未登录将自动跳转到该路径
@@ -45,16 +41,6 @@ app.register_blueprint(cart_bp)
 @app.route('/')
 @app.route('/home')
 def home():
-    # data = request.args.to_dict()
-    # # sign 不能参与签名验证
-    # signature = data.pop("sign")
-    # print(json.dumps(data))
-    # print(signature)
-    # # verify
-    # success = alipay.verify(data, signature)
-    # print(success)
-    # if success:
-    #     print("trade succeed")
     return render_template('index.html')
 
 
