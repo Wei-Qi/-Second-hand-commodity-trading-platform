@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
+from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash,abort
 import Function.function
 from models import EmailCaptchaModel, UserModel
 import string
@@ -35,9 +35,10 @@ def create(cartid):
 @login_required
 def order(orderid):
     order=Order.get_order_by_orderid(orderid)
+    userid=current_user.get_id()
     if order == '订单id不存在':
-        return '订单id不存在'
-    return render_template('order_single.html',order=order)
+        abort(404)
+    return render_template('order_single.html',order=order,userid=userid)
 
 @bp.route('/pay/check/<int:orderid>')
 @login_required
@@ -53,5 +54,8 @@ def check(orderid):
 @bp.route('/pay/<int:orderid>')
 @login_required
 def pay(orderid):
+    order = Order.get_order_by_orderid(orderid)
+    if order == '订单id不存在':
+        abort(404)
     alipay_url=ALIPAY.get_alipay_url(orderid,'http://127.0.0.1:5000/order/pay/check/'+str(orderid))
     return redirect(alipay_url)

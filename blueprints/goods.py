@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
+from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash,abort
 import Function.function
 from models import EmailCaptchaModel, UserModel
 import string
@@ -32,7 +32,7 @@ def upload():
 def change(goodsid):
     goods1=goods.get_goods_info(goodsid)
     if goods1 == '商品id不存在':
-        return '商品不存在'
+        abort(404)
     form=UpdateGoodsForm(goods_name=goods1['商品名称'],goods_describe=goods1['商品描述'],goods_stock=goods1['商品库存'],goods_price=goods1['商品价格'])
     if form.validate_on_submit():
         res=goods.change_goods_info(current_user.get_id(),goodsid,form.goods_name.data,form.goods_price.data,form.goods_stock.data,form.goods_describe.data)
@@ -49,7 +49,7 @@ def detail(goodsid):
     goodsInfo=goods.get_goods_info(goodsid)
     #print(goodsInfo['商品图片'])
     if goodsInfo == '商品id不存在':
-        return '没有找到该商品的信息'
+        abort(404)
     comment_list=Comment.get_comment_by_goods(goodsid)
     recomment_dict={}
     for comment in comment_list:
@@ -75,9 +75,9 @@ def addComment(goodsid):
 @login_required
 def replyComment(goodsid):
     form=ReplyCommentForm()
-    print(form.userid.data,form.commentid.data,form.content.data)
+    #print(form.userid.data,form.commentid.data,form.content.data)
     if form.validate_on_submit():
-        print('yes')
+        #print('yes')
         res=Recomment.add_recomment(current_user.get_id(),form.userid.data,form.commentid.data,form.content.data)
         if res is True:
             flash('回复成功')
@@ -130,5 +130,9 @@ def search():
     搜索结果页面
     '''
     query=request.args.get('query') #获取搜索关键字
+    if query == '':
+        abort(404)
+    if query.lower() == 'all':
+        query=''
     goods_list=goods.search_goods(query)
     return render_template('searchResults.html',goods_list=goods_list,query=query)

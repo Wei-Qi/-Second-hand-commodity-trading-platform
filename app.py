@@ -46,7 +46,9 @@ app.register_blueprint(order_bp)
 def home():
     return render_template('index.html')
 
-
+@app.errorhandler(404)  # 传入错误码作为参数状态
+def errorDate(error):  # 接受错误作为参数
+    return render_template("404.html"), 404
 
 if __name__ == '__main__':
     app.run(debug=True)

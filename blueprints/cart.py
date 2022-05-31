@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
+from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash,abort
 import Function.function
 from models import EmailCaptchaModel, UserModel
 import string
@@ -53,8 +53,7 @@ def setCnt(itemid):
 def checkout(itemid):
     item=Cart.get_cart_by_id(itemid)
     if item == '购物车id不存在':
-        flash('购物车中不存在此项商品')
-        return redirect('/cart')
+        abort(404)
     address_list=user.get_user_address(current_user.get_id())
     if len(address_list)==0:
         flash('请先添加一个收货地址')
