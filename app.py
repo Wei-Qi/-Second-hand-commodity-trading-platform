@@ -44,7 +44,6 @@ app.register_blueprint(order_bp)
 @app.route('/')
 @app.route('/home')
 def home():
-    print(ReturnOrder.deliver_return_order(1, '79879869'))
     return render_template('index.html')
 
 
