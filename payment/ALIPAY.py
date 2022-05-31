@@ -55,6 +55,8 @@ class ALIPAY():
         order = OrderModel.query.filter_by(OrderId=orderid).first()
         if order is None:
             return '订单id不存在'
+        if order.OrderState != 0:
+            return '该订单无法支付'
         amount = order.GoodsNum * order.goods.GoodsPrice
         amount = round(amount, 2)
         url_string = alipay.api_alipay_trade_page_pay(
@@ -91,30 +93,24 @@ class ALIPAY():
             return '支付失败'
 
     @staticmethod
-    def refund(orderid):
+    def refund(amount, orderid, AliId):
         """
-        根据订单id进行退款
+        退款
+        :param amount:退款金额
         :param orderid:订单id
-        :return:'订单id不存在' or '该订单无法退款' or True or False
+        :param AliId:阿里的订单id
+        :return:True or False
         """
-        order = OrderModel.query.filter_by(OrderId=orderid).first()
-        if order is None:
-            return '订单id不存在'
-        if order.OrderState == 0 or order.OrderState == 3 or order.OrderState == 4 or order.OrderState:
-            return '该订单无法退款'
-        amount = order.GoodsNum * order.goods.GoodsPrice
         amount = round(amount, 2)
         result = alipay.api_alipay_trade_refund(
             refund_amount=amount,
             out_trade_no=str(orderid),
-            trade_no=str(order.AliId)
+            trade_no=str(AliId)
         )
         # {'code': '10000', 'msg': 'Success', 'buyer_logon_id': 'sco***@sandbox.com', 'buyer_user_id': '2088622959321784',
         #  'fund_change': 'Y', 'gmt_refund_pay': '2022-05-30 18:25:05', 'out_trade_no': '231231230',
         #  'refund_fee': '10000.00', 'send_back_fee': '0.00', 'trade_no': '2022053022001421780502206166'}
         if result["code"] == "10000":
-            order.OrderState = 5
-            db.session.commmit()
             return True
         else:
             return False
