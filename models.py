@@ -134,13 +134,13 @@ class ReturnOrderModel(db.Model):
     ReturnOrderId = db.Column(db.Integer, primary_key=True, autoincrement=True)
     ReturnOrderTime = db.Column(db.DateTime, default=datetime.now)
     ReturnOrderExpress = db.Column(db.String(200), unique=True)
-    ReturnOrderState = db.Column(db.Integer)
+    ReturnOrderState = db.Column(db.Integer, default=0)
     SellerId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
     UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
     OrderId = db.Column(db.Integer, db.ForeignKey('order.OrderId', ondelete='CASCADE'))
 
-    user = db.relationship('UserModel', backref='UserOrder', foreign_keys=[UserId])
-    seller = db.relationship('UserModel', backref='SellerOrder', foreign_keys=[SellerId])
+    user = db.relationship('UserModel', backref='UserReturnOrder', foreign_keys=[UserId])
+    seller = db.relationship('UserModel', backref='SellerReturnOrder', foreign_keys=[SellerId])
     order = db.relationship("OrderModel", backref=db.backref("returnorder", uselist=False))
 
 

@@ -139,9 +139,9 @@ class Order():
         if order.OrderState != 4:
             return '该订单无法处理退货请求'
         if is_agree:
-            Order.change_order_state(5)
+            Order.change_order_state(orderid, 5)
         else:
-            Order.change_order_state(2)
+            Order.change_order_state(orderid, 2)
         return True
 
 
