@@ -19,6 +19,8 @@ class RegistrationForm(FlaskForm):
                            render_kw={'placeholder': u'用户名'})
     email = StringField('邮箱',
                         validators=[DataRequired(u"邮箱不能为空"), Email(u"请按邮箱格式输入")], render_kw={'placeholder': u'邮箱'})
+    alipayaccount=StringField('支付宝账号',
+                        validators=[DataRequired(u"支付宝账号不能为空"), Email(u"请按支付宝账号格式输入")], render_kw={'placeholder': u'支付宝账号'})
     password = PasswordField('密码', validators=[DataRequired(), Length(min=10, max=20, message=u'长度位于10~20之间')],
                              render_kw={'placeholder': u'密码'})
     confirm_password = PasswordField('确认密码',

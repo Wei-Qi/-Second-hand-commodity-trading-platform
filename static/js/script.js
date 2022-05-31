@@ -99,7 +99,7 @@ function bindCaptchaBtnClick() {
         }
         // 通过js发送请求：ajax Async Javascript And XML（json）
         $.ajax({
-            url: "/user/captcha",
+            url: window.location.href+"/captcha",
             method: "POST",
             data: {
                 "email": email
