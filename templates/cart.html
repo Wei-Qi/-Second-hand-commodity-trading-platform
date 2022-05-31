@@ -112,10 +112,11 @@
 
         $('.addNum').on('click',function () {
             var num= $(this).next().text();
-            var price =parseFloat($(this).parent().prev().text())/num;
+            //var price =parseFloat($(this).parent().prev().text())/num;
             var goods_id = $(this).prev().text();
             let subsmit_url = '/cart/set_cnt/'+ goods_id;
             var flag=0;
+            var totalprice=parseFloat($(this).parent().prev().text());
             num = +(num);
             //console.log(parseFloat(num));
             num=num+1;
@@ -132,25 +133,25 @@
                     success: function (res) {
                         if(res['code']==200){
                             flag= 1;
-
+                            totalprice=res['totalprice'];
                         }else{
                             alert(res['message']);
                         }
                     }
                 })
-                //console.log(flag)
                 if(flag==1){
                     $(this).next().text(num);
-                    $(this).parent().prev().text(price*num);
+                    $(this).parent().prev().text(totalprice);
                 }
             }
         })
         $('.subNum').on('click',function (res) {
             var num= parseInt($(this).prev().text());
-            var price =parseInt($(this).parent().prev().text())/num;
+            //var price =parseInt($(this).parent().prev().text())/num;
             var goods_id = $(this).prev().prev().prev().text();
             let subsmit_url = '/cart/set_cnt/'+ goods_id;
             let flag=0;
+            var totalprice=parseFloat($(this).parent().prev().text());
             num=num-1;
             //console.log(num);
 
@@ -165,6 +166,7 @@
                     success: function (res) {
                         if(res['code']==200){
                              flag= 1;
+                             totalprice=res['totalprice'];
                         }else{
                             alert(res['message']);
                         }
@@ -172,10 +174,10 @@
                 })
                  if(flag==1){
                     $(this).prev().text(num);
-                    $(this).parent().prev().text(price*num);
+                    $(this).parent().prev().text(totalprice);
                 }
             }else{
-                alert('已经减到最小了！！');
+                //alert('已经减到最小了！！');
             }
         })
     </script>

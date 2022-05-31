@@ -42,7 +42,9 @@ def setCnt(itemid):
     cnt=request.form.get('cnt')
     res=Cart.change_goods_num(itemid,cnt)
     if res is True:
-        return jsonify({'code':200,'message':'修改成功'})
+        item=Cart.get_cart_by_id(itemid)
+        totalprice=round(item['商品单价']*item['商品数量'],3)
+        return jsonify({'code':200,'message':'修改成功','totalprice':totalprice})
     else:
         return jsonify({'code':400,'message':res})
 
