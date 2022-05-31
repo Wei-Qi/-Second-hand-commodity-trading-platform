@@ -86,7 +86,7 @@ class ALIPAY():
         success = alipay.verify(data, signature)
         if success:
             order.OrderState = 1
-            order.AliId = int(data['trade_no'])
+            order.AliId = str(data['trade_no'])
             db.session.commit()
             return True
         else:
