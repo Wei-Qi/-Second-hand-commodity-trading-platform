@@ -159,7 +159,6 @@ class UserAddressModel(db.Model):
     address = db.Column(db.String(200), nullable=False)
     phone = db.Column(db.String(200), nullable=False)
     UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
-    SellerId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
     order = db.relationship('OrderModel', backref='address', lazy='dynamic')
 
 
