@@ -63,7 +63,7 @@ class ReturnOrder():
         return_order_dict['卖家头像'] = return_order.user.UserImage
         return_order_dict['卖家支付宝账户'] = return_order.user.UserAliaccount
         return_order_dict['时间'] = return_order.ReturnOrderTime
-        return_order_dict['订单状态'] = _Return_Order_State[return_order.OrderState]
+        return_order_dict['订单状态'] = _Return_Order_State[return_order.ReturnOrderState]
         return return_order_dict
 
     @staticmethod
@@ -78,7 +78,7 @@ class ReturnOrder():
             return '用户id不存在'
         return_order_json = []
         for return_order in user.UserReturnOrder:
-            return_order_json.append(ReturnOrder.get_returnorder_by_id(return_order.OrderId))
+            return_order_json.append(ReturnOrder.get_returnorder_by_id(return_order.ReturnOrderId))
         return return_order_json
 
     @staticmethod
@@ -93,7 +93,7 @@ class ReturnOrder():
             return '用户id不存在'
         return_order_json = []
         for return_order in user.SellerReturnOrder:
-            return_order_json.append(ReturnOrder.get_returnorder_by_id(return_order.OrderId))
+            return_order_json.append(ReturnOrder.get_returnorder_by_id(return_order.ReturnOrderId))
         return return_order_json
 
     @staticmethod
@@ -107,7 +107,7 @@ class ReturnOrder():
         return_order = ReturnOrderModel.query.filter_by(ReturnOrderId=returnorderid).first()
         if return_order is None:
             return '退货订单id不存在'
-        return_order.OrderState = state
+        return_order.ReturnOrderState = state
         db.session.commit()
         return True
 
@@ -123,7 +123,7 @@ class ReturnOrder():
         return_order = ReturnOrderModel.query.filter_by(ReturnOrderId=returnorderid).first()
         if return_order is None:
             return '退货订单id不存在'
-        if return_order.OrderState != 0:
+        if return_order.ReturnOrderState != 0:
             return '该退货订单无法发货'
         ReturnOrder.change_return_order_state(returnorderid, 1)
         return_order.ReturnOrderExpress = express
@@ -140,7 +140,7 @@ class ReturnOrder():
         return_order = ReturnOrderModel.query.filter_by(ReturnOrderId=returnorderid).first()
         if return_order is None:
             return '退货订单id不存在'
-        if return_order.OrderState != 1:
+        if return_order.ReturnOrderState != 1:
             return '该退货订单无法确认收货'
         amount = return_order.order.GoodsNum * return_order.order.goods.GoodsPrice
         result = ALIPAY.refund(amount=amount, orderid=return_order.order.OrderId, AliId=return_order.order.AliId)
