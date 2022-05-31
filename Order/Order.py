@@ -176,6 +176,7 @@ class Order():
         order_dict['卖家支付宝账户'] = order.user.UserAliaccount
         order_dict['时间'] = order.OrderTime
         order_dict['订单状态'] = _Order_State[order.OrderState]
+        order_dict['支付宝账单'] = order.AliId
         return order_dict
 
     @staticmethod

@@ -92,7 +92,7 @@ class OrderModel(db.Model):
     UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
     GoodsId = db.Column(db.Integer, db.ForeignKey('goods.GoodsId', ondelete='CASCADE'))
     SellerId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
-    AliId = db.Column(db.Integer)
+    AliId = db.Column(db.String(200))
     OrderReturnReason = db.Column(db.String(1024))
     # OrderReturnExpress = db.Column(db.String(1024), unique=True)
 
