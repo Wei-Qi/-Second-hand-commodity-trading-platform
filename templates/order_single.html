@@ -92,9 +92,11 @@
                   </div>
                </div>
 			   <div class="block">
-				<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#exampleModalCenter" style="float: right;">
-					支付
-				</button>
+                   {% if userid==order['买家id'] and order['订单状态']=='待支付' %}
+                       <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#exampleModalCenter" style="float: right;">
+                        支付
+                    </button>
+                   {% endif %}
                 <!-- 支付模态框 -->
 				<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 					<div class="modal-dialog modal-dialog-centered" role="document">
@@ -112,7 +114,6 @@
 									<div class="card-details">
 										<a href="/order/pay/{{ order['id'] }}" class="btn btn-main mt-20">支付宝</a >
 										<a href="confirmation.html" class="btn btn-main mt-20">微信支付</a >
-										
 									</div>
 								</div>
 								</div>
