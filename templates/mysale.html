@@ -26,7 +26,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="dashboard-wrapper user-dashboard">
-					<div class="total-order mt-20">
+					<div class="total-sale mt-20">
 						<h4>订单信息</h4>
 						<div class="table-responsive">
 							<table class="table" style="font-size: medium">
@@ -44,12 +44,12 @@
 								<tbody>
                                 {% for sale in sale_list %}
                                     <tr>
-										<td><a href="/order/{{ order['id'] }}">#{{ order['id'] }}</a></td>
-                                        <td>{{ order['商品名称'] }}</td>
-                                        <td>{{ order['买家姓名'] }}</td>
-										<td>{{ order['时间'] }}</td>
-										<td>{{ order['商品数量'] }}</td>
-										<td> {{ order['商品价格'] }}</td>
+										<td><a href="/order/{{ sale['id'] }}">#{{ sale['id'] }}</a></td>
+                                        <td>{{ sale['商品名称'] }}</td>
+                                        <td>{{ sale['买家姓名'] }}</td>
+										<td>{{ sale['时间'] }}</td>
+										<td>{{ sale['商品数量'] }}</td>
+										<td> {{ sale['商品价格'] }}</td>
 									</tr>
                                 {% endfor %}
 

@@ -22,17 +22,22 @@ def create(cartid):
     '''
     addressid=request.form.get('addressid')
     cartitem=Cart.get_cart_by_id(cartid)
-    res=Order.add_order(current_user.get_id(),addressid,cartitem[''],cartitem[''])
+    if cartitem == '购物车id不存在':
+        return jsonify({'code':400,'message':'购物车id不存在'})
+    res=Order.add_order(current_user.get_id(),addressid,cartitem['商品id'],cartitem['商品数量'])
     if type(res) == int:
+        Cart.del_cart_by_id(cartid)
         return jsonify({'code':200,'url':'/order/'+str(res)})
     else:
-        return jsonify({'code':200,'message':res})
+        return jsonify({'code':400,'message':res})
 
 @bp.route('/<int:orderid>')
 @login_required
 def order(orderid):
     order=Order.get_order_by_orderid(orderid)
-    return render_template('order_single.html')
+    if order == '订单id不存在':
+        return '订单id不存在'
+    return render_template('order_single.html',order=order)
 
 @bp.route('/pay/check/<int:orderid>')
 @login_required
@@ -48,11 +53,5 @@ def check(orderid):
 @bp.route('/pay/<int:orderid>')
 @login_required
 def pay(orderid):
-    alipay_url=ALIPAY.get_alipay_url(orderid,'/order/pay/check/'+str(orderid))
+    alipay_url=ALIPAY.get_alipay_url(orderid,'http://127.0.0.1:5000/order/pay/check/'+str(orderid))
     return redirect(alipay_url)
-
-@bp.route('/order_single')
-@login_required
-def order_single():
-    # order=Order.get_order_by_orderid(orderid)
-    return render_template('order_single.html')

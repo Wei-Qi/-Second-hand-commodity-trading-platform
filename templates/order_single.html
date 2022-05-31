@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}结算{% endblock %}
+{% block title %}订单{% endblock %}
 
 {% block content %}
 <section class="page-header" >
@@ -8,10 +8,10 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="content">
-					<h1 class="page-name">结算</h1>
+					<h1 class="page-name">订单</h1>
 					<ol class="breadcrumb">
 						<li><a href="index.html">首页</a></li>
-						<li class="active">结算</li>
+						<li class="active">订单</li>
 					</ol>
 				</div>
 			</div>
@@ -48,9 +48,9 @@
 {#                      {% endfor %}#}
 
                         <tr>
-                          <td>小明</td>
-                          <td>西南交通大学犀浦校区天佑斋</td>
-                          <td>123456789101</td>
+                          <td>{{ order['收件人'] }}</td>
+                          <td>{{ order['地址'] }}</td>
+                          <td>{{ order['电话'] }}</td>
                         </tr>
 
                       </tbody>
@@ -63,35 +63,30 @@
                   <div class="block">
                      <h4 class="widget-title">商品信息</h4>
                      <div class="media product-card">
-                        <a class="pull-left" href="product-single.html">
-                           <img class="media-object" src="/static/images/cart-1.jpg" alt="Image" />
+                        <a class="pull-left" href="/goods/{{ order['商品id'] }}">
+                           <img class="media-object" src="/static/images/{{ order['商品图片'] }}" alt="Image" />
                         </a>
                         <div class="media-body">
-                           <h4 class="media-heading"><a href="/goods/">haocac</a></h4>
-                           <p class="price">10￥</p>
+                           <h4 class="media-heading"><a href="/goods/{{ order['商品id'] }}">{{ order['商品名称'] }}</a></h4>
+                           <p class="price">{{ order['商品价格'] }}￥</p>
+                            <p class="cnt">数量：{{ order['商品数量'] }}</p>
                         </div>
                      </div>
-                     <ul class="summary-prices">
-                        <li style="margin-bottom: 1rem">
-                           <span></span>
-                           <span class="price">小计:10￥</span>
-                        </li>
-                     </ul>
 
                      <div class="summary-total" style="border-bottom: 1px solid #bbbbbb;padding-bottom: 2rem">
                         <span>总计：</span>
-                        <span>10￥</span>
+                        <span>{{ order['商品价格']*order['商品数量'] }}￥</span>
                      </div>
                      <div class="media product-card" style="border-bottom: 1px solid #bbbbbb;padding-bottom: 2rem">
                          <div class="summary-total">
                             <span>订单生成时间：</span>
-                            <span>2021-2-21 18：12：23</span>
+                            <span>{{ order['时间']}}</span>
                          </div>
                      </div>
                      <div class="media product-card" style="border-bottom: 1px solid #bbbbbb;padding-bottom: 2rem">
                          <div class="summary-total">
                             <span>订单支付状态：</span>
-                            <span class="label label-primary">待支付</span>
+                            <span class="label label-primary">{{order['订单状态']}}</span>
                          </div>
                      </div>
                   </div>
@@ -115,7 +110,7 @@
 								<div class="checkout-product-details">
 								<div class="payment">
 									<div class="card-details">
-										<a href="../templates/confirmation.html" class="btn btn-main mt-20">支付宝</a >
+										<a href="/order/pay/{{ order['id'] }}" class="btn btn-main mt-20">支付宝</a >
 										<a href="confirmation.html" class="btn btn-main mt-20">微信支付</a >
 										
 									</div>

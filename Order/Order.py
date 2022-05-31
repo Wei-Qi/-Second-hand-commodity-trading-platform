@@ -52,7 +52,7 @@ class Order():
         db.session.commit()
         goods.GoodsStock -= goodsnum
         db.session.commit()
-        return order.OrderId
+        return int(order.OrderId)
 
     @staticmethod
     def change_order_state(orderid, state):

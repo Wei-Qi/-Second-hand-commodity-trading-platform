@@ -40,7 +40,8 @@
 							<thead>
 								<tr>
 									<th>订单编号</th>
-									<th>日期</th>
+                                    <th>商品名称</th>
+									<th>时间</th>
 									<th>数量</th>
 									<th>总计</th>
 									<th>订单状态</th>
@@ -51,15 +52,23 @@
                             {% for order in order_list %}
                             <tr>
 									<td>#{{ order['id'] }}</td>
+                                    <td>{{ order['商品名称'] }}</td>
 									<td>{{ order['时间'] }}</td>
 									<td>{{ order['商品数量'] }}</td>
 									<td>{{ order['商品价格']*order['商品数量'] }}</td>
-									<td><span class="label label-primary">配送中</span></td>
+									<td><span class="label label-primary">{{order['订单状态']}}</span></td>
 									<td><a href="/order/{{ order['id'] }}" class="btn btn-default">查看</a></td>
 									<td>
-										<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                                        {% if order['订单状态']=='待收货' %}
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
 											退货
 										</button>
+                                        {% else %}
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" disabled>
+											退货
+										</button>
+                                        {% endif %}
+
 										<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 											<div class="modal-dialog modal-dialog-centered" role="document">
 											  <div class="modal-content">

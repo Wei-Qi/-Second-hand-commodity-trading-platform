@@ -180,18 +180,16 @@ $('#submit_order').on('click',function () {
     })
 
     var goodsid = $('#goodsid').attr('href').split('/')[2];
-    var urls='/order/create/' + goodsid;
-    console.log(urls)
-    console.log(goodsid)
+    {#console.log(urls)#}
+    {#console.log(goodsid)#}
     $.ajax({
-        url: 'urls',
+        url: '/order/create/{{item['id']}}',
         method: 'POST',
         data: {
             'addressid': addressid
         },
         success: function (res) {
             if(res['code']==200){
-                alert('dadsd')
                 window.location.href = res['url'];
             }else{
                 alert(res['message']);

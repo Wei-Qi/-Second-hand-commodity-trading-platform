@@ -39,7 +39,6 @@ def addItem(goodsid):
 @bp.route('/set_cnt/<int:itemid>',methods=['POST'])
 @login_required
 def setCnt(itemid):
-    print(request.form)
     cnt=request.form.get('cnt')
     res=Cart.change_goods_num(itemid,cnt)
     if res is True:
@@ -55,4 +54,7 @@ def checkout(itemid):
         flash('购物车中不存在此项商品')
         return redirect('/cart')
     address_list=user.get_user_address(current_user.get_id())
+    if len(address_list)==0:
+        flash('请先添加一个收货地址')
+        return redirect('/user/address')
     return render_template('checkout.html',item=item,address_list=address_list)
