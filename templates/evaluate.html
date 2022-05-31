@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<!--suppress CssUnusedSymbol, JSUnresolvedLibraryURL -->
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    <title>评价</title>
+    <style>
+        .cleanfloat::after{display: block; clear: both; content:""; visibility: hidden; height: 0;}/*清浮动*/
+        ul li{list-style:none; float:left; font-size:30px; margin:5px; color:#ccc; cursor:pointer;}/*五角星样式*/
+        .hs,.cs{color:#f00;}/*五角星点击后样式*/
+        .float{
+            float:left;
+            width : 200px;
+            height: 200px;
+            overflow: hidden;
+            border: 1px solid #CCCCCC;
+            border-radius: 10px;
+            padding: 5px;
+            margin: 5px;
+        }
+        img{
+            position: relative;
+        }
+        .result{
+            width: 200px;
+            height: 200px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+
+        #file_input{
+            display: none;
+        }
+
+
+        .delete{
+            width: 200px;
+            height:200px;
+            position: absolute;
+            text-align: center;
+            line-height: 200px;
+            z-index: 10;
+            font-size: 30px;
+            background-color: rgba(255,255,255,0.8);
+            color: #777;
+            opacity: 0;
+            transition-duration: 0.7s;
+            -webkit-transition-duration: 0.7s;
+        }
+
+        .delete:hover{
+            cursor: pointer;
+            opacity: 1;
+        }
+    </style>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<body>
+
+<section class="page-header">
+	<div class="container">
+		<div class="row">
+            <div class="col-md-8">
+                <div style="margin-bottom: 1rem"><h2>开始评价</h2></div>
+                    <form>
+                        <div class="panel panel-default">
+                            <div class="panel-heading" style="font-size: 2rem;">满意度&nbsp;<span style="color:red;">*</span>：</div>
+                                <div class="panel-body" style="height: 8rem">
+                                    <input name="starNum" id="starNum" type="hidden"/>
+                                    <div class="starability-container">
+{#                                       <fieldset class="starability-slot">#}
+{#                                            <input type="radio" id="rate_1_0_1_5" name="starLevel" value="5" />&#9733;#}
+{#                                            <label for="rate_1_0_1_5" title="5星"></label>#}
+{#                                            <input type="radio" id="rate_1_0_1_4" name="starLevel" value="4" />#}
+{#                                            <label for="rate_1_0_1_4" title="4星" class="cleanfloat">&#9733;</label>#}
+{#                                            <input type="radio" id="rate_1_0_1_3" name="starLevel" value="3" />#}
+{#                                            <label for="rate_1_0_1_3" title="3星" class="cleanfloat">&#9733;</label>#}
+{#                                            <input type="radio" id="rate_1_0_1_2" name="starLevel" value="2" />#}
+{#                                            <label for="rate_1_0_1_2" title="2星" class="cleanfloat">&#9733;</label>#}
+{#                                            <input type="radio" id="rate_1_0_1_1" name="starLevel" value="1" />#}
+{#                                            <label for="rate_1_0_1_1" title="1星" class="cleanfloat">&#9733;</label>#}
+{#                                       </fieldset>#}
+                                         <ul class="cleanfloat">
+                                            <li>&#9733;</li>
+                                            <li>&#9733;</li>
+                                            <li>&#9733;</li>
+                                            <li>&#9733;</li>
+                                            <li>&#9733;</li>
+                                        </ul>
+                                    </div>
+                                    <span style="font-size: 2rem;line-height: 2.9rem;padding: 1rem;font-style: oblique;" id="starStr"></span>
+                                </div>
+                        </div>
+                        <div class="page-header" style="margin-top: -1rem">
+                            <h4>描述：</h4>
+                        </div>
+                        <textarea id="customerEvaluationComment" name="customerEvaluationComment"
+                            class="form-control" rows="16" style="min-width: 90%;height: 10rem !important;margin-top: -1rem"></textarea>
+                        <br/>
+                         <div class="page-header" style="margin-top: -1rem">
+                            <h4>图片：</h4>
+                        </div>
+                        <div style="margin-bottom: 1em;display:inline-block;width: auto;height: auto" id="imageBox">
+
+                        </div>
+                        <div style="margin-bottom: 2rem">
+                             <button type="button" id="select">(重新)选择图片</button>
+                             <input type="file" id="file" class="btn" name="upload_image" multiple accept="image/gif, image/jpeg, image/png, image/jpg" style="display: none"/>
+                             <button type="button" id="addImage" style="width: 18rem">追加图片</button>
+                             <button type="button" id="upImage" style="width: 18rem">上传</button>
+                        </div>
+                        <p class="submit_btn">
+                            <button type="button" class="btn btn-primary btn-lg btn-block" onclick="evaluation();">提交</button>
+                            <button type="button" class="btn btn-default btn-lg btn-block"  onclick="closed();">关闭</button>
+                        </p>
+                    </form>
+    </div>
+        </div>
+    </div>
+</section>
+
+</body>
+<!--JQuery JS依赖-->
+        <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+        <!--Bootstrap JS依赖-->
+        <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script>
+    $(function () {
+        $("ul li").hover(function(){
+            $(this).addClass('hs');
+            $(this).prevAll().addClass('hs');
+        },function(){
+            $(this).removeClass('hs');
+            $(this).prevAll().removeClass('hs');
+        })
+
+        $("ul li").click(function () {
+            $(this).addClass('cs');
+            $(this).prevAll().addClass('cs');
+            $(this).nextAll().removeClass('cs');
+        })
+    })
+
+var dataArr=[];
+var form1=new FormData();
+var imageNames=""
+ $('#file').on('change',function(){
+    	var filePath = $(this).val();        //获取到input的value，里面是文件的路径
+    	var	fileFormat = filePath.substring(filePath.lastIndexOf(".")).toLowerCase();
+    	// 检查是否是图片
+    	if( !fileFormat.match(/.png|.jpg|.jpeg/) ) {
+    		error_prompt_alert('上传错误,文件格式必须为：png/jpg/jpeg');
+        	return;
+        }
+
+    	var i;
+    	for(i=0;i<this.files.length;i++){
+            var reader = new FileReader();
+            reader.readAsDataURL(this.files[i]);
+            form1.append('image',this.files[i])
+            reader.fileName = this.files[i].name;
+            //console.log(this.files[i]);
+            reader.onload = function(e){
+                var imgMsg = {
+                    name : this.fileName,//获取文件名
+                    base64 : this.result   //reader.readAsDataURL方法执行完后，base64数据储存在reader.result里
+				}
+                dataArr.push(imgMsg);
+                var div = document.createElement('div');
+                if(i==0){
+                    div.innerHTML = '<div class="delete">删除</div><div class="result"><img id="'+'image'+i+'" ' +
+                        'class="subPic" src="'+this.result+'" alt="'+this.fileName+'"/></div>';
+                }
+                else if(i%2==0&&i!=0){
+                    div.innerHTML = '<div class="delete">删除</div><div class="result"><img id="'+'image'+i+'" ' +
+                        'class="subPic" src="'+this.result+'" alt="'+this.fileName+'"/></div><br/>';
+                }
+                else{
+                    div.innerHTML = '<div class="delete">删除</div><div class="result"><img id="'+'image'+i+'" ' +
+                        'class="subPic" src="'+this.result+'" alt="'+this.fileName+'"/></div>';
+                }
+                div['className'] = 'float';
+                document.getElementById("imageBox").appendChild(div);
+                var img = div.getElementsByTagName('img')[0];
+                //console.log(img);
+                img.onload = function(){
+                    var nowHeight = ReSizePic(this); //设置图片大小
+                    this.parentNode.style.display = 'block';
+                    var Parent = this.parentNode;
+                    if(nowHeight){
+                        Parent.style.paddingTop = (Parent.offsetHeight - nowHeight)/2 + 'px';
+                    }
+                }
+                div.onclick = function(){
+                    $(this).remove();                  // 在页面中删除该图片元素
+                }
+            }
+    	}
+
+});
+//修改图片大小
+ function ReSizePic(ThisPic) {
+     var RePicWidth = 200; //这里修改为您想显示的宽度值
+
+     var TrueWidth = ThisPic.width; //图片实际宽度
+     var TrueHeight = ThisPic.height; //图片实际高度
+
+     if(TrueWidth>TrueHeight){
+         //宽大于高
+         var reWidth = RePicWidth;
+         ThisPic.width = reWidth;
+         //垂直居中
+         var nowHeight = TrueHeight * (reWidth/TrueWidth);
+         return nowHeight;  //将图片修改后的高度返回，供垂直居中用
+     }else{
+         //宽小于高
+         var reHeight = RePicWidth;
+         ThisPic.height = reHeight;
+     }
+ }
+ //选择图片
+ $("#select").on('click',function () {
+     $("#image_names").attr('value',"")
+    $("#file").value="";
+    $('.float').remove();
+    $("#file").click();
+ })
+ //追加图片
+ $("#addImage").on('click',function () {
+     $("#file").value="";
+     $("#file").click();
+ })
+
+ //获取图片数据并发送
+ function send(){
+     /*var submitArr = [];
+           $('.subPic').each(function () {
+                   submitArr.push({
+                        name: $(this).attr('alt'),
+                        base64: $(this).attr('src')
+                    });
+                }
+            );*/
+     $.ajax({
+         url : '/image/upload',
+         type : 'POST',
+         data : form1,
+         processData: false,   //用FormData传fd时需有这两项
+         contentType: false,
+         success : function(res){
+             if(res['code']==200){
+                 imageNames = $("#image_names").val()
+                 imageNames=imageNames+res['image_names'];
+                 $("#image_names").attr('value',imageNames)
+                 //console.log(imageNames);
+                 form1=null;
+                 form1 = new FormData();
+                 alert(res['message']);
+             }else {
+                 alert(res['message']);
+             }
+         }
+     })
+ }
+ //上传图片
+ $("#upImage").on('click',function () {
+     $("#file").value="";
+     $('.float').remove();
+     if(!dataArr.length){
+         return alert('请先选择文件');
+     }
+     send();
+ });
+
+</script>
+
+</html>
+
+
+
