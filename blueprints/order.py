@@ -59,3 +59,8 @@ def pay(orderid):
         abort(404)
     alipay_url=ALIPAY.get_alipay_url(orderid,'http://127.0.0.1:5000/order/pay/check/'+str(orderid))
     return redirect(alipay_url)
+
+@bp.route('/evaluate')
+@login_required
+def evaluate():
+    return render_template('evaluate.html')
