@@ -137,7 +137,7 @@ class user:
         return user_json
 
     @staticmethod
-    def change_user_info(id, name, sex, phone):
+    def change_user_info(id, name, sex, phone, ALiCount):
         """
         通过id修改用户信息
         :param id: 用户id
@@ -155,6 +155,7 @@ class user:
         user.UserName = name
         user.UserSex = sex
         user.UserPhone = phone
+        user.UserAliaccount = ALiCount
         db.session.commit()
         return True
 

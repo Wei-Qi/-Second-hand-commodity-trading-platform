@@ -4,86 +4,86 @@
 
 {% block content %}
 
-<section class="page-header">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="content">
-          <h1 class="page-name">个人中心</h1>
-          <ol class="breadcrumb">
-            <li><a href="index.html" style="font-size: large">首页</a></li>
-            <li class="active" style="font-size: medium">个人信息</li>
-          </ol>
+  <section class="page-header">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="content">
+            <h1 class="page-name">个人中心</h1>
+            <ol class="breadcrumb">
+              <li><a href="index.html" style="font-size: large">首页</a></li>
+              <li class="active" style="font-size: medium">个人信息</li>
+            </ol>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
-<section class="user-dashboard page-wrapper" style="margin-top: -5em">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="dashboard-wrapper dashboard-user-profile">
-          <div class="media">
-            <div class="pull-left text-center" href="#!">
-              <img class="media-object user-img" src="../static/images/1.png" alt="Image">
-              <a href="#x" class="btn btn-transparent mt-20">修改头像</a>
-            </div>
-            <div class="media-body" style="font-size: medium">
-              <ul class="user-profile-list">
-                <li><span>邮箱:</span>{{user_info.UserEmail}}</li>
-                <li><span>昵称:</span>{{user_info.UserName}}</li>
-                <li><span>性别:</span>{{user_info.UserSex}}</li>
-                <li><span>支付宝账号:</span>{{user_info.UserAliaccount}}</li>
-                <li><span>信用积分:</span>{{user_info.UserCredit}}</li>
-                <li><span>联系电话:</span>{{user_info.UserPhone}}</li>
-                <li><span>注册时间:</span>{{user_info.UserJoin_time}}</li>
-              </ul>
-            </div>
-            <div class="media-bottom">
-              <tfoot>
-              <tr>
-                <tf class="pull-right">
-                  <div class="btn-group text-left" role="group">
-                    <button type="button" class="btn btn-main btn-round" id="mybtn" data-toggle="modal"
-                            data-target="#exampleModalCenter">修改信息
-                    </button>
-                    {# 弹出填写修改信息的模态框 默认不弹#}
-                    {% if ispop == False %}
-                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-                         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                      <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalCenterTitle">修改信息</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                          </div>
-{#                          <div class="modal-body">#}
-{#                            <form class="text-left clearfix" action="/user/info" method="post">#}
-{#                              {{ form.hidden_tag() }}#}
-{#                              <div class="form-group">#}
-{#                                {{ form.username.label(class="form-control-label") }}#}
-{#                                {% if form.username.errors %}#}
-{#                                {{ form.username(class="form-control") }}#}
-{#                                <div class="invalid-feedback">#}
-{#                                  {% for error in form.username.errors %}#}
-{#                                  <span>{{ error }}</span>#}
-{#                                  {% endfor %}#}
-{#                                </div>#}
-{#                                {% else %}#}
-{#                                {{ form.username(class="form-control") }}#}
-{#                                {% endif %}#}
-{#                              </div>#}
-{#                              <div>#}
-{#                                {%for message in get_flashed_messages()%}#}
-{#                                <div class="alert alert-warning">#}
-{#                                  <button type="button" class="close" data-dismiss="alert">&times;</button>#}
-{#                                  {{message}}#}
-{#                                </div>#}
-{#                                {%endfor%}#}
-{#                              </div>#}
+  </section>
+  <section class="user-dashboard page-wrapper" style="margin-top: -5em">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="dashboard-wrapper dashboard-user-profile">
+            <div class="media">
+              <div class="pull-left text-center" href="#!">
+                <img class="media-object user-img" src="../static/images/1.png" alt="Image">
+                <a href="#x" class="btn btn-transparent mt-20">修改头像</a>
+              </div>
+              <div class="media-body" style="font-size: medium">
+                <ul class="user-profile-list">
+                  <li><span>邮箱:</span>{{ user_info.UserEmail }}</li>
+                  <li><span>昵称:</span>{{ user_info.UserName }}</li>
+                  <li><span>性别:</span>{{ user_info.UserSex }}</li>
+                  <li><span>支付宝账号:</span>{{ user_info.UserAliaccount }}</li>
+                  <li><span>信用积分:</span>{{ user_info.UserCredit }}</li>
+                  <li><span>联系电话:</span>{{ user_info.UserPhone }}</li>
+                  <li><span>注册时间:</span>{{ user_info.UserJoin_time }}</li>
+                </ul>
+              </div>
+              <div class="media-bottom">
+                <tfoot>
+                <tr>
+                  <tf class="pull-right">
+                    <div class="btn-group text-left" role="group">
+                      <button type="button" class="btn btn-main btn-round" id="mybtn" data-toggle="modal"
+                              data-target="#exampleModalCenter">修改信息
+                      </button>
+                      {# 弹出填写修改信息的模态框 默认不弹#}
+                      {% if ispop == False %}
+                        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalCenterTitle">修改信息</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              {#                          <div class="modal-body">#}
+                              {#                            <form class="text-left clearfix" action="/user/info" method="post">#}
+                              {#                              {{ form.hidden_tag() }}#}
+                              {#                              <div class="form-group">#}
+                              {#                                {{ form.username.label(class="form-control-label") }}#}
+                              {#                                {% if form.username.errors %}#}
+                              {#                                {{ form.username(class="form-control") }}#}
+                              {#                                <div class="invalid-feedback">#}
+                              {#                                  {% for error in form.username.errors %}#}
+                              {#                                  <span>{{ error }}</span>#}
+                              {#                                  {% endfor %}#}
+                              {#                                </div>#}
+                              {#                                {% else %}#}
+                              {#                                {{ form.username(class="form-control") }}#}
+                              {#                                {% endif %}#}
+                              {#                              </div>#}
+                              {#                              <div>#}
+                              {#                                {%for message in get_flashed_messages()%}#}
+                              {#                                <div class="alert alert-warning">#}
+                              {#                                  <button type="button" class="close" data-dismiss="alert">&times;</button>#}
+                              {#                                  {{message}}#}
+                              {#                                </div>#}
+                              {#                                {%endfor%}#}
+                              {#                              </div>#}
                               <div class="modal-body">
                                 <form class="text-left clearfix" action="/user/info" method="post">
                                   {{ form.hidden_tag() }}
@@ -125,6 +125,19 @@
                                       {{ form.userphone(class="form-control") }}
                                     {% endif %}
                                   </div>
+                                  <div class="form-group">
+                                    {{ form.useralicount.label(class="form-control-label") }}
+                                    {% if form.useralicount.errors %}
+                                      {{ form.useralicount(class="form-control") }}
+                                      <div class="invalid-feedback">
+                                        {% for error in form.useralicount.errors %}
+                                          <span>{{ error }}</span>
+                                        {% endfor %}
+                                      </div>
+                                    {% else %}
+                                      {{ form.useralicount(class="form-control") }}
+                                    {% endif %}
+                                  </div>
                                   <div class="text-center">
                                     <button type="submit" class="btn btn-main text-center">修改</button>
                                   </div>
@@ -133,24 +146,24 @@
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
                               </div>
-{#                            </div>#}
+                              {#                            </div>#}
+                            </div>
                           </div>
-                        </div>
 
-                      </div>
-                    </div>
-                    {% else %}
-                    {# 弹出填写修改信息的模态框 默认弹出#}
-                    <script>
-                        window.onload=function () {
-                            document.getElementById('mybtn').click(function () {
-                                $("#exampleModalCenter").modal();
-                            })
-                        }
-                    </script>
-                    {% endif %}
-                  </div>
-                </tf>
+                        </div>
+                        </div>
+                      {% else %}
+                        {# 弹出填写修改信息的模态框 默认弹出#}
+                        <script>
+                            window.onload = function () {
+                                document.getElementById('mybtn').click(function () {
+                                    $("#exampleModalCenter").modal();
+                                })
+                            }
+                        </script>
+                      {% endif %}
+              </div>
+              </tf>
               </tr>
               </tfoot>
             </div>
