@@ -18,6 +18,7 @@ from forms import *
 from User.user import user
 from Goods.goods import goods
 from Order.Order import Order
+from ReturnOrder.ReturnOrder import ReturnOrder
 
 bp = Blueprint('user', __name__, url_prefix='/user')
 
@@ -53,6 +54,7 @@ def forgetPassword():
             flash(res)
     return render_template('forget-password.html', form=form)
 
+
 @bp.route('/signin', methods=['GET', 'POST'])
 def signIn():
     if current_user.is_authenticated:
@@ -60,7 +62,7 @@ def signIn():
         return redirect(url_for('user.info', ispop=False))
     form = RegistrationForm()
     if form.validate_on_submit():
-        res = user.add_user(form.email.data, form.password.data, form.username.data,form.alipayaccount.data)
+        res = user.add_user(form.email.data, form.password.data, form.username.data, form.alipayaccount.data)
         if res is True:
             flash('账号创建成功，请登陆')
             return redirect(url_for('user.logIn'))
@@ -88,7 +90,8 @@ def info():
         else:
             usersex = 1
         userphone = form.userphone.data
-        res = user.change_user_info(current_user.get_id(), username, usersex, userphone)
+        useralicount = form.useralicount.data
+        res = user.change_user_info(current_user.get_id(), username, usersex, userphone, useralicount)
         if res == '该昵称已经被注册':
             flash('该昵称被注册')
         user_info = user.get_userinfo_by_id(current_user.get_id())
@@ -97,92 +100,105 @@ def info():
     return render_template("profile-details.html", user_info=user_info, form=form, ispop=False)
 
 
-
-@bp.route("/my_sale")
-@login_required
-def mySale():
-    sale_list=Order.get_order_by_sellerid(current_user.get_id())
-    return render_template("mysale.html",sale_list=sale_list)
-
-
 @bp.route("/address")
 @login_required
 def address():
-    form1=AddAddressForm()
-    form2=ChangeAddressForm()
-    address_list=user.get_user_address(current_user.get_id())
-    return render_template("address.html",form1=form1,form2=form2,address_list=address_list)
+    form1 = AddAddressForm()
+    form2 = ChangeAddressForm()
+    address_list = user.get_user_address(current_user.get_id())
+    return render_template("address.html", form1=form1, form2=form2, address_list=address_list)
 
 
-#两个函数用于处理address对应的页面中的两个表单
-@bp.route('/address_add',methods=['POST'])
+# 两个函数用于处理address对应的页面中的两个表单
+@bp.route('/address_add', methods=['POST'])
 @login_required
 def addAddress():
     form1 = AddAddressForm()
     form2 = ChangeAddressForm()
     if form1.is_submitted():
         if form1.validate():
-            res=user.add_user_adddress(current_user.get_id(),form1.person_name.data,form1.address.data,form1.phone.data)
-            if  res is True:
+            res = user.add_user_adddress(current_user.get_id(), form1.person_name.data, form1.address.data,
+                                         form1.phone.data)
+            if res is True:
                 flash("添加成功")
             else:
-                flash("添加失败"+res)
+                flash("添加失败" + res)
                 address_list = user.get_user_address(current_user.get_id())
-                return render_template("address.html", form1=form1,form2=form2,address_list=address_list)
+                return render_template("address.html", form1=form1, form2=form2, address_list=address_list)
         else:
             flash("添加失败")
             address_list = user.get_user_address(current_user.get_id())
             return render_template("address.html", form1=form1, form2=form2, address_list=address_list)
 
-    address_list=user.get_user_address(current_user.get_id())
-    return render_template("address.html",form1=form1,form2=form2,address_list=address_list)
+    address_list = user.get_user_address(current_user.get_id())
+    return render_template("address.html", form1=form1, form2=form2, address_list=address_list)
 
 
-@bp.route('/address_change',methods=['POST'])
+@bp.route('/address_change', methods=['POST'])
 @login_required
 def changeAddress():
     form1 = AddAddressForm()
     form2 = ChangeAddressForm()
     if form2.is_submitted():
         if form2.validate():
-            res=user.change_user_address(current_user.get_id(),int(form2.address_id.data),form2.person_name.data,form2.address.data,form2.phone.data)
+            res = user.change_user_address(current_user.get_id(), int(form2.address_id.data), form2.person_name.data,
+                                           form2.address.data, form2.phone.data)
             if res is True:
                 flash("修改成功")
             else:
-                flash("修改失败"+res)
+                flash("修改失败" + res)
                 address_list = user.get_user_address(current_user.get_id())
-                return render_template("address.html", form1=form1,form2=form2,address_list=address_list)
+                return render_template("address.html", form1=form1, form2=form2, address_list=address_list)
         else:
             flash("修改失败")
             address_list = user.get_user_address(current_user.get_id())
             return render_template("address.html", form1=form1, form2=form2, address_list=address_list)
-    address_list=user.get_user_address(current_user.get_id())
-    return render_template("address.html",form1=form1,form2=form2,address_list=address_list)
+    address_list = user.get_user_address(current_user.get_id())
+    return render_template("address.html", form1=form1, form2=form2, address_list=address_list)
 
 
-@bp.route("/return_goods")
+@bp.route("/return_apply")
 @login_required
 def returnGoods():
-    return render_template("return_goods.html")
-
-
-@bp.route("/my_purchase")
-@login_required
-def myPurchase():
-    order_list=Order.get_order_by_userid(current_user.get_id())
-    return render_template("mypurchase.html",order_list=order_list)
-
+    #applys=Order.#获取所有退货订单
+    return render_template("return_apply.html")
 
 @bp.route("/return_order")
 @login_required
 def returnOrder():
-    return render_template("return_order.html")
+    order_list=ReturnOrder.get_retrunorder_by_sellerid(current_user.get_id())
+    return render_template("return_order.html",order_list=order_list)
+
+@bp.route("/my_purchase")
+@login_required
+def myPurchase():
+    order_list = Order.get_order_by_userid(current_user.get_id())
+    return render_template("mypurchase.html", order_list=order_list)
+
+@bp.route("/my_sale",methods=['POST','GET'])
+@login_required
+def mySale():
+    form=DelivergoodsForm()
+    if form.validate_on_submit():#发货
+        res=Order.deliver_goods(form.order_id.data,form.delivery_num.data)
+        if res is True:
+            flash("发货成功")
+            sale_list = Order.get_order_by_sellerid(current_user.get_id())
+            return render_template("mysale.html",sale_list=sale_list,form=form)
+        else:
+            flash(res)
+            sale_list = Order.get_order_by_sellerid(current_user.get_id())
+            return render_template("mysale.html",sale_list=sale_list,form=form)
+    sale_list = Order.get_order_by_sellerid(current_user.get_id())
+    return render_template("mysale.html",sale_list=sale_list,form=form)
+
+
 
 @bp.route("/my_goods")
 @login_required
 def myGoods():
-    goods_list=goods.get_goods_info_by_user(current_user.get_id())
-    return render_template("myGoods.html",goods_list=goods_list)
+    goods_list = goods.get_goods_info_by_user(current_user.get_id())
+    return render_template("myGoods.html", goods_list=goods_list)
 
 
 @bp.route('/signin/captcha', methods=['POST'])
@@ -202,11 +218,12 @@ def signInCaptcha():
         # 400 客户端错误
         return jsonify({'code': 400, 'message': '请先输入邮箱'})
 
+
 @bp.route('/forget_password/captcha', methods=['POST'])
 def forgetPasswordCaptcha():
     email = request.form.get('email')
-    res=user.get_userinfo_by_email(email)
-    if res=='邮箱不存在':
+    res = user.get_userinfo_by_email(email)
+    if res == '邮箱不存在':
         return jsonify({'code': 400, 'message': '邮箱未注册'})
     if email:
         if Function.function.check_email_url(email) is False:
@@ -220,12 +237,12 @@ def forgetPasswordCaptcha():
         return jsonify({'code': 400, 'message': '请先输入邮箱'})
 
 
-@bp.route('/address_delete',methods=['POST'])
+@bp.route('/address_delete', methods=['POST'])
 @login_required
 def deleteAddress():
-    addressId=request.form.get('addressId')
-    res=user.del_user_address(current_user.get_id(),addressId)
+    addressId = request.form.get('addressId')
+    res = user.del_user_address(current_user.get_id(), addressId)
     if res is True:
-        return jsonify({'code':200})
+        return jsonify({'code': 200})
     else:
-        return jsonify({'code':400,'message':res})
+        return jsonify({'code': 400, 'message': res})

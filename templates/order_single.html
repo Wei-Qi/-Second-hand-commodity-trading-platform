@@ -77,12 +77,14 @@
                         <span>总计：</span>
                         <span>{{ order['商品价格']*order['商品数量'] }}￥</span>
                      </div>
+                      {% if order['物流单号'] is not none %}
                      <div class="media product-card" style="border-bottom: 1px solid #bbbbbb;padding-bottom: 2rem">
                          <div class="summary-total">
                             <span>订单物流单号：</span>
-                            <span>dhakdahdkasdhasdkasdhasld</span>
+                            <span>{{ order['物流单号'] }}</span>
                          </div>
                      </div>
+                      {% endif %}
                      <div class="media product-card" style="border-bottom: 1px solid #bbbbbb;padding-bottom: 2rem">
                          <div class="summary-total">
                             <span>订单生成时间：</span>

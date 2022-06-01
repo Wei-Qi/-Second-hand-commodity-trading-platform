@@ -113,7 +113,7 @@
                         </div>
                         <p class="submit_btn">
                             <button type="button" class="btn btn-primary btn-lg btn-block" onclick="evaluation();">提交</button>
-                            <button type="button" class="btn btn-default btn-lg btn-block"  onclick="closed();">关闭</button>
+{#                            <button type="button" class="btn btn-default btn-lg btn-block"  onclick="closed();">关闭</button>#}
                         </p>
                     </form>
     </div>
@@ -293,7 +293,7 @@ function evaluation() {
         data: {
             'score': sorce,
             'content': descripe,
-            'image': imageNames
+            'img': imageNames
         },
         success: function (res) {
             if(res['code']==200){

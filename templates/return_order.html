@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 
-{% block title %}退货申请{% endblock %}
+{% block title %}退货订单{% endblock %}
 
 {% block content %}
+
 <section class="page-header">
 	<div class="container">
 		<div class="row">
@@ -11,7 +12,7 @@
 					<h1 class="page-name">个人中心</h1>
 					<ol class="breadcrumb">
 						<li><a href="index.html" style="font-size: large">首页</a></li>
-						<li class="active" style="font-size: medium">退货申请</li>
+						<li class="active" style="font-size: medium">退货订单</li>
 					</ol>
 				</div>
 			</div>
@@ -28,7 +29,7 @@
 							<thead>
 								<tr>
 									<th>订单编号</th>
-									<th>日期</th>
+									<th>退货时间</th>
 									<th>数量</th>
 									<th>总计</th>
 									<th>订单状态</th>
@@ -41,7 +42,7 @@
 									<td>2022-5-25</td>
 									<td>2</td>
 									<td>99.00</td>
-									<td><span class="label label-primary">待处理</span></td>
+									<td><span class="label label-primary">退货中</span></td>
 									<td><a href="/user/order" class="btn btn-default">查看</a></td>
 									<td><a  class="btn btn-default">同意</a></td>
 								</tr>
@@ -50,7 +51,7 @@
 									<td>2022-5-25</td>
 									<td>3</td>
 									<td>150.00</td>
-									<td><span class="label label-success">同意</span></td>
+									<td><span class="label label-success">完成退货</span></td>
 									<td><a href="/user/order" class="btn btn-default">查看</a></td>
 									<td><a  class="btn btn-default">同意</a></td>
 								</tr>
@@ -59,19 +60,11 @@
 									<td>2022-5-25</td>
 									<td>3</td>
 									<td>150.00</td>
-									<td><span class="label label-danger">取消</span></td>
+									<td><span class="label label-danger">取消退货</span></td>
 									<td><a href="/user/order" class="btn btn-default">查看</a></td>
 									<td><a class="btn btn-default">同意</a></td>
 								</tr>
-								<tr>
-									<td>#451231</td>
-									<td>2022-5-25</td>
-									<td>2</td>
-									<td>99.00</td>
-									<td><span class="label label-info">拒绝</span></td>
-									<td><a href="/user/order" class="btn btn-default">查看</a></td>
-									<td><a class="btn btn-default">同意</a></td>
-								</tr>
+								
 							</tbody>
 						</table>
 					</div>

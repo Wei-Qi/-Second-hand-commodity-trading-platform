@@ -105,7 +105,7 @@ class Order():
             Order.change_order_state(orderid, 3)
             return True
         else:
-            return False
+            return '向卖家转账失败'
 
     @staticmethod
     def request_return(orderid, reason):
@@ -144,7 +144,6 @@ class Order():
             Order.change_order_state(orderid, 2)
         return True
 
-
     @staticmethod
     def get_order_by_orderid(orderid):
         """
@@ -177,6 +176,7 @@ class Order():
         order_dict['时间'] = order.OrderTime
         order_dict['订单状态'] = _Order_State[order.OrderState]
         order_dict['支付宝账单'] = order.AliId
+        order_dict['物流单号'] = order.OrderExpress
         return order_dict
 
     @staticmethod
@@ -224,3 +224,19 @@ class Order():
             return True
         else:
             return False
+
+    @staticmethod
+    def get_request_return_order(userid):
+        """
+        根据用户id获取退货申请的订单
+        :param userid:用户id
+        :return:'用户id不存在' or order_json
+        """
+        user = UserModel.query.filter_by(UserId=userid).first()
+        if user is None:
+            return '用户id不存在'
+        order_json = []
+        for order in user.SellerOrder:
+            if order.OrderState == 4:
+                order_json.append(Order.get_order_by_orderid(order.OrderId))
+        return order_json
