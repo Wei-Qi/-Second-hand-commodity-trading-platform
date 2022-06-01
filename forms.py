@@ -144,3 +144,6 @@ class UpdateGoodsForm(FlaskForm):
             raise ValidationError("最多上传5张图片")
         elif len(names) < 1:
             raise ValidationError("请至少上传1张图片")
+
+class DelivergoodsForm(FlaskForm):
+    goods_id=StringField(render_kw={'style': u'display:none'})
