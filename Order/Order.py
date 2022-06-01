@@ -82,6 +82,9 @@ class Order():
             return '订单id不存在'
         if order.OrderState != 1:
             return '该订单无法发货'
+        expressorder = OrderModel.query.filter_by(OrderExpress=express).first()
+        if expressorder is not None:
+            return '物流单号重复'
         Order.change_order_state(orderid, 2)
         order.OrderExpress = express
         db.session.commit()
