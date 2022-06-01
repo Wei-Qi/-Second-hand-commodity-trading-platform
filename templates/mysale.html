@@ -38,7 +38,7 @@
 										<th>日期</th>
 										<th>数量</th>
 										<th>总价</th>
-										<th></th>
+										<th>操作</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -50,6 +50,7 @@
 										<td>{{ sale['时间'] }}</td>
 										<td>{{ sale['商品数量'] }}</td>
 										<td> {{ sale['商品价格'] }}</td>
+                                        <td><button type="button" class="btn btn-main btn-small btn-round-full" data-toggle="modal" data-target="#exampleModalCenter">发货</button></td>
 									</tr>
                                 {% endfor %}
 
@@ -79,5 +80,43 @@
 			</div>
 		</div>
 	</div>
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">添加物流单号</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="text-left clearfix" action="#" method="post">
+{#                        {{ form1.hidden_tag() }}#}
+                        <div class="form-group">
+                            <input type="text" class="form-control"  placeholder="物流单号">
+{#                            {{ form1.person_name.label(class="form-control-label") }}#}
+{#                            {% if form1.person_name.errors %}#}
+{#                                {{ form1.person_name(class="form-control") }}#}
+{#                                <div class="invalid-feedback">#}
+{#                                    {% for error in form1.person_name.errors %}#}
+{#                                        <span>{{ error }}</span>#}
+{#                                    {% endfor %}#}
+{#                                </div>#}
+{#                            {% else %}#}
+{#                                {{ form1.person_name(class="form-control") }}#}
+{#                            {% endif %}#}
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-main text-center">添加</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
+
 {% endblock %}
