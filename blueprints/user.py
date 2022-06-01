@@ -18,6 +18,7 @@ from forms import *
 from User.user import user
 from Goods.goods import goods
 from Order.Order import Order
+from ReturnOrder.ReturnOrder import ReturnOrder
 
 bp = Blueprint('user', __name__, url_prefix='/user')
 
@@ -98,13 +99,6 @@ def info():
 
 
 
-@bp.route("/my_sale")
-@login_required
-def mySale():
-    sale_list=Order.get_order_by_sellerid(current_user.get_id())
-    return render_template("mysale.html",sale_list=sale_list)
-
-
 @bp.route("/address")
 @login_required
 def address():
@@ -160,11 +154,17 @@ def changeAddress():
     return render_template("address.html",form1=form1,form2=form2,address_list=address_list)
 
 
-@bp.route("/return_goods")
+@bp.route("/return_apply")
 @login_required
 def returnGoods():
-    return render_template("return_goods.html")
+    #applys=Order.#获取所有退货订单
+    return render_template("return_apply.html")
 
+@bp.route("/return_order")
+@login_required
+def returnOrder():
+    order_list=ReturnOrder.get_retrunorder_by_sellerid(current_user.get_id())
+    return render_template("return_order.html",order_list=order_list)
 
 @bp.route("/my_purchase")
 @login_required
@@ -172,11 +172,23 @@ def myPurchase():
     order_list=Order.get_order_by_userid(current_user.get_id())
     return render_template("mypurchase.html",order_list=order_list)
 
-
-@bp.route("/return_order")
+@bp.route("/my_sale",methods=['POST','GET'])
 @login_required
-def returnOrder():
-    return render_template("return_order.html")
+def mySale():
+    form=DelivergoodsForm()
+    if form.validate_on_submit():#发货
+        res=Order.deliver_goods(form.order_id.data,form.delivery_num.data)
+        if res is True:
+            flash("发货成功")
+            sale_list = Order.get_order_by_sellerid(current_user.get_id())
+            return render_template("mysale.html",sale_list=sale_list,form=form)
+        else:
+            flash(res)
+            sale_list = Order.get_order_by_sellerid(current_user.get_id())
+            return render_template("mysale.html",sale_list=sale_list,form=form)
+    sale_list = Order.get_order_by_sellerid(current_user.get_id())
+    return render_template("mysale.html",sale_list=sale_list,form=form)
+
 
 @bp.route("/my_goods")
 @login_required

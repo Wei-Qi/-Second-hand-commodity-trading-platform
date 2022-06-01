@@ -12,6 +12,7 @@ from Cart.Cart import Cart
 from Order.Order import Order
 from payment.ALIPAY import ALIPAY
 from Evaluation.Evaluation import Evaluation
+from config import LocalAddress
 
 bp=Blueprint('order',__name__,url_prefix="/order")
 
@@ -58,7 +59,7 @@ def pay(orderid):
     order = Order.get_order_by_orderid(orderid)
     if order == '订单id不存在':
         abort(404)
-    alipay_url=ALIPAY.get_alipay_url(orderid,'http://127.0.0.1:5000/order/pay/check/'+str(orderid))
+    alipay_url=ALIPAY.get_alipay_url(orderid,LocalAddress+'/order/pay/check/'+str(orderid))
     return redirect(alipay_url)
 
 @bp.route('/evaluate/<int:orderid>',methods=['POST','GET'])
@@ -77,7 +78,12 @@ def evaluate(orderid):
             return jsonify({'code':400,'message':'请填写所有字段'})
         res=Evaluation.add_evaluation(current_user.get_id(),order['商品id'],content,img,score)
         if res is True:
-            return jsonify({'code':200,'message':'评价成功','url':f"/goods/{order['商品id']}"})
+            res=Order.confirm_goods(orderid)
+            if res is True:
+                flash('评价完成，订单已关闭')
+            else:
+                flash('评价完成，订单关闭异常:'+res)
+            return jsonify({'code':200,'url':f"/goods/{order['商品id']}"})
         else:
             return jsonify({'code':400,'message':res})
     return render_template('evaluate.html')

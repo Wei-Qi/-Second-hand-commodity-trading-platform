@@ -146,4 +146,6 @@ class UpdateGoodsForm(FlaskForm):
             raise ValidationError("请至少上传1张图片")
 
 class DelivergoodsForm(FlaskForm):
-    goods_id=StringField(render_kw={'style': u'display:none'})
+    order_id=StringField(render_kw={'style': u'display:none'})
+    delivery_num=StringField('物流单号',
+                             validators=[DataRequired(u"物流单号不能为空")],render_kw={'placeholder': u'物流单号'})

@@ -105,7 +105,7 @@ class Order():
             Order.change_order_state(orderid, 3)
             return True
         else:
-            return False
+            return '向卖家转账失败'
 
     @staticmethod
     def request_return(orderid, reason):

@@ -58,9 +58,18 @@
 									<td>{{ order['商品价格']*order['商品数量'] }}</td>
 									<td><span class="label label-primary">{{order['订单状态']}}</span></td>
 									<td><a href="/order/{{ order['id'] }}" class="btn btn-default">查看</a></td>
-                                    <td><a href="/order/evaluate" class="btn btn-default">确认收货</a></td>
+                                    <td>
+                                        {% if order['订单状态']=='待收货' %}
+                                        <a href="/order/evaluate/{{ order['id'] }}" class="btn btn-default">确认收货</a>
+                                        {% else %}
+                                        <button type="button" class="btn btn-default"  disabled>
+											确认收货
+										</button>
+                                        {% endif %}
+                                    </td>
 									<td>
                                         {% if order['订单状态']=='待收货' %}
+                                        <div style="display: none">{{ order['id'] }}</div>
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
 											退货
 										</button>
@@ -86,6 +95,7 @@
 															<option value="1">不想要了</option>
 															<option value="2">有损坏</option>
 															<option value="3">类型不一样</option>
+                                                            <option value="4">其他</option>
 														</select>
 													</div>
 													<div class="mb-3">

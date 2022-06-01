@@ -38,6 +38,7 @@
 										<th>日期</th>
 										<th>数量</th>
 										<th>总价</th>
+                                        <th>订单状态</th>
 										<th>操作</th>
 									</tr>
 								</thead>
@@ -50,7 +51,15 @@
 										<td>{{ sale['时间'] }}</td>
 										<td>{{ sale['商品数量'] }}</td>
 										<td> {{ sale['商品价格'] }}</td>
-                                        <td><button type="button" class="btn btn-main btn-small btn-round-full" data-toggle="modal" data-target="#exampleModalCenter">发货</button></td>
+                                        <td><span class="label label-primary">{{sale['订单状态']}}</span></td>
+                                        {% if sale['订单状态']=='待发货' %}
+                                        <td>
+                                            <div style="display: none">{{ sale['id'] }}</div>
+                                            <button type="button" class="btn btn-main btn-small btn-round-full mybtn" data-toggle="modal" data-target="#exampleModalCenter">发货</button>
+                                        </td>
+                                        {% else %}
+                                        <td><button type="button" class="btn btn-main btn-small btn-round-full" data-toggle="modal" data-target="#exampleModalCenter" disabled>发货</button></td>
+                                        {% endif %}
 									</tr>
                                 {% endfor %}
 
@@ -80,7 +89,7 @@
 			</div>
 		</div>
 	</div>
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="delivery" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -90,24 +99,15 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form class="text-left clearfix" action="#" method="post">
-{#                        {{ form1.hidden_tag() }}#}
+                    <form class="text-left clearfix" action="/user/my_sale" method="post">
+                        {{ form.hidden_tag() }}
                         <div class="form-group">
-                            <input type="text" class="form-control"  placeholder="物流单号">
-{#                            {{ form1.person_name.label(class="form-control-label") }}#}
-{#                            {% if form1.person_name.errors %}#}
-{#                                {{ form1.person_name(class="form-control") }}#}
-{#                                <div class="invalid-feedback">#}
-{#                                    {% for error in form1.person_name.errors %}#}
-{#                                        <span>{{ error }}</span>#}
-{#                                    {% endfor %}#}
-{#                                </div>#}
-{#                            {% else %}#}
-{#                                {{ form1.person_name(class="form-control") }}#}
-{#                            {% endif %}#}
+                            {{ form.order_id(id="order_id1") }}
+                            {{ form.delivery_num(class="form-control") }}
+{#                            <input type="text" class="form-control"  placeholder="物流单号">#}
                         </div>
                         <div class="text-center">
-                            <button type="submit" class="btn btn-main text-center">添加</button>
+                            <button type="submit" class="btn btn-main text-center">提交</button>
                         </div>
                     </form>
                 </div>
@@ -118,5 +118,24 @@
         </div>
     </div>
 </section>
+<script>
+    window.onload=function () {
+        $(document).on("click", ".mybtn", function () {
+            var $this = $(this);
+            //获取点击修改的地址的id
+            var orderId = parseInt($this.prev().text());
 
+            //var name = $this.parents('tr').children().eq(0).text();
+            //var updateAddress = $this.parents('tr').children().eq(1).text();
+            //var telephoneNumber = $this.parents('tr').children().eq(2).text();
+            //console.log(name);
+            //console.log(updateAddress);
+            //console.log(telephoneNumber);
+
+            //$("#firstGroup").before("<div class=\"form-group\"><div style=\"display: none\">addressId</div></div>");
+            $("#order_id1").attr('value', orderId)
+            $("#delivery").modal();
+        })
+    }
+</script>
 {% endblock %}

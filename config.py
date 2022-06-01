@@ -29,3 +29,5 @@ MAIL_DEBUG = True
 MAIL_USERNAME = '2432097997@qq.com'
 MAIL_PASSWORD = 'ddupplxslkgpdibi'
 MAIL_DEFAULT_SENDER = '2432097997@qq.com'
+
+LocalAddress='http://127.0.0.1:5000'
