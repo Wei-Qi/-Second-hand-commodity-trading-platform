@@ -88,6 +88,7 @@
                                             <li>&#9733;</li>
                                             <li>&#9733;</li>
                                             <li>&#9733;</li>
+                                            <span id="myscore" style="display: none"></span>
                                         </ul>
                                     </div>
                                     <span style="font-size: 2rem;line-height: 2.9rem;padding: 1rem;font-style: oblique;" id="starStr"></span>
@@ -96,8 +97,7 @@
                         <div class="page-header" style="margin-top: -1rem">
                             <h4>描述：</h4>
                         </div>
-                        <textarea id="customerEvaluationComment" name="customerEvaluationComment"
-                            class="form-control" rows="16" style="min-width: 90%;height: 10rem !important;margin-top: -1rem"></textarea>
+                        <textarea id="EvaluationComment" class="form-control" style="min-width: 90%;height: 10rem;margin-top: -1rem"></textarea>
                         <br/>
                          <div class="page-header" style="margin-top: -1rem">
                             <h4>图片：</h4>
@@ -106,9 +106,9 @@
 
                         </div>
                         <div style="margin-bottom: 2rem">
-                             <button type="button" id="select">(重新)选择图片</button>
+{#                             <button type="button" id="select">(重新)选择图片</button>#}
                              <input type="file" id="file" class="btn" name="upload_image" multiple accept="image/gif, image/jpeg, image/png, image/jpg" style="display: none"/>
-                             <button type="button" id="addImage" style="width: 18rem">追加图片</button>
+                             <button type="button" id="addImage" style="width: 18rem">(重新)选择图片</button>
                              <button type="button" id="upImage" style="width: 18rem">上传</button>
                         </div>
                         <p class="submit_btn">
@@ -122,31 +122,38 @@
 </section>
 
 </body>
-<!--JQuery JS依赖-->
+        <!--JQuery JS依赖-->
         <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
         <!--Bootstrap JS依赖-->
         <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <script>
-    $(function () {
-        $("ul li").hover(function(){
-            $(this).addClass('hs');
-            $(this).prevAll().addClass('hs');
-        },function(){
-            $(this).removeClass('hs');
-            $(this).prevAll().removeClass('hs');
-        })
-
-        $("ul li").click(function () {
-            $(this).addClass('cs');
-            $(this).prevAll().addClass('cs');
-            $(this).nextAll().removeClass('cs');
-        })
-    })
-
 var dataArr=[];
 var form1=new FormData();
 var imageNames=""
+var sorce;
+
+$(function () {
+    //鼠标放上去显示黄色
+    $("ul li").hover(function(){
+        $(this).addClass('hs');
+        $(this).prevAll().addClass('hs');
+    },function(){
+        $(this).removeClass('hs');
+        $(this).prevAll().removeClass('hs');
+    })
+    //点击后
+    $("ul li").click(function () {
+        $(this).addClass('cs');
+        $(this).prevAll().addClass('cs');
+        sorce = $(this).prevAll().length + 1;
+        console.log(sorce);
+        $('#myscore').text(sorce);
+        $(this).nextAll().removeClass('cs');
+    })
+})
+
+
  $('#file').on('change',function(){
     	var filePath = $(this).val();        //获取到input的value，里面是文件的路径
     	var	fileFormat = filePath.substring(filePath.lastIndexOf(".")).toLowerCase();
@@ -157,11 +164,11 @@ var imageNames=""
         }
 
     	var i;
-    	for(i=0;i<this.files.length;i++){
+    	if(this.files.length==1){
             var reader = new FileReader();
-            reader.readAsDataURL(this.files[i]);
-            form1.append('image',this.files[i])
-            reader.fileName = this.files[i].name;
+            reader.readAsDataURL(this.files[0]);
+            form1.append('image',this.files[0])
+            reader.fileName = this.files[0].name;
             //console.log(this.files[i]);
             reader.onload = function(e){
                 var imgMsg = {
@@ -198,7 +205,9 @@ var imageNames=""
                     $(this).remove();                  // 在页面中删除该图片元素
                 }
             }
-    	}
+    	}else{
+    	    alert("仅可上传一张图片！");
+        }
 
 });
 //修改图片大小
@@ -274,6 +283,27 @@ var imageNames=""
      }
      send();
  });
+
+function evaluation() {
+    var descripe = $('#EvaluationComment').val();
+    //console.log(imageNames)
+    $.ajax({
+        url: window.location.href,
+        method: 'POST',
+        data: {
+            'score': sorce,
+            'content': descripe,
+            'image': imageNames
+        },
+        success: function (res) {
+            if(res['code']==200){
+                 window.location.href = res['url'];
+             }else {
+                 alert(res['message']);
+             }
+        }
+    })
+}
 
 </script>
 
