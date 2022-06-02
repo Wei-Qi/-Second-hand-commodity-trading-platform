@@ -159,9 +159,9 @@ def changeAddress():
 
 @bp.route("/return_apply")
 @login_required
-def returnGoods():
-    #applys=Order.#获取所有退货订单
-    return render_template("return_apply.html")
+def returnApply():
+    applys=Order.get_request_return_order(current_user.get_id())#获取所有退货订单
+    return render_template("return_apply.html",applys=applys)
 
 @bp.route("/return_order")
 @login_required
@@ -169,9 +169,21 @@ def returnOrder():
     order_list=ReturnOrder.get_retrunorder_by_sellerid(current_user.get_id())
     return render_template("return_order.html",order_list=order_list)
 
-@bp.route("/my_purchase")
+@bp.route("/my_purchase",methods=['POST','GET'])
 @login_required
 def myPurchase():
+    if request.method=='POST':
+        opt=request.form.get('option')
+        reason=opt
+        if opt=='4':
+            reason=request.form.get('other')
+        orderid=request.form.get('orderid')
+        orderid=17
+        res=Order.request_return(orderid,reason)
+        if res is True:
+            flash('已向卖家发起退货申请，请等待卖家同意')
+        else:
+            flash(res)
     order_list = Order.get_order_by_userid(current_user.get_id())
     return render_template("mypurchase.html", order_list=order_list)
 
@@ -192,14 +204,11 @@ def mySale():
     sale_list = Order.get_order_by_sellerid(current_user.get_id())
     return render_template("mysale.html",sale_list=sale_list,form=form)
 
-
-
 @bp.route("/my_goods")
 @login_required
 def myGoods():
     goods_list = goods.get_goods_info_by_user(current_user.get_id())
     return render_template("myGoods.html", goods_list=goods_list)
-
 
 @bp.route('/signin/captcha', methods=['POST'])
 def signInCaptcha():
@@ -218,7 +227,6 @@ def signInCaptcha():
         # 400 客户端错误
         return jsonify({'code': 400, 'message': '请先输入邮箱'})
 
-
 @bp.route('/forget_password/captcha', methods=['POST'])
 def forgetPasswordCaptcha():
     email = request.form.get('email')
@@ -235,7 +243,6 @@ def forgetPasswordCaptcha():
     else:
         # 400 客户端错误
         return jsonify({'code': 400, 'message': '请先输入邮箱'})
-
 
 @bp.route('/address_delete', methods=['POST'])
 @login_required

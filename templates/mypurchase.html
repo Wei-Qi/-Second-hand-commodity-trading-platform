@@ -91,23 +91,23 @@
 												</div>
 												<div class="modal-body">
 
-                                                    <form>
+                                                    <form action="" method="post">
                                                         <div class="returnGoodId" style="display: none"></div>
                                                         <div class="mb-3">
-                                                            <select class="form-select" aria-label="Default select example" style="width: 550px;height: 50px;">
-                                                                <option selected>请选择</option>
-                                                                <option value="1">不想要了</option>
-                                                                <option value="2">有损坏</option>
-                                                                <option value="3">类型不一样</option>
+                                                            <select class="form-select" aria-label="Default select example" style="width: 550px;height: 50px;" name="option" required>
+                                                                <option value="不想要了">不想要了</option>
+                                                                <option value="有损坏">有损坏</option>
+                                                                <option value="类型不一样">类型不一样</option>
+                                                                <option value="4">其他</option>
                                                             </select>
                                                         </div>
                                                         <div class="mb-3">
                                                             <label for="exampleFormControlTextarea1" class="form-label">其他原因</label>
-                                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                                            <input class="form-control" type="text" name="other">
+                                                            <input type="text" id="orderid" name="orderid" style="display: none">
                                                         </div>
                                                         <button type="submit" class="btn btn-primary">确认</button>
                                                    </form>
-
 												</div>
 												<div class="modal-footer">
 												  <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
