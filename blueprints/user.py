@@ -178,7 +178,6 @@ def myPurchase():
         if opt=='4':
             reason=request.form.get('other')
         orderid=request.form.get('orderid')
-        orderid=17
         res=Order.request_return(orderid,reason)
         if res is True:
             flash('已向卖家发起退货申请，请等待卖家同意')
