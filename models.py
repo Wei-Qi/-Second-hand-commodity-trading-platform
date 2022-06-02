@@ -88,10 +88,13 @@ class OrderModel(db.Model):
     GoodsNum = db.Column(db.Integer, nullable=False)
     OrderTime = db.Column(db.DateTime, default=datetime.now)
     OrderState = db.Column(db.Integer, default=0)
-    AddressId = db.Column(db.Integer, db.ForeignKey('useraddress.id', ondelete='CASCADE'))
+    # AddressId = db.Column(db.Integer, db.ForeignKey('useraddress.id', ondelete='CASCADE'))
     UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
     GoodsId = db.Column(db.Integer, db.ForeignKey('goods.GoodsId', ondelete='CASCADE'))
     SellerId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
+    OrderPersonName = db.Column(db.String(200))
+    OrderPhone = db.Column(db.String(200))
+    OrderAddress = db.Column(db.String(200))
     AliId = db.Column(db.String(200))
     OrderReturnReason = db.Column(db.String(1024))
     # OrderReturnExpress = db.Column(db.String(1024), unique=True)
@@ -159,7 +162,6 @@ class UserAddressModel(db.Model):
     address = db.Column(db.String(200), nullable=False)
     phone = db.Column(db.String(200), nullable=False)
     UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
-    order = db.relationship('OrderModel', backref='address', lazy='dynamic')
 
 
 class GoodsPictureModel(db.Model):
