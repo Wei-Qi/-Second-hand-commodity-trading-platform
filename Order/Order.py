@@ -180,6 +180,7 @@ class Order():
         order_dict['订单状态'] = _Order_State[order.OrderState]
         order_dict['支付宝账单'] = order.AliId
         order_dict['物流单号'] = order.OrderExpress
+        order_dict['退货原因'] = order.OrderReturnReason
         return order_dict
 
     @staticmethod
