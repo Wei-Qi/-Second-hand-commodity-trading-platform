@@ -163,7 +163,6 @@ class Order():
         order_dict['买家id'] = order.UserId
         order_dict['买家姓名'] = order.user.UserName
         order_dict['买家头像'] = order.user.UserImage
-        order_dict['地址id'] = order.AddressId
         order_dict['地址'] = order.OrderAddress
         order_dict['电话'] = order.OrderPhone
         order_dict['收件人'] = order.OrderPersonName
