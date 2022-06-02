@@ -46,8 +46,9 @@ class Order():
             return '商品已经下架'
         if addr.UserId != user.UserId:
             return '该地址不属于该用户'
-        order = OrderModel(UserId=userid, GoodsId=goodsid, AddressId=addressid, GoodsNum=goodsnum,
-                           SellerId=goods.user.UserId)
+        order = OrderModel(UserId=userid, GoodsId=goodsid, GoodsNum=goodsnum,
+                           SellerId=goods.user.UserId, OrderPersonName=addr.person_name, OrderPhone=addr.phone,
+                           OrderAddress=addr.address)
         db.session.add(order)
         db.session.commit()
         goods.GoodsStock -= goodsnum
@@ -162,10 +163,9 @@ class Order():
         order_dict['买家id'] = order.UserId
         order_dict['买家姓名'] = order.user.UserName
         order_dict['买家头像'] = order.user.UserImage
-        order_dict['地址id'] = order.AddressId
-        order_dict['地址'] = order.address.address
-        order_dict['电话'] = order.address.phone
-        order_dict['收件人'] = order.address.person_name
+        order_dict['地址'] = order.OrderAddress
+        order_dict['电话'] = order.OrderPhone
+        order_dict['收件人'] = order.OrderPersonName
         order_dict['商品id'] = order.GoodsId
         order_dict['商品名称'] = order.goods.GoodsName
         order_dict['商品价格'] = order.goods.GoodsPrice

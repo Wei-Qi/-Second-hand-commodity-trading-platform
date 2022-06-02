@@ -44,6 +44,8 @@ app.register_blueprint(order_bp)
 @app.route('/')
 @app.route('/home')
 def home():
+    # print(Order.add_order(userid=1, addressid=15, goodsid=3, goodsnum=1))
+    print(Order.get_order_by_orderid(100011))
     return render_template('index.html')
 
 @app.errorhandler(404)  # 传入错误码作为参数状态
