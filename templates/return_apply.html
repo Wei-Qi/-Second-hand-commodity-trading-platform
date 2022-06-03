@@ -28,50 +28,51 @@
 							<thead>
 								<tr>
 									<th>订单编号</th>
-									<th>日期</th>
-									<th>数量</th>
-									<th>总计</th>
-									<th>订单状态</th>
+                                    <th>买家</th>
+									<th>退货原因</th>
 									<th></th>
+                                    <th></th>
+                                    <th></th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td>#451231</td>
-									<td>2022-5-25</td>
-									<td>2</td>
-									<td>99.00</td>
-									<td><span class="label label-primary">待处理</span></td>
-									<td><a href="/user/order" class="btn btn-default">查看</a></td>
-									<td><a  class="btn btn-default">同意</a></td>
+                            {% for apply in applys %}
+                                <tr>
+									<td>#{{ apply['id'] }}</td>
+                                    <td>{{ apply['买家姓名'] }}</td>
+									<td>{{ apply['退货原因'] }}</td>
+									<td><a href="/order/{{ apply['id'] }}" class="btn btn-default">查看</a></td>
+									<td><a  class="btn btn-default" href="/order/agree/{{ apply['id'] }}">同意</a></td>
+                                    <td><a  class="btn btn-default" href="/order/deny/{{ apply['id'] }}">拒绝</a></td>
 								</tr>
-								<tr>
-									<td>#451231</td>
-									<td>2022-5-25</td>
-									<td>3</td>
-									<td>150.00</td>
-									<td><span class="label label-success">同意</span></td>
-									<td><a href="/user/order" class="btn btn-default">查看</a></td>
-									<td><a  class="btn btn-default">同意</a></td>
-								</tr>
-								<tr>
-									<td>#451231</td>
-									<td>2022-5-25</td>
-									<td>3</td>
-									<td>150.00</td>
-									<td><span class="label label-danger">取消</span></td>
-									<td><a href="/user/order" class="btn btn-default">查看</a></td>
-									<td><a class="btn btn-default">同意</a></td>
-								</tr>
-								<tr>
-									<td>#451231</td>
-									<td>2022-5-25</td>
-									<td>2</td>
-									<td>99.00</td>
-									<td><span class="label label-info">拒绝</span></td>
-									<td><a href="/user/order" class="btn btn-default">查看</a></td>
-									<td><a class="btn btn-default">同意</a></td>
-								</tr>
+                            {% endfor %}
+{#								<tr>#}
+{#									<td>#451231</td>#}
+{#									<td>2022-5-25</td>#}
+{#									<td>3</td>#}
+{#									<td>150.00</td>#}
+{#									<td><span class="label label-success">同意</span></td>#}
+{#									<td><a href="/user/order" class="btn btn-default">查看</a></td>#}
+{#									<td><a  class="btn btn-default">同意</a></td>#}
+{#								</tr>#}
+{#								<tr>#}
+{#									<td>#451231</td>#}
+{#									<td>2022-5-25</td>#}
+{#									<td>3</td>#}
+{#									<td>150.00</td>#}
+{#									<td><span class="label label-danger">取消</span></td>#}
+{#									<td><a href="/user/order" class="btn btn-default">查看</a></td>#}
+{#									<td><a class="btn btn-default">同意</a></td>#}
+{#								</tr>#}
+{#								<tr>#}
+{#									<td>#451231</td>#}
+{#									<td>2022-5-25</td>#}
+{#									<td>2</td>#}
+{#									<td>99.00</td>#}
+{#									<td><span class="label label-info">拒绝</span></td>#}
+{#									<td><a href="/user/order" class="btn btn-default">查看</a></td>#}
+{#									<td><a class="btn btn-default">同意</a></td>#}
+{#								</tr>#}
 							</tbody>
 						</table>
 					</div>

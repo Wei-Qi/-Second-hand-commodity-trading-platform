@@ -46,8 +46,9 @@ class Order():
             return '商品已经下架'
         if addr.UserId != user.UserId:
             return '该地址不属于该用户'
-        order = OrderModel(UserId=userid, GoodsId=goodsid, AddressId=addressid, GoodsNum=goodsnum,
-                           SellerId=goods.user.UserId)
+        order = OrderModel(UserId=userid, GoodsId=goodsid, GoodsNum=goodsnum,
+                           SellerId=goods.user.UserId, OrderPersonName=addr.person_name, OrderPhone=addr.phone,
+                           OrderAddress=addr.address)
         db.session.add(order)
         db.session.commit()
         goods.GoodsStock -= goodsnum
@@ -82,6 +83,9 @@ class Order():
             return '订单id不存在'
         if order.OrderState != 1:
             return '该订单无法发货'
+        expressorder = OrderModel.query.filter_by(OrderExpress=express).first()
+        if expressorder is not None:
+            return '物流单号重复'
         Order.change_order_state(orderid, 2)
         order.OrderExpress = express
         db.session.commit()
@@ -159,10 +163,9 @@ class Order():
         order_dict['买家id'] = order.UserId
         order_dict['买家姓名'] = order.user.UserName
         order_dict['买家头像'] = order.user.UserImage
-        order_dict['地址id'] = order.AddressId
-        order_dict['地址'] = order.address.address
-        order_dict['电话'] = order.address.phone
-        order_dict['收件人'] = order.address.person_name
+        order_dict['地址'] = order.OrderAddress
+        order_dict['电话'] = order.OrderPhone
+        order_dict['收件人'] = order.OrderPersonName
         order_dict['商品id'] = order.GoodsId
         order_dict['商品名称'] = order.goods.GoodsName
         order_dict['商品价格'] = order.goods.GoodsPrice
@@ -177,6 +180,7 @@ class Order():
         order_dict['订单状态'] = _Order_State[order.OrderState]
         order_dict['支付宝账单'] = order.AliId
         order_dict['物流单号'] = order.OrderExpress
+        order_dict['退货原因'] = order.OrderReturnReason
         return order_dict
 
     @staticmethod

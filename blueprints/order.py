@@ -92,3 +92,23 @@ def evaluate(orderid):
 @login_required
 def return_order_single():
     return render_template('return_order_single.html')
+
+@bp.route('/deny/<int:orderid>')
+@login_required
+def deny(orderid):
+    res = Order.check_request_return(orderid, False)
+    if res is True:
+        flash('已拒绝退货申请')
+    else:
+        flash(res)
+    return redirect(url_for("user.returnApply"))
+
+@bp.route('/agree/<int:orderid>')
+@login_required
+def agree(orderid):
+    res= Order.check_request_return(orderid,True)
+    if res is True:
+        flash('已同意，等待买家送货')
+    else:
+        flash(res)
+    return redirect(url_for("user.returnApply"))
