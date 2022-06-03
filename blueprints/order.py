@@ -87,3 +87,8 @@ def evaluate(orderid):
         else:
             return jsonify({'code':400,'message':res})
     return render_template('evaluate.html')
+
+@bp.route('/return_order_single')
+@login_required
+def return_order_single():
+    return render_template('return_order_single.html')

@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}退货订单{% endblock %}
+
+{% block content %}
+<section class="page-header" >
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="content">
+					<h1 class="page-name">退货订单</h1>
+					<ol class="breadcrumb">
+						<li><a href="index.html">首页</a></li>
+						<li class="active">退货订单</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<div class="page-wrapper" style="margin-top: -8rem">
+   <div class="checkout shopping">
+      <div class="container">
+         <div class="row">
+            <div class="col-md-9" style="margin-top: -1rem">
+               <div class="product-checkout-details">
+                  <div class="block">
+                      <div class="media product-card" style="border-bottom: 1px solid #bbbbbb;padding-bottom: 2rem;border-top: 1px solid #bbbbbb;padding-bottom: 2rem;padding-top: 2rem;">
+                         <div class="summary-total">
+                            <span>退货人：</span>
+                            <span>小明</span>
+                         </div>
+                      </div>
+                      <div class="media product-card" style="border-bottom: 1px solid #bbbbbb;padding-bottom: 2rem">
+                         <div class="summary-total">
+                            <span>收货人：</span>
+                            <span>小红</span>
+                         </div>
+                      </div>
+                     <h4 class="widget-title">商品信息</h4>
+                     <div class="media product-card">
+                        <a class="pull-left" href="/goods/">
+                           <img class="media-object" src="/static/images/07d2f87d-292f-4943-8071-1cf9ed779013.png" alt="Image" />
+                        </a>
+                        <div class="media-body">
+                           <h4 class="media-heading"><a href="/goods/">我都</a></h4>
+                           <p class="price">20 ￥</p>
+                            <p class="cnt">数量：2</p>
+                        </div>
+                     </div>
+
+                     <div class="summary-total" style="border-bottom: 1px solid #bbbbbb;padding-bottom: 2rem">
+                        <span>总计：</span>
+                        <span>40 ￥</span>
+                     </div>
+{#                      {% if order['物流单号'] is not none %}#}
+{#                     <div class="media product-card" style="border-bottom: 1px solid #bbbbbb;padding-bottom: 2rem">#}
+{#                         <div class="summary-total">#}
+{#                            <span>订单物流单号：</span>#}
+{#                            <span>{{ order['物流单号'] }}</span>#}
+{#                         </div>#}
+{#                     </div>#}
+{#                      {% endif %}#}
+                     <div class="media product-card" style="border-bottom: 1px solid #bbbbbb;padding-bottom: 2rem">
+                         <div class="summary-total">
+                            <span>订单生成时间：</span>
+                            <span>2022-10-21 10:15:32</span>
+                         </div>
+                     </div>
+                     <div class="media product-card" style="border-bottom: 1px solid #bbbbbb;padding-bottom: 2rem">
+                         <div class="summary-total">
+                            <span>订单状态：</span>
+                            <span class="label label-primary">退货中</span>
+                         </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+
+<script type="text/javascript">
+
+var isDefualtAdd = 0; //0不选中，1选中
+
+$('input:radio').click(function(){
+	var $radio = $(this);
+	if ($radio.data('waschecked') == true){
+		$radio.prop('checked', false); $radio.data('waschecked', false);
+		isDefualtAdd = 0;
+	} else {
+		$radio.prop('checked', true); $radio.data('waschecked', true);
+		isDefualtAdd = 1;
+	}
+});
+
+</script>
+{% endblock %}
