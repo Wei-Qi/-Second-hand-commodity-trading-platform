@@ -51,7 +51,7 @@ class ReturnOrder():
         return_order_dict['买家id'] = return_order.UserId
         return_order_dict['买家姓名'] = return_order.user.UserName
         return_order_dict['买家头像'] = return_order.user.UserImage
-        return_order_dict['id'] = return_order.ReturnOrderId
+        return_order_dict['原订单id'] = return_order.OrderId
         return_order_dict['商品id'] = return_order.order.GoodsId
         return_order_dict['商品名称'] = return_order.order.goods.GoodsName
         return_order_dict['商品价格'] = return_order.order.goods.GoodsPrice
@@ -63,7 +63,9 @@ class ReturnOrder():
         return_order_dict['卖家头像'] = return_order.user.UserImage
         return_order_dict['卖家支付宝账户'] = return_order.user.UserAliaccount
         return_order_dict['时间'] = return_order.ReturnOrderTime
+        return_order_dict['物流单号'] =return_order.ReturnOrderExpress
         return_order_dict['订单状态'] = _Return_Order_State[return_order.ReturnOrderState]
+
         return return_order_dict
 
     @staticmethod

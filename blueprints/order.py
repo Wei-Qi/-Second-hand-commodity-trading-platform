@@ -13,6 +13,7 @@ from Order.Order import Order
 from payment.ALIPAY import ALIPAY
 from Evaluation.Evaluation import Evaluation
 from config import LocalAddress
+from ReturnOrder.ReturnOrder import ReturnOrder
 
 bp=Blueprint('order',__name__,url_prefix="/order")
 
@@ -107,8 +108,12 @@ def deny(orderid):
 @login_required
 def agree(orderid):
     res= Order.check_request_return(orderid,True)
-    if res is True:
-        flash('已同意，等待买家送货')
-    else:
+    if res is not True:
         flash(res)
+    else:
+        res = ReturnOrder.add_returnorder(orderid)
+        if res is True:
+            flash('已同意，等待买家送货')
+        else:
+            flash(res)
     return redirect(url_for("user.returnApply"))

@@ -9,6 +9,7 @@ from forms import *
 from Goods.goods import goods
 from Comment.comment import Comment
 from Comment.recomment import Recomment
+from Evaluation.Evaluation import Evaluation
 
 bp=Blueprint('goods',__name__,url_prefix="/goods")
 
@@ -55,7 +56,8 @@ def detail(goodsid):
     for comment in comment_list:
         temp=Recomment.get_recomment_by_commentid(comment['留言Id'])
         recomment_dict[comment['留言Id']]=temp
-    return render_template('product-single.html',form=form,goodsInfo=goodsInfo,comment_list=comment_list,recomment_dict=recomment_dict)
+    remark_list=Evaluation.get_evaluation_by_goodsid(goodsid)
+    return render_template('product-single.html',form=form,goodsInfo=goodsInfo,comment_list=comment_list,recomment_dict=recomment_dict,remark_list=remark_list)
 
 @bp.route('/add_comment/<int:goodsid>',methods=['POST'])
 @login_required

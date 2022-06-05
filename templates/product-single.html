@@ -130,7 +130,7 @@
 				<div class="tabCommon mt-20">
 					<ul class="nav nav-tabs">
 						<li class="active"><a data-toggle="tab" href="#details" aria-expanded="true">详细信息</a></li>
-						<li class=""><a data-toggle="tab" href="#reviews" aria-expanded="false">评论 (3)</a></li>
+						<li class=""><a data-toggle="tab" href="#reviews" aria-expanded="false">评论 ({{ remark_list|length }})</a></li>
                         <li class=""><a data-toggle="tab" href="#review1" aria-expanded="false">留言({{ comment_list|length }})</a></li>
 					</ul>
 					<div class="tab-content patternbg">
@@ -147,38 +147,26 @@
 						<div id="reviews" class="tab-pane fade">
 							<div class="post-comments">
 						    	<ul class="media-list comments-list m-bot-50 clearlist">
-
+                                    {% for remark in remark_list %}
 								    <li class="media">
-								        <a class="pull-left" href="#!">
-								            <img class="media-object comment-avatar" src="/static/images/1.png" alt="" width="50" height="50" />
+								        <a class="pull-left" >
+								            <img class="media-object comment-avatar" src="/static/images/{{ remark["用户头像"] }}" alt="" width="50" height="50" />
 								        </a>
 								        <div class="media-body">
 								            <div class="comment-info">
 								                <h4 class="comment-author">
-								                    <a href="#!">小红</a>
+								                    <a href="#!">{{remark["用户姓名"]}}</a>
                                                 </h4>
-								                <time datetime="2013-04-06T13:53">2022-5-25</time>
-								                <span style="margin-left: 1rem">4 &#9733;</span>
+								                <time datetime="2013-04-06T13:53">{{ remark["时间"] }}</time>
+								                <span style="margin-left: 1rem">
+                                                {% for i in range(remark["分数"]) %}&#9733;{% endfor %}
+								                </span>
 								            </div>
-								            <p>此用户未评价</p>
-                                            <img src="/static/images/cart-2.jpg" width="100" height="100" style="margin-top: -2rem">
+								            <p>{{remark["评价"]}}</p>
+                                            <img src="/static/images/{{ remark["图片"] }}" width="100" height="100" style="margin-top: -2rem">
 								        </div>
 								    </li>
-								    <li class="media">
-								        <a class="pull-left" href="#!">
-								            <img class="media-object comment-avatar" src="images/1.png" alt="" width="50" height="50">
-								        </a>
-								        <div class="media-body">
-								            <div class="comment-info">
-								                <h4 class="comment-author">
-								                    <a href="#!">小亮</a>
-								                </h4>
-								                <time datetime="2013-04-06T13:53">2022-5-25</time>
-								                <a class="comment-button" href="#!"><i class="tf-ion-chatbubbles"></i>回复</a>
-								            </div>
-								            <p>此用户未评价</p>
-								        </div>
-								    </li>
+                                    {% endfor %}
 							</ul>
 							</div>
 						</div>

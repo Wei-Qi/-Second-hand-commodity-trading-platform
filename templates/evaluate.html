@@ -232,7 +232,6 @@ $(function () {
  }
  //选择图片
  $("#select").on('click',function () {
-     $("#image_names").attr('value',"")
     $("#file").value="";
     $('.float').remove();
     $("#file").click();
@@ -261,9 +260,7 @@ $(function () {
          contentType: false,
          success : function(res){
              if(res['code']==200){
-                 imageNames = $("#image_names").val()
-                 imageNames=imageNames+res['image_names'];
-                 $("#image_names").attr('value',imageNames)
+                 imageNames=res['image_names'];
                  //console.log(imageNames);
                  form1=null;
                  form1 = new FormData();

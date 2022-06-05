@@ -32,32 +32,42 @@
 									<th>退货时间</th>
 									<th>数量</th>
 									<th>总计</th>
+                                    <th>物流单号</th>
 									<th>订单状态</th>
 									<th></th>
+                                    <th></th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td>#451231</td>
-									<td>2022-5-25</td>
-									<td>2</td>
-									<td>99.00</td>
-									<td><span class="label label-primary">退货中</span></td>
-									<td><a href="/user/order" class="btn btn-default">查看</a></td>
-									<td><a  class="btn btn-default">确认收货</a></td>
-								</tr>
-								<tr>
-									<td>#451231</td>
-									<td>2022-5-25</td>
-									<td>3</td>
-									<td>150.00</td>
-									<td><span class="label label-success">完成退货</span></td>
-									<td><a href="/user/order" class="btn btn-default">查看</a></td>
+                            {% for order in order_list %}
+                                <tr>
+									<td>#{{ order["id"] }}</td>
+									<td>{{ order["时间"] }}</td>
+									<td>{{ order["商品数量"] }}</td>
+									<td>{{ order["商品数量"]*order["商品价格"] }}</td>
+                                {% if order["订单状态"]!="待发货" %}
+                                    <td>{{ order["物流单号"] }}</td>
+                                {% else %}
+                                    <td>还未发货</td>
+                                {% endif %}
+
+									<td><span class="label label-success">{{ order["订单状态"] }}</span></td>
+									<td><a href="/order/{{ order['原订单id'] }}" class="btn btn-default">查看</a></td>
+                                    {% if order['订单状态'] == "待发货" and order["买家id"]==userid %} {# 买家才可以发货 #}
 									 <td>
-                                         <div style="display: none"></div>
+                                         <div style="display: none">{{ order["id"] }}</div>
                                          <button type="button" class="btn btn-main btn-small btn-round-full mybtn" data-toggle="modal" data-target="#exampleModalCenter">发货</button>
                                      </td>
+                                    {% elif order['订单状态'] == "待收货" and order["卖家id"]==userid %}
+                                    <td>
+                                        <a  class="btn btn-default" href="/user/receive_return/{{ order['id'] }}">确认收货</a>
+                                    </td>
+                                    {% else %}
+                                    <td>
+                                    </td>
+                                    {% endif %}
 								</tr>
+                            {% endfor %}
 							</tbody>
 						</table>
 					</div>
@@ -75,9 +85,11 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form class="text-left clearfix" action="/user/my_sale" method="post">
+                    <form class="text-left clearfix" action="/user/return_order" method="post">
+                            {{ form.hidden_tag() }}
                         <div class="form-group">
-                            <input type="text" class="form-control"  placeholder="物流单号">
+                            {{ form.order_id(id="order_id1") }}
+                            {{ form.delivery_num(class="form-control") }}
                         </div>
                         <div class="text-center">
                             <button type="submit" class="btn btn-main text-center">提交</button>
@@ -97,13 +109,6 @@
             var $this = $(this);
             //获取点击修改的地址的id
             var orderId = parseInt($this.prev().text());
-
-            //var name = $this.parents('tr').children().eq(0).text();
-            //var updateAddress = $this.parents('tr').children().eq(1).text();
-            //var telephoneNumber = $this.parents('tr').children().eq(2).text();
-            //console.log(name);
-            //console.log(updateAddress);
-            //console.log(telephoneNumber);
 
             //$("#firstGroup").before("<div class=\"form-group\"><div style=\"display: none\">addressId</div></div>");
             $("#order_id1").attr('value', orderId);

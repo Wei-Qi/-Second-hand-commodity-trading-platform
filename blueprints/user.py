@@ -163,11 +163,34 @@ def returnApply():
     applys=Order.get_request_return_order(current_user.get_id())#获取所有退货订单
     return render_template("return_apply.html",applys=applys)
 
-@bp.route("/return_order")
+@bp.route("/return_order",methods=['POST','GET'])
 @login_required
 def returnOrder():
-    order_list=ReturnOrder.get_retrunorder_by_sellerid(current_user.get_id())
-    return render_template("return_order.html",order_list=order_list)
+    form = DelivergoodsForm()
+    userid=current_user.get_id()
+    if form.validate_on_submit():#退货订单发货
+        res=ReturnOrder.deliver_return_order(form.order_id.data,form.delivery_num.data)
+        if res is True:
+            flash("发货成功")
+        else:
+            flash(res)
+    order_list1 = ReturnOrder.get_retrunorder_by_sellerid(current_user.get_id())
+    order_list2 = ReturnOrder.get_returnorder_by_userid(current_user.get_id())
+    orderdic={}
+    for order in order_list1+order_list2:#利用字典一键一值的特性去除重复部分
+        orderdic[order['id']]=order
+    order_list=[order for order in orderdic.values()]
+    return render_template("return_order.html",order_list=order_list,userid=userid,form=form)
+
+@bp.route("/receive_return/<int:reorderid>")
+@login_required
+def receiveReturn(reorderid):
+    res=ReturnOrder.confirm_return_order(reorderid)
+    if res is True:
+        flash("已确认收货，退货订单完成")
+    else:
+        flash(res)
+    return redirect("/user/return_order")
 
 @bp.route("/my_purchase",methods=['POST','GET'])
 @login_required
@@ -194,12 +217,8 @@ def mySale():
         res=Order.deliver_goods(form.order_id.data,form.delivery_num.data)
         if res is True:
             flash("发货成功")
-            sale_list = Order.get_order_by_sellerid(current_user.get_id())
-            return render_template("mysale.html",sale_list=sale_list,form=form)
         else:
             flash(res)
-            sale_list = Order.get_order_by_sellerid(current_user.get_id())
-            return render_template("mysale.html",sale_list=sale_list,form=form)
     sale_list = Order.get_order_by_sellerid(current_user.get_id())
     return render_template("mysale.html",sale_list=sale_list,form=form)
 
