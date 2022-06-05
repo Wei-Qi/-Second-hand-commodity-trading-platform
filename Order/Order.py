@@ -125,7 +125,7 @@ class Order():
         if order.OrderState == 0 or order.OrderState == 3 or order.OrderState == 4 or order.OrderState == 5:
             return '该订单无法申请退货'
         Order.change_order_state(orderid, 4)
-        Order.OrderReturnReason = reason
+        order.OrderReturnReason = reason
         db.session.commit()
         return True
 

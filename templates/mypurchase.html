@@ -297,7 +297,7 @@
     $('.returnGoods').on('click',function () {
         var num = $(this).prev().text();
         console.log(num);
-        $('#orderid').text(num);
+        $('#orderid').attr('value',num);
     })
 </script>
 {% endblock %}
