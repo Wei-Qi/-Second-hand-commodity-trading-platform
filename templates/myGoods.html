@@ -32,6 +32,11 @@
 									<th>商品名称</th>
 									<th>商品单价</th>
 									<th>商品库存</th>
+                                    <th>状态</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -50,10 +55,21 @@
 									<td>{{goods['商品名称']}}</td>
 									<td>{{ goods['商品价格']}}</td>
 									<td>{{ goods['商品库存'] }}</td>
+                                    <td>{{ goods['商品状态'] }}</td>
 									<td><a href="\goods\{{ goods['商品ID'] }}" class="btn btn-default">查看</a></td>
-                                    <td class="btn btn-default">状态</td>
 									<td><a href="\goods\change\{{ goods['商品ID'] }}" class="btn btn-default">修改</a></td>
-                                    <td><a href="\goods\withdraw\{{ goods['商品ID'] }}" class="btn btn-default">下架</a></td>
+                                    {% if goods['商品状态']=='已下架' %}
+                                    <td><a href="\goods\reupload\{{ goods['商品ID'] }}" class="btn btn-default">上架</a></td>
+                                    <td><a  class="btn btn-default" disabled="">下架</a></td>
+                                    {% elif goods['商品状态']== '上架中' %}
+                                    <td><a  class="btn btn-default" disabled="">上架</a></td>
+                                    <td><a href="\goods\withdraw\{{ goods['商品ID'] }}" class="btn btn-default" >下架</a></td>
+                                    {% else %}
+                                    <td><a  class="btn btn-default" disabled="">上架</a></td>
+                                    <td><a  class="btn btn-default" disabled="">下架</a></td>
+                                    {% endif %}
+
+
 								</tr>
                                 {% endfor %}
 

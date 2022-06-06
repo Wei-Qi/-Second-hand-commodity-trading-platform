@@ -22,11 +22,21 @@ def upload():
         print(piclist)
         res=goods.add_goods(current_user.get_id(),form.goods_name.data,form.goods_price.data,form.goods_stock.data,form.goods_describe.data,piclist)
         if res is True:
-            flash("上架成功")
+            flash("已发出上架申请，请等待管理员审核")
             return redirect(url_for("user.myGoods"))
         else:
             flash(res)
     return render_template('subsimtgoods.html',form=form)
+
+@bp.route('/reupload/<int:goodsid>')
+@login_required
+def reupload(goodsid):
+    res=goods.take_up_goods(goodsid)
+    if res is True:
+        flash("已发起上架申请")
+    else:
+        flash(res)
+    return redirect("/user/my_goods")
 
 @bp.route('/change/<int:goodsid>',methods=['POST','GET'])
 @login_required

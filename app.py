@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 import config
 from exts import db
-from blueprints import user_bp, goods_bp, image_bp, cart_bp,order_bp
+from blueprints import user_bp, goods_bp, image_bp, cart_bp,order_bp,admin_bp
 
 from exts import mail
 from flask_migrate import Migrate
@@ -40,6 +40,7 @@ app.register_blueprint(goods_bp)
 app.register_blueprint(image_bp)
 app.register_blueprint(cart_bp)
 app.register_blueprint(order_bp)
+app.register_blueprint(admin_bp)
 
 @app.route('/')
 @app.route('/home')

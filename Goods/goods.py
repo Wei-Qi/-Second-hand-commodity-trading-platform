@@ -11,7 +11,7 @@ from sqlalchemy import or_
 from werkzeug.security import generate_password_hash, check_password_hash
 import json
 
-_Order_State = {0: '上架申请中', 1: '上架中', 2: '下架中'}
+_Order_State = {0: '上架申请中', 1: '上架中', 2: '已下架'}
 
 class goods():
     @staticmethod

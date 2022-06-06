@@ -8,3 +8,4 @@ from .goods import bp as goods_bp
 from .image import bp as image_bp
 from .cart import bp as cart_bp
 from .order import bp as order_bp
+from .admin import bp as admin_bp

@@ -28,15 +28,15 @@
                         </div>
                         <div class="collapse navbar-collapse" id="example-navbar-collapse">
                             <ul class="nav navbar-nav">
-                                <li><a class="icon-bar" href="../templates/goodsAdmin.html">商品管理</a>
+                                <li><a class="icon-bar" href="/admin/goods_manage">商品管理</a>
                                 </li>
-                                <li class="active"><a href="../templates/goodsShelfApplication.html">上架申请</a>
+                                <li class="active"><a href="/admin/goods_apply">上架申请</a>
                                 </li>
                             </ul>
                             <ul class="nav navbar-nav navbar-right">
                                 <li><a>欢迎您,admin</a>
                                 </li>
-                                <li><a href="#">安全退出</a>
+                                <li><a href="/home">安全退出</a>
                                 </li>
                             </ul>
                         </div>
@@ -49,12 +49,20 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-9 col-md-push-1">
+                         <div>
+                          {%for message in get_flashed_messages()%}
+                            <div class="alert alert-warning">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                {{message}}
+                            </div>
+                          {%endfor%}
+                        </div>
                     <div class="col-sm-2">
-                        <a href="../templates/goodsAdmin.html" class="list-group-item">
+                        <a href="/admin/goods_manage" class="list-group-item">
                             <span class="glyphicon glyphicon-home"></span>商品管理
                         </a>
                         <!-- 小图标样式设置 -->
-                        <a href="../templates/goodsShelfApplication.html" class="list-group-item active">
+                        <a href="/admin/goods_apply" class="list-group-item active">
                             <span class="glyphicon glyphicon-align-left" aria-hidden="true">
                         </span>上架申请</a>
                     </div>
@@ -90,23 +98,23 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            {% for goods in goods_list %}
                                 <tr>
-                                    <td>15</td>
-
-                                    <td>手表</td>
-                                    <td>10.00￥</td>
-                                    <td>18</td>
-                                    <td>待审核</td>
+                                    <td>{{ goods['商品ID']}}</td>
+                                    <td>{{ goods['商品名称'] }}</td>
+                                    <td>{{ goods['商品价格'] }}￥</td>
+                                    <td>{{ goods['商品库存'] }}</td>
+                                    <td>{{ goods['商品状态'] }}</td>
                                     <td>
                                         <div class="btn-group">
-                                            <button href="" class="btn btn-default">查看</button>
-                                            <button href="" class="btn btn-default">同意</button>
-                                            <button href="" class="btn btn-default">拒绝</button>
+                                            <a href="/goods/{{ goods["商品ID"] }}"><button href="" class="btn btn-default">查看</button></a>
+                                            <a href="/admin/goods_apply/agree/{{ goods["商品ID"] }}"><button href="" class="btn btn-default">同意</button></a>
+                                            <a href="/admin/goods_apply/deny/{{ goods["商品ID"] }}"><button href="" class="btn btn-default">拒绝</button></a>
                                         </div>
 
                                     </td>
                                 </tr>
-
+                            {% endfor %}
                             </tbody>
                         </table>
                     </div>
