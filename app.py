@@ -45,7 +45,6 @@ app.register_blueprint(admin_bp)
 @app.route('/')
 @app.route('/home')
 def home():
-    print(goods.get_goods_state_0())
     return render_template('index.html')
 
 @app.errorhandler(404)  # 传入错误码作为参数状态
