@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 引入样式文件和动态控制 -->
+        <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+        <!--JQuery JS依赖-->
+        <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+        <!--Bootstrap JS依赖-->
+        <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <title>商品管理</title>
+</head>
+ <body>
+        <nav class="navbar navbar-inverse" role="navigation">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-9 col-md-push-1">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#example-navbar-collapse">
+                                <span class="sr-only">切换导航</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="#">
+                                <img src="../static/images/logo.png" height="100%" style="background-color: #bbbbbb"/>
+                            </a>
+                        </div>
+                        <div class="collapse navbar-collapse" id="example-navbar-collapse">
+                            <ul class="nav navbar-nav">
+                                <li class="active"><a class="icon-bar" href="../templates/goodsAdmin.html">商品管理</a>
+                                </li>
+                                <li><a href="../templates/goodsShelfApplication.html">上架申请</a>
+                                </li>
+                            </ul>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a>欢迎您,admin</a>
+                                </li>
+                                <li><a href="#">安全退出</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-9 col-md-push-1">
+                    <div class="col-sm-2">
+                        <a href="../templates/goodsAdmin.html" class="list-group-item active">
+                            <span class="glyphicon glyphicon-home"></span>商品管理
+                        </a>
+                        <!-- 小图标样式设置 -->
+                        <a href="../templates/goodsShelfApplication.html" class="list-group-item">
+                            <span class="glyphicon glyphicon-align-left" aria-hidden="true">
+                        </span>上架申请</a>
+                    </div>
+                    <!--左边菜单栏-->
+                    <div class="col-sm-10">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                搜索
+                            </div>
+                            <div class="panel-body">
+                                <form role="form" class="form-inline">
+                                    <div class="form-group">
+                                        <label for="name">名称</label>
+                                        <input type="text" class="form-control" id="name" placeholder="请输入名称">
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-default">搜索</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    <!--
+                        列表展示
+                    -->
+                    <div class="table-responsive">
+                        <table class="table table-striped ">
+                            <thead>
+                                <tr>
+                                    <th>编号</th>
+                                    <th>商品名称</th>
+									<th>商品单价</th>
+									<th>商品库存</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>15</td>
+
+                                    <td>手表</td>
+                                    <td>10.00￥</td>
+                                    <td>18</td>
+                                    <td>上架</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button href="" class="btn btn-default">下架</button>
+                                        </div>
+
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+          <!-- 底部页脚部分 -->
+<footer class="footer section text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <p class="copyright-text">Copyright &copy;2021, Designed &amp; Developed by <a href="#">yl msb zwq</a></p>
+            </div>
+        </div>
+        </div>
+</footer>
+</body>
+</html>
+
