@@ -108,13 +108,16 @@ class goods():
             return '商品id不存在'
         if goods.UserId != userid:
             return '不是该用户的商品'
-        if goods.Goods_Is_Takedown:
+        if goods.GoodsState == 2:
             return '该商品已经下架'
+        if goods.GoodsState == 0:
+            return '该商品正在审核中'
         goods = GoodsModel.query.filter_by(GoodsId=goodsid).first()
         goods.GoodsName = goodsname
         goods.GoodsPrice = goodsprice
         goods.GoodsStock = goodsstock
         goods.GoodsDescribe = goodsdescribe
+        goods.GoodsState = 0
         db.session.commit()
         return True
 
