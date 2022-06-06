@@ -11,6 +11,7 @@ from sqlalchemy import or_
 from werkzeug.security import generate_password_hash, check_password_hash
 import json
 
+_Order_State = {0: '上架申请中', 1: '上架中', 2: '下架中'}
 
 class goods():
     @staticmethod
@@ -58,7 +59,7 @@ class goods():
         goodspicture = goods.GoodsPicture.all()
         for picture in goodspicture:
             goods_json['商品图片'].append(picture.picturepath)
-        goods_json['是否下架'] = goods.Goods_Is_Takedown
+        goods_json['商品状态'] = _Order_State[goods.GoodsState]
         return goods_json
 
     @staticmethod
@@ -163,16 +164,16 @@ class goods():
         goods = GoodsModel.query.filter_by(GoodsId=goodsid).first()
         if goods is None:
             return '商品id不存在'
-        if goods.Goods_Is_Takedown == True:
-            return '商品已经下架'
-        goods.Goods_Is_Takedown = True
+        if goods.GoodsState != 1:
+            return '该商品无法下架'
+        goods.GoodsState = 2
         db.session.commit()
         return True
 
     @staticmethod
     def search_goods(content):
         """
-        搜索商品（已下架的商品不返回）
+        搜索商品（只返回已经上架的商品）
         :param content:搜索的内容
         :return:goods_list
         """
@@ -181,6 +182,91 @@ class goods():
             db.text('-GoodsTime'))
         goods_list = []
         for item in goods1:
-            if item.Goods_Is_Takedown == False:
+            if item.GoodsState == 1:
                 goods_list.append(goods.get_goods_info(item.GoodsId))
         return goods_list
+
+    @staticmethod
+    def take_up_goods(goodsid):
+        """
+        根据商品id发出上架申请
+        :param goodsid:商品id
+        :return:'商品id不存在' or '该商品无法发起上架申请' or True
+        """
+        goods = GoodsModel.query.filter_by(GoodsId=goodsid).first()
+        if goods is None:
+            return '商品id不存在'
+        if goods.GoodsState != 2:
+            return '该商品无法发起上架申请'
+        goods.GoodsState = 0
+        db.session.commit()
+        return True
+
+    @staticmethod
+    def agree_shelf_request(goodsid):
+        """
+        将商品改为上架状态
+        :param goodsid:
+        :return:'商品id不存在' or  '该商品无法同意上架申请' or  True
+        """
+        goods = GoodsModel.query.filter_by(GoodsId=goodsid).first()
+        if goods is None:
+            return '商品id不存在'
+        if goods.GoodsState != 0:
+            return '该商品无法同意上架申请'
+        goods.GoodsState = 1
+        db.session.commit()
+        return True
+
+    @staticmethod
+    def refuse_shelf_request(goodsid):
+        """
+        拒绝上架申请
+        :param goodsid:商品id
+        :return:'商品id不存在' or '该商品无法拒绝上架申请' or True
+        """
+        goods = GoodsModel.query.filter_by(GoodsId=goodsid).first()
+        if goods is None:
+            return '商品id不存在'
+        if goods.GoodsState != 0:
+            return '该商品无法拒绝上架申请'
+        goods.GoodsState = 2
+        db.session.commit()
+        return True
+
+
+    @staticmethod
+    def get_goods_state_0():
+        """
+        获得所有的在上架申请中的商品
+        :return:goods_json
+        """
+        goods_list = GoodsModel.query.filter_by(GoodsState=0).all()
+        goods_json = []
+        for goods1 in goods_list:
+            goods_json.append(goods.get_goods_info(goods1.GoodsId))
+        return goods_json
+
+    @staticmethod
+    def get_goods_state_1():
+        """
+        获得所有的已经上架的商品
+        :return:goods_json
+        """
+        goods_list = GoodsModel.query.filter_by(GoodsState=1).all()
+        goods_json = []
+        for goods1 in goods_list:
+            goods_json.append(goods.get_goods_info(goods1.GoodsId))
+        return goods_json
+
+    @staticmethod
+    def get_goods_state_2():
+        """
+        获的所有已经下架的商品
+        :return:goods_json
+        """
+        goods_list = GoodsModel.query.filter_by(GoodsState=2).all()
+        goods_json = []
+        for goods1 in goods_list:
+            goods_json.append(goods.get_goods_info(goods1.GoodsId))
+        return goods_json

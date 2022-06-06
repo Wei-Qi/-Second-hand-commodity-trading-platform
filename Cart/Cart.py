@@ -23,8 +23,8 @@ class Cart():
         goods = GoodsModel.query.filter_by(GoodsId=goodsid).first()
         if goods is None:
             return '商品id不存在'
-        if goods.Goods_Is_Takedown:
-            return '该商品已经下架'
+        if goods.GoodsState != 1:
+            return '该商品没有上架，无法添加购物车'
         cart = CartModel(UserId=userid, GoodsId=goodsid, GoodsNum=goodsnum)
         db.session.add(cart)
         db.session.commit()
@@ -64,7 +64,7 @@ class Cart():
         carts = user.UserCarts.all()
         cart_json = []
         for cart in carts:
-            if not cart.goods.Goods_Is_Takedown:
+            if cart.goods.GoodsState == 1:
                 cart_json.append(Cart.get_cart_by_id(cart.id))
         return cart_json
 
