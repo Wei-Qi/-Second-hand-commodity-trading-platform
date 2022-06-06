@@ -62,7 +62,8 @@ def signIn():
         return redirect(url_for('user.info', ispop=False))
     form = RegistrationForm()
     if form.validate_on_submit():
-        res = user.add_user(form.email.data, form.password.data, form.username.data, form.alipayaccount.data)
+        res = user.add_user(form.email.data, form.password.data, form.username.data, form.alipayaccount.data,
+                            '1.png')
         if res is True:
             flash('账号创建成功，请登陆')
             return redirect(url_for('user.logIn'))
@@ -160,48 +161,51 @@ def changeAddress():
 @bp.route("/return_apply")
 @login_required
 def returnApply():
-    applys=Order.get_request_return_order(current_user.get_id())#获取所有退货订单
-    return render_template("return_apply.html",applys=applys)
+    applys = Order.get_request_return_order(current_user.get_id())  # 获取所有退货订单
+    return render_template("return_apply.html", applys=applys)
 
-@bp.route("/return_order",methods=['POST','GET'])
+
+@bp.route("/return_order", methods=['POST', 'GET'])
 @login_required
 def returnOrder():
     form = DelivergoodsForm()
-    userid=current_user.get_id()
-    if form.validate_on_submit():#退货订单发货
-        res=ReturnOrder.deliver_return_order(form.order_id.data,form.delivery_num.data)
+    userid = current_user.get_id()
+    if form.validate_on_submit():  # 退货订单发货
+        res = ReturnOrder.deliver_return_order(form.order_id.data, form.delivery_num.data)
         if res is True:
             flash("发货成功")
         else:
             flash(res)
     order_list1 = ReturnOrder.get_retrunorder_by_sellerid(current_user.get_id())
     order_list2 = ReturnOrder.get_returnorder_by_userid(current_user.get_id())
-    orderdic={}
-    for order in order_list1+order_list2:#利用字典一键一值的特性去除重复部分
-        orderdic[order['id']]=order
-    order_list=[order for order in orderdic.values()]
-    return render_template("return_order.html",order_list=order_list,userid=userid,form=form)
+    orderdic = {}
+    for order in order_list1 + order_list2:  # 利用字典一键一值的特性去除重复部分
+        orderdic[order['id']] = order
+    order_list = [order for order in orderdic.values()]
+    return render_template("return_order.html", order_list=order_list, userid=userid, form=form)
+
 
 @bp.route("/receive_return/<int:reorderid>")
 @login_required
 def receiveReturn(reorderid):
-    res=ReturnOrder.confirm_return_order(reorderid)
+    res = ReturnOrder.confirm_return_order(reorderid)
     if res is True:
         flash("已确认收货，退货订单完成")
     else:
         flash(res)
     return redirect("/user/return_order")
 
-@bp.route("/my_purchase",methods=['POST','GET'])
+
+@bp.route("/my_purchase", methods=['POST', 'GET'])
 @login_required
 def myPurchase():
-    if request.method=='POST':
-        opt=request.form.get('option')
-        reason=opt
-        if opt=='4':
-            reason=request.form.get('other')
-        orderid=request.form.get('orderid')
-        res=Order.request_return(orderid,reason)
+    if request.method == 'POST':
+        opt = request.form.get('option')
+        reason = opt
+        if opt == '4':
+            reason = request.form.get('other')
+        orderid = request.form.get('orderid')
+        res = Order.request_return(orderid, reason)
         if res is True:
             flash('已向卖家发起退货申请，请等待卖家同意')
         else:
@@ -209,24 +213,27 @@ def myPurchase():
     order_list = Order.get_order_by_userid(current_user.get_id())
     return render_template("mypurchase.html", order_list=order_list)
 
-@bp.route("/my_sale",methods=['POST','GET'])
+
+@bp.route("/my_sale", methods=['POST', 'GET'])
 @login_required
 def mySale():
-    form=DelivergoodsForm()
-    if form.validate_on_submit():#发货
-        res=Order.deliver_goods(form.order_id.data,form.delivery_num.data)
+    form = DelivergoodsForm()
+    if form.validate_on_submit():  # 发货
+        res = Order.deliver_goods(form.order_id.data, form.delivery_num.data)
         if res is True:
             flash("发货成功")
         else:
             flash(res)
     sale_list = Order.get_order_by_sellerid(current_user.get_id())
-    return render_template("mysale.html",sale_list=sale_list,form=form)
+    return render_template("mysale.html", sale_list=sale_list, form=form)
+
 
 @bp.route("/my_goods")
 @login_required
 def myGoods():
     goods_list = goods.get_goods_info_by_user(current_user.get_id())
     return render_template("myGoods.html", goods_list=goods_list)
+
 
 @bp.route('/signin/captcha', methods=['POST'])
 def signInCaptcha():
@@ -245,6 +252,7 @@ def signInCaptcha():
         # 400 客户端错误
         return jsonify({'code': 400, 'message': '请先输入邮箱'})
 
+
 @bp.route('/forget_password/captcha', methods=['POST'])
 def forgetPasswordCaptcha():
     email = request.form.get('email')
@@ -261,6 +269,7 @@ def forgetPasswordCaptcha():
     else:
         # 400 客户端错误
         return jsonify({'code': 400, 'message': '请先输入邮箱'})
+
 
 @bp.route('/address_delete', methods=['POST'])
 @login_required
