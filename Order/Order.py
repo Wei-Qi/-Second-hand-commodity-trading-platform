@@ -42,8 +42,8 @@ class Order():
             return '地址id不存在'
         if goodsnum > goods.GoodsStock:
             return '商品库存不足'
-        if goods.Goods_Is_Takedown:
-            return '商品已经下架'
+        if goods.GoodsState != 1:
+            return '商品没有上架，无法生成订单'
         if addr.UserId != user.UserId:
             return '该地址不属于该用户'
         order = OrderModel(UserId=userid, GoodsId=goodsid, GoodsNum=goodsnum,

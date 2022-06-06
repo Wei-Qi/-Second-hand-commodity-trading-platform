@@ -32,6 +32,7 @@ class UserModel(db.Model, UserMixin):
     UserCredit = db.Column(db.Integer, default=100)
     UserJoin_time = db.Column(db.DateTime, default=datetime.now)
     UserAliaccount = db.Column(db.String(1024))
+    UserIsAdmin = db.Column(db.Boolean, default=False)
     # 一对多关系通常放在一的那一方
     UserAddresses = db.relationship('UserAddressModel', backref='user', lazy='dynamic')
     UserGoods = db.relationship('GoodsModel', backref='user', lazy='dynamic')
@@ -42,7 +43,7 @@ class UserModel(db.Model, UserMixin):
     def keys(self):
         return (
             'UserId', 'UserEmail', 'UserName', 'UserIdcard', 'UserSex', 'UserAddresses', 'UserPhone', 'UserPassword',
-            'UserCredit', 'UserJoin_time', 'UserAliaccount')
+            'UserCredit', 'UserJoin_time', 'UserAliaccount', 'UserIsAdmin')
 
     def __getitem__(self, item):
         return getattr(self, item)
@@ -73,7 +74,7 @@ class GoodsModel(db.Model):
     GoodsDescribe = db.Column(db.String(1024), nullable=False)
     GoodsTime = db.Column(db.DateTime, default=datetime.now)
     UserId = db.Column(db.Integer, db.ForeignKey('user.UserId', ondelete='CASCADE'))
-    Goods_Is_Takedown = db.Column(db.Boolean, default=False)
+    GoodsState = db.Column(db.Integer, default=0)
     # 一对多关系通常放在一的那一方
     GoodsPicture = db.relationship('GoodsPictureModel', backref='goods', lazy='dynamic')
     GoodsMessage = db.relationship('MessageRemindModel', backref='goods', lazy='dynamic')
