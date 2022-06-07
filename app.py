@@ -6,17 +6,6 @@ from blueprints import user_bp, goods_bp, image_bp, cart_bp,order_bp,admin_bp
 from exts import mail
 from flask_migrate import Migrate
 from models import *
-from Function import function
-from User.user import user
-from Goods.goods import goods
-from Comment.comment import Comment
-from Comment.recomment import Recomment
-from Comment.message import Message
-from Cart.Cart import Cart
-from Order.Order import Order
-from payment.ALIPAY import ALIPAY
-from Evaluation.Evaluation import Evaluation
-from ReturnOrder.ReturnOrder import ReturnOrder
 login_manager = LoginManager()
 
 login_manager.login_view = '/user/login'  # 未登录将自动跳转到该路径
