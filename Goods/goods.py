@@ -6,12 +6,13 @@ Date：2022/5/19
 
 from models import *
 from exts import db
-from sqlalchemy import or_
+from sqlalchemy import or_, and_
 
 from werkzeug.security import generate_password_hash, check_password_hash
 import json
 
 _Order_State = {0: '上架申请中', 1: '上架中', 2: '已下架'}
+
 
 class goods():
     @staticmethod
@@ -179,12 +180,58 @@ class goods():
         :return:goods_list
         """
         goods1 = GoodsModel.query.filter(
-            or_(GoodsModel.GoodsName.like('%' + content + '%'), GoodsModel.GoodsDescribe.contains('%' + content + '%'))).order_by(
+            or_(GoodsModel.GoodsName.like('%' + content + '%'),
+                GoodsModel.GoodsDescribe.contains('%' + content + '%'))).order_by(
             db.text('-GoodsTime'))
         goods_list = []
         for item in goods1:
             if item.GoodsState == 1:
                 goods_list.append(goods.get_goods_info(item.GoodsId))
+        return goods_list
+
+    @staticmethod
+    def search_goods_state0(content):
+        """
+        根据商品名称查询正在申请中的商品
+        :param content:查询关键字
+        :return:查询结果
+        """
+        goods1 = GoodsModel.query.filter(
+            and_(GoodsModel.GoodsName.like('%' + content + '%'),
+                 GoodsModel.GoodsState == 0))
+        goods_list = []
+        for item in goods1:
+            goods_list.append(goods.get_goods_info(item.GoodsId))
+        return goods_list
+
+    @staticmethod
+    def search_goods_state1(content):
+        """
+        根据商品名称查询已上架的商品
+        :param content:查询关键字
+        :return:查询结果
+        """
+        goods1 = GoodsModel.query.filter(
+            and_(GoodsModel.GoodsName.like('%' + content + '%'),
+                 GoodsModel.GoodsState == 1))
+        goods_list = []
+        for item in goods1:
+            goods_list.append(goods.get_goods_info(item.GoodsId))
+        return goods_list
+
+    @staticmethod
+    def search_goods_state2(content):
+        """
+        根据商品名称查询已下架的商品
+        :param content:查询关键字
+        :return:查询结果
+        """
+        goods1 = GoodsModel.query.filter(
+            and_(GoodsModel.GoodsName.like('%' + content + '%'),
+                 GoodsModel.GoodsState == 2))
+        goods_list = []
+        for item in goods1:
+            goods_list.append(goods.get_goods_info(item.GoodsId))
         return goods_list
 
     @staticmethod
@@ -234,7 +281,6 @@ class goods():
         goods.GoodsState = 2
         db.session.commit()
         return True
-
 
     @staticmethod
     def get_goods_state_0():
