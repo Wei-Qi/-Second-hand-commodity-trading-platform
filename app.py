@@ -2,9 +2,10 @@ from flask import Flask, render_template, request
 import config
 from exts import db
 from blueprints import user_bp, goods_bp, image_bp, cart_bp,order_bp,admin_bp
-
+from flask_login import current_user, logout_user, login_user, login_required, fresh_login_required
 from exts import mail
 from flask_migrate import Migrate
+from User.user import user as User
 from models import *
 login_manager = LoginManager()
 
@@ -39,6 +40,12 @@ def home():
 @app.errorhandler(404)  # 传入错误码作为参数状态
 def errorDate(error):  # 接受错误作为参数
     return render_template("404.html"), 404
+
+@app.template_global()
+@login_required
+def getUserPhoto():#用于获取当前用户头像
+    user=User.get_userinfo_by_id(current_user.get_id())
+    return user['UserImage']
 
 if __name__ == '__main__':
     app.run(debug=True)
