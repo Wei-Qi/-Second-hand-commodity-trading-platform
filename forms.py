@@ -1,8 +1,9 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField, TextAreaField, FloatField, \
-    IntegerField, RadioField
+    IntegerField, RadioField, FileField
 from wtforms.validators import DataRequired, EqualTo, ValidationError, Length, Email, InputRequired, NumberRange
 from EmailCaptcha.emailcaptcha import emailcaptcha
+from flask_wtf.file import FileField, FileRequired, FileAllowed
 
 
 class LoginForm(FlaskForm):
@@ -70,6 +71,15 @@ class ChangeUserInfoForm(FlaskForm):
     useralicount = StringField('支付宝账户',
                                validators=[DataRequired(u"支付宝账户不能为空"), Email(u"请按邮箱格式输入")],
                                render_kw={'placeholder': u'请输入支付宝账户'})
+    userimage = FileField(
+        label="上传您的图片",
+        validators=[
+            # 文件必须选择;
+            FileRequired('请选择文件'),
+            # 指定文件上传的格式;
+            FileAllowed(['jpg', 'jpeg', 'png', 'gif'], '只接收.jpg .jpeg .png .gif格式的文件')
+        ]
+    )
 
     def validate_userphone(self, field):
         userphone = field.data
