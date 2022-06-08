@@ -1691,12 +1691,12 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focu
 }
 
 .dashboard-wrapper .user-img {
-  width: 120px;
+  width: 100px;
   border-radius: 100px;
 }
 
 .dashboard-user-profile .user-img {
-  width: 180px;
+  width: 100px;
 }
 
 .dashboard-user-profile .user-profile-list {
