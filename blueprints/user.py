@@ -33,7 +33,10 @@ def logIn():
         if res is True:
             now_user = user.get_user(form.email.data)
             login_user(now_user, remember=True)  # 将用户记录在cookieID中，不用每次打开浏览器登陆一下
-            return redirect(url_for('user.info', ispop=False))
+            if now_user['UserIsAdmin'] is True:
+                return redirect('/admin')
+            else:
+                return redirect(url_for('user.info', ispop=False))
         else:
             flash(res)
     return render_template("login.html", form=form)
@@ -63,7 +66,7 @@ def signIn():
     form = RegistrationForm()
     if form.validate_on_submit():
         res = user.add_user(form.email.data, form.password.data, form.username.data, form.alipayaccount.data,
-                            '1.png')
+                            'userman.png')
         if res is True:
             flash('账号创建成功，请登陆')
             return redirect(url_for('user.logIn'))

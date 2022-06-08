@@ -19,8 +19,12 @@ def goodsManage():
     if nuser["UserIsAdmin"] is False:
         flash('需要管理员权限')
         abort(404)
-    goods_list = Goods.get_goods_state_1()
-    return render_template("goodsAdmin.html",goods_list=goods_list,nuser=nuser)
+    query = request.args.get('query', '')
+    if query != '':
+        goods_list = Goods.search_goods_state1(query)
+    else:
+        goods_list = Goods.get_goods_state_1()
+    return render_template("goodsAdmin.html",goods_list=goods_list,nuser=nuser,query=query)
 
 @bp.route('/goods_apply')
 @login_required
@@ -29,8 +33,12 @@ def goodsApply():
     if nuser["UserIsAdmin"] is False:
         flash('需要管理员权限')
         abort(404)
-    goods_list = Goods.get_goods_state_0()
-    return render_template("goodsShelfApplication.html", goods_list=goods_list,nuser=nuser)
+    query=request.args.get('query','')
+    if query != '':
+        goods_list=Goods.search_goods_state0(query)
+    else:
+        goods_list = Goods.get_goods_state_0()
+    return render_template("goodsShelfApplication.html", goods_list=goods_list,nuser=nuser,query=query)
 
 @bp.route('/goods_apply/agree/<int:goodsid>')
 @login_required
@@ -45,7 +53,8 @@ def applyAgree(goodsid):
         flash('已同意')
     else:
         flash(res)
-    return redirect('/admin/goods_apply')
+    query = request.args.get('query', '')
+    return redirect(f'/admin/goods_apply?query={query}')
 
 @bp.route('/goods_apply/deny/<int:goodsid>')
 @login_required
@@ -60,7 +69,8 @@ def applyDeny(goodsid):
         flash('已拒绝')
     else:
         flash(res)
-    return redirect('/admin/goods_apply')
+    query = request.args.get('query', '')
+    return redirect(f'/admin/goods_apply?query={query}')
 
 @bp.route('/take_down_goods/<int:goodsid>')
 @login_required
@@ -74,4 +84,5 @@ def takeDownGoods(goodsid):
         flash('已将商品下架')
     else:
         flash(res)
-    return redirect('/admin/goods_manage')
+    query = request.args.get('query', '')
+    return redirect(f'/admin/goods_manage?query={query}')
