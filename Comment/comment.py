@@ -24,8 +24,8 @@ class Comment():
         user = UserModel.query.filter_by(UserId=UserId).first()
         if user is None:
             return '用户id不存在'
-        if goods.Goods_Is_Takedown:
-            return '该商品已经下架'
+        if goods.GoodsState != 1:
+            return '该商品无法留言'
         comment = CommentModel(UserId=UserId, GoodsId=GoodsId, CommentDescribe=CommentDescribe)
         db.session.add(comment)
         db.session.commit()

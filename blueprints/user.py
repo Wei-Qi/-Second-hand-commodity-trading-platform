@@ -19,6 +19,19 @@ from User.user import user
 from Goods.goods import goods
 from Order.Order import Order
 from ReturnOrder.ReturnOrder import ReturnOrder
+import uuid
+from werkzeug.utils import secure_filename
+import os
+
+
+def random_filename(filename):
+    file_name_hz = secure_filename(filename).split('.')[-1]
+    # 使用uuid生成唯一图片名
+    first_name = str(uuid.uuid4())
+    # 将 uuid和后缀拼接为 完整的文件名
+    new_filename = first_name + '.' + file_name_hz
+    return new_filename
+
 
 bp = Blueprint('user', __name__, url_prefix='/user')
 
@@ -95,7 +108,11 @@ def info():
             usersex = 1
         userphone = form.userphone.data
         useralicount = form.useralicount.data
-        res = user.change_user_info(current_user.get_id(), username, usersex, userphone, useralicount)
+        f = form.userimage.data
+        filename = random_filename(f.filename)
+        UPLOAD_PATH = './static/images/'
+        f.save(os.path.join(UPLOAD_PATH, filename))
+        res = user.change_user_info(current_user.get_id(), username, usersex, userphone, useralicount, filename)
         if res == '该昵称已经被注册':
             flash('该昵称被注册')
         user_info = user.get_userinfo_by_id(current_user.get_id())
