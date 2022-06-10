@@ -93,7 +93,7 @@ class goods():
         return True
 
     @staticmethod
-    def change_goods_info(userid, goodsid, goodsname, goodsprice, goodsstock, goodsdescribe):
+    def change_goods_info(userid, goodsid, goodsname, goodsprice, goodsstock, goodsdescribe, goodspicturelist):
         """
         修改商品的信息
         :param userid:用户id
@@ -104,20 +104,24 @@ class goods():
         :param goodsdescribe:商品描述
         :return: True or '商品id不存在' or '不是该用户的商品'
         """
-        goods = GoodsModel.query.filter_by(GoodsId=goodsid).first()
-        if goods is None:
+        goods1 = GoodsModel.query.filter_by(GoodsId=goodsid).first()
+        if goods1 is None:
             return '商品id不存在'
-        if goods.UserId != userid:
+        if goods1.UserId != userid:
             return '不是该用户的商品'
-        if goods.GoodsState == 0:
+        if goods1.GoodsState == 0:
             return '该商品正在审核中'
-        goods = GoodsModel.query.filter_by(GoodsId=goodsid).first()
-        goods.GoodsName = goodsname
-        goods.GoodsPrice = goodsprice
-        goods.GoodsStock = goodsstock
-        goods.GoodsDescribe = goodsdescribe
-        goods.GoodsState = 0
+        goods1 = GoodsModel.query.filter_by(GoodsId=goodsid).first()
+        goods1.GoodsName = goodsname
+        goods1.GoodsPrice = goodsprice
+        goods1.GoodsStock = goodsstock
+        goods1.GoodsDescribe = goodsdescribe
+        goods1.GoodsState = 0
         db.session.commit()
+        GoodsPictureModel.query.filter_by(GoodsId=goodsid).delete()
+        db.session.commit()
+        for picture in goodspicturelist:
+            goods.add_goods_picture(goods1.GoodsId, picture)
         return True
 
     # @staticmethod
