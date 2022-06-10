@@ -52,14 +52,6 @@
 
 </style>
 
-<div>
-  {%for message in get_flashed_messages()%}
-    <div class="alert alert-warning">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        {{message}}
-    </div>
-  {%endfor%}
-</div>
 
 <section class="page-header" style="margin-top: -2em">
 	<div class="container">
@@ -77,12 +69,6 @@
 	</div>
 </section>
 
-{%for message in get_flashed_messages()%}
-<div class="alert alert-warning">
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-    {{message}}
-</div>
-{%endfor%}
 
 <div class="page-wrapper" style="margin-top: -5em">
    <div class="checkout shopping">
