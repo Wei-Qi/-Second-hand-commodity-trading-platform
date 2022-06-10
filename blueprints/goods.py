@@ -19,7 +19,7 @@ def upload():
     form=UploadGoodsForm()
     if form.validate_on_submit():
         piclist=form.image_names.data.split()
-        print(piclist)
+        #print(piclist)
         res=goods.add_goods(current_user.get_id(),form.goods_name.data,form.goods_price.data,form.goods_stock.data,form.goods_describe.data,piclist)
         if res is True:
             flash("已发出上架申请，请等待管理员审核")
@@ -46,7 +46,8 @@ def change(goodsid):
         abort(404)
     form=UpdateGoodsForm(goods_name=goods1['商品名称'],goods_describe=goods1['商品描述'],goods_stock=goods1['商品库存'],goods_price=goods1['商品价格'])
     if form.validate_on_submit():
-        res=goods.change_goods_info(current_user.get_id(),goodsid,form.goods_name.data,form.goods_price.data,form.goods_stock.data,form.goods_describe.data)
+        piclist = form.image_names.data.split()
+        res=goods.change_goods_info(current_user.get_id(),goodsid,form.goods_name.data,form.goods_price.data,form.goods_stock.data,form.goods_describe.data,piclist)
         if res is True:
             flash('修改成功')
             return redirect(f'/goods/{goodsid}')
