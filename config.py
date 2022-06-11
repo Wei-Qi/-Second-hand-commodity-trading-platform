@@ -12,7 +12,7 @@ from config_local import *  # 在config_local中执行本地数据库的配置,g
 # PORT = '3306'
 # DATABASE = 'ditanhuo'
 # USERNAME = 'ditanhuo'
-# PASSWORD = 'byeWxAmAH8DHp5Fb'
+# PASSWORD = '37x2BypesctFZCmh'
 DB_URI = 'mysql+pymysql://{}:{}@{}:{}/{}?charset=utf8'.format(USERNAME, PASSWORD, HOSTNAME, PORT, DATABASE)
 SQLALCHEMY_DATABASE_URI = DB_URI
 SQLALCHEMY_TRACK_MODIFICATIONS = True
