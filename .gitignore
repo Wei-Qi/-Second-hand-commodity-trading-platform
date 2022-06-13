@@ -1,8 +1,6 @@
 *.pyc
 *.log
 .idea
-*.png
-*.jpg
 config_local.py
 migrations
 venv
