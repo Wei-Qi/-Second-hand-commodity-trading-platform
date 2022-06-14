@@ -46,7 +46,13 @@
                                 {% for sale in sale_list %}
                                     <tr>
 										<td><a href="/order/{{ sale['id'] }}">#{{ sale['id'] }}</a></td>
-                                        <td>{{ sale['商品名称'] }}</td>
+                                        <td>
+                                        {% if sale['商品名称']|length >15 %}
+                                            {{ sale['商品名称'][:15] }}...
+                                        {% else %}
+                                            {{ sale['商品名称'] }}
+                                        {% endif %}
+                                        </td>
                                         <td>{{ sale['买家姓名'] }}</td>
 										<td>{{ sale['时间'] }}</td>
 										<td>{{ sale['商品数量'] }}</td>

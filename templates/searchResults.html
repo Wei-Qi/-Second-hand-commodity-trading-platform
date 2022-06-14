@@ -32,7 +32,14 @@
                       	</div>
 					</div>
 					<div class="product-content">
-						<h4><a href="/goods/{{ goods['商品ID'] }}">{{ goods['商品名称'] }}</a></h4>
+						<h4><a href="/goods/{{ goods['商品ID'] }}">
+                            {% if goods['商品名称']|length >15 %}
+                                {{ goods['商品名称'][:15] }}...
+                            {% else %}
+                                {{ goods['商品名称'] }}
+                            {% endif %}
+
+                        </a></h4>
 						<p class="price">￥{{ goods['商品价格'] }}</p>
 					</div>
 				</div>

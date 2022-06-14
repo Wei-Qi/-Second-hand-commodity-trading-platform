@@ -52,7 +52,13 @@
                             {% for order in order_list %}
                             <tr>
 									<td>#{{ order['id'] }}</td>
-                                    <td>{{ order['商品名称'] }}</td>
+                                    <td>
+                                        {% if order['商品名称']|length >15 %}
+                                        {{ order['商品名称'][:15] }}...
+                                    {% else %}
+                                        {{ order['商品名称'] }}
+                                    {% endif %}
+                                    </td>
 									<td>{{ order['时间'] }}</td>
 									<td>{{ order['商品数量'] }}</td>
 									<td>{{ order['商品价格']*order['商品数量'] }}</td>
