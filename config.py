@@ -5,14 +5,14 @@ Date：2022/5/6
 """
 
 
-# from config_local import *  # 在config_local中执行本地数据库的配置,git时忽略config_local文件
+from config_local import *  # 在config_local中执行本地数据库的配置,git时忽略config_local文件
 
 # 服务器暂时没有实现
-HOSTNAME = '43.138.58.223'
-PORT = '3306'
-DATABASE = 'ditanhuo'
-USERNAME = 'ditanhuo'
-PASSWORD = '37x2BypesctFZCmh'
+# HOSTNAME = '43.138.58.223'
+# PORT = '3306'
+# DATABASE = 'ditanhuo'
+# USERNAME = 'ditanhuo'
+# PASSWORD = '37x2BypesctFZCmh'
 DB_URI = 'mysql+pymysql://{}:{}@{}:{}/{}?charset=utf8'.format(USERNAME, PASSWORD, HOSTNAME, PORT, DATABASE)
 SQLALCHEMY_DATABASE_URI = DB_URI
 SQLALCHEMY_TRACK_MODIFICATIONS = True
