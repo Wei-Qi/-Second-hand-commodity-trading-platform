@@ -103,7 +103,13 @@
                             {% for goods in goods_list %}
                                 <tr>
                                     <td>{{ goods['商品ID']}}</td>
-                                    <td>{{ goods['商品名称'] }}</td>
+                                    <td>
+                                    {% if goods['商品名称']|length >20 %}
+                                        {{ goods['商品名称'][:20] }}...
+                                    {% else %}
+                                        {{ goods['商品名称'] }}
+                                    {% endif %}
+                                    </td>
                                     <td>{{ goods['商品价格'] }}￥</td>
                                     <td>{{ goods['商品库存'] }}</td>
                                     <td>{{ goods['商品状态'] }}</td>
